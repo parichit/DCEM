@@ -6,7 +6,7 @@
 #' @param data (matrix): The dataset provided by the user (converted to matrix format).
 #' @param num_means (numeric): The number of means (meu).
 #'
-#' @return A matrix containing the randomly selected samples from the dataset. The inital
+#' @return A matrix containing the randomly selected samples from the dataset. The initial
 #' means will be updated during the iterations of the algorithm.
 #'
 #' @usage
