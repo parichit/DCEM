@@ -1,0 +1,6 @@
+exportPattern("^[[:alpha:]]+")
+importFrom("stats", "cov.wt")
+importFrom("utils", "read.csv2")
+importFrom("stats", "dnorm")
+importFrom("stats", "sd")
+

@@ -1,0 +1,28 @@
+Package: DCEM
+Type: Package
+Title: Clustering for Multivariate and Univariate Data Using Expectation Maximisation Algorithm
+Version: 0.0.1
+Authors@R: c(
+    person("Sharma", "Parichit", email = "parishar@iu.edu", role = c("aut","cre", "ctb")),
+    person("Kurban", "Hasan", role = c("aut","ctb")),
+    person("Jenne", "Mark", role = c("aut","ctb")),
+    person("Dalkilic", "Mehmet", role = "aut")) 
+Maintainer: Sharma Parichit <parishar@iu.edu>
+Description: Implements the Expectation Maximisation (EM) algorithm for clustering finite gaussian mixture models for
+    both multivariate and univariate datasets. The initialisation is done by randomly selecting the samples from the 
+    dataset as the mean of the Gaussian(s). Future versions will improve the parameter initialisation and execution 
+    on big datasets. The algorithm returns a set of Gaussian parameters-posterior probabilities, mean, co-variance matrices 
+    (multivariate data)/standard-deviation (for univariate datasets) and priors.
+    Reference: Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic (2016) <doi:10.1007/s41060-017-0062-1>.
+    This work is partially supported by NCI Grant 1R01CA213466-01.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    mvtnorm (>= 1.0.7),
+    matrixcalc (>= 1.0.3),
+    MASS (>= 7.3.49)
+RoxygenNote: 6.0.1
+Depends: R(>= 3.4.0)
+URL: https://github.iu.edu/parishar/DCEM
+BugReports: https://github.iu.edu/parishar/DCEM/issues

@@ -1,0 +1,92 @@
+#' DCEM: Data clustering through Expectation-Maximisation algorithm.
+#'
+#' Implements Expectation-Maximisation (EM) algorithm for clustering the
+#' univariate and multivariate finite Gaussian mixture data. Currently, there is no
+#' support for missing data.
+#'
+#' @section Demonstration and Testing:
+#' \strong{Cleaning the data:}
+#' The data should be cleaned (redundant columns should be removed). For example
+#' columns containing the labels or redundant entries (such as a column of
+#' only 0's or 1's). See \code{\link{trim_data}} for details on
+#' cleaning the data. Refer: \code{\link{dcem_test}} for more details.
+#'
+#' @section Understanding the output of \code{\link{dcem_test}}:
+#'
+#' The function dcem_test() returns a list of objects.
+#' This list contains the parameters associated with the Gaussian(s),
+#' posterior probabilities (prob), mean (mean), co-variance (cov)/standard-deviation(sd) and priors.
+#'
+#' \strong{Note:} The routine dcem_test() is only for demonstration purpose.
+#' The function \code{\link{dcem_test}} calls the main routine
+#' \code{\link{dcem_train}}. See \code{\link{dcem_train}} for further details.
+#'
+#' @section Accessing the output parameters:
+#'
+#' \enumerate{
+#'         \item [1] Posterior Probabilities:  \strong{sample_out$prob}
+#'         (a matrix of posterior-probabilities for the points in the dataset.)
+#'
+#'         \item [2] Mean(s): \strong{sample_out$mean}
+#'
+#'         For multivariate data: It is a matrix of means for the Gaussians. Each row in
+#'         the  matrix corresponds to a mean for the Gaussian.
+#'
+#'         For univariate data: It is a vector of means. Each element of the vector
+#'         corresponds to one Gaussian.
+#'
+#'         \item [3] Co-variance matrices (in case of multivariate data): \strong{sample_out$cov}
+#'         (list of co-variance matrices for the Gaussians)
+#'
+#'         Standard-deviation (in case of univariate data): \strong{sample_out$sd}
+#'         (vector of standard deviation for the Gaussians)
+#'
+#'         \item [4] Priors: \strong{sample_out$prior}
+#'         (a vector of priors for the Gaussians.)
+#'         }
+#'
+# '@section How to run on your dataset:
+#' See \code{\link{dcem_train}} for examples.
+#'
+#' @section Package organisation:
+#' The package is organised as a set of preprocessing functions and the core
+#' clustering modules. These functions are briefly described below.
+#' \enumerate{
+#'
+#' \item  \code{\link{trim_data}}: This is used to remove the columns
+#' from the dataset. The user should clean the dataset before
+#' calling the dcem_train routine. \strong{User can also clean the dataset themselves
+#' (without using trim_data) and then pass it to the dcem_train function}
+#'
+#' \item \code{\link{dcem_train}}: This is the primary interface to the EM routine.
+#' It accepts the cleaned dataset and other parameters (number of iterations, convergence threshold etc.)
+#' and run the algorithm untill:
+#'
+#' \enumerate{
+#'    \item The number of iterations is crossed.
+#'    \item The convergence threshold is achieved.
+#'    }
+#'    }
+#'
+#' @references
+#' Using data to build a better EM: EM* for big data.
+#'
+#' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
+#' (2016) <doi:https://doi.org/10.1007/s41060-017-0062-1>.
+#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalikilic
+#'
+#' This work is partially supported by NCI Grant 1R01CA213466-01.
+#'
+#' \strong{External Packages:} DCEM requires R packages 'mvtnorm'[1] and 'matrixcalc'[2]
+#' for multivariate density calculation and
+#' for checking the matrix singularity respectively.
+#'
+#' [1] Alan Genz, Frank Bretz, Tetsuhisa Miwa, Xuefei Mi, Friedrich Leisch, Fabian Scheipl,
+#' Torsten Hothorn (2019). mvtnorm: Multivariate Normal and t Distributions.
+#' R package version 1.0-7. URL http://CRAN.R-project.org/package=mvtnorm
+#'
+#' [2] https://CRAN.R-project.org/package=matrixcalc
+#'
+#' @docType package
+#' @name DCEM
+NULL
