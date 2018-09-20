@@ -16,7 +16,7 @@ A vector containing the randomly selected samples from the dataset.
 The initial means will be updated during the execution.
 }
 \description{
-This function is internally called by the simpleem_train to initialize the
+This function is internally called by the dcem_train to initialize the
 mean(s) for the Gaussian(s). It randomly selects the mean(s) from the
 range min(data):max(data).
 }

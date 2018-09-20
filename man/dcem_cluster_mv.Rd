@@ -55,7 +55,7 @@ A list of objects. This list contains parameters associated with the
 }
 \description{
 Implements the Expectation Maximisation algorithm for multivariate data. This function is internally
-called by the simpleem_train routine.
+called by the dcem_train routine.
 }
 \references{
 Using data to build a better EM: EM* for big data.

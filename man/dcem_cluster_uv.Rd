@@ -58,7 +58,7 @@ A list of objects. This list contains parameters associated with the
 }
 \description{
 Implements the Expectation Maximisation algorithm for the univariate data. This function is internally
-called by the simpleem_train routine.
+called by the dcem_train routine.
 }
 \references{
 Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic

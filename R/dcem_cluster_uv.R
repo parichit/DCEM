@@ -5,7 +5,7 @@ require(matrixcalc)
 #' dcem_cluster_uv (univariate data): Part of DCEM package.
 #'
 #' Implements the Expectation Maximisation algorithm for the univariate data. This function is internally
-#' called by the simpleem_train routine.
+#' called by the dcem_train routine.
 #'
 #' @param data (matrix): The dataset provided by the user (converted to matrix format).
 #'
