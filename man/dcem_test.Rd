@@ -7,7 +7,7 @@
 dcem_test()
 }
 \description{
-For demostrating the execution on the bundled dataset.
+For demonstrating the execution on the bundled dataset.
 }
 \section{Details}{
 
@@ -35,7 +35,7 @@ The dcem_test performs the following steps in order:
 The function dcem_test() calls dcem_train() that returns a list of objects.
 This list contains parameters associated with the Gaussian
 (posterior probabilities, mean, covariance/standard-deviation and priors). The
-parameters can be accessed as follows where sample_out is the list containig
+parameters can be accessed as follows where sample_out is the list containing
 the output:
 
 \enumerate{
@@ -70,7 +70,7 @@ Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
 (2016) <doi:https://doi.org/10.1007/s41060-017-0062-1>.
 }
 \author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalikilic
+Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 
 This work is partially supported by NCI Grant 1R01CA213466-01.
 }

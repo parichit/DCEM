@@ -19,7 +19,7 @@ A list of identity matrices. The number of entries in the list
 }
 \description{
 Initializes the co-variance matrices as the identity matrices for the Gaussian(s).
-The list will simply contain one co-variance matrix per Gaussian. If the user wants 3 clustesr then
+The list will simply contain one co-variance matrix per Gaussian. If the user specifies 3 cluster(s) then
 there will be 3 entries in the list.
 }
 \details{
@@ -34,7 +34,7 @@ cov_mv(10, 100)
 
 }
 \author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalikilic
+Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 
 This work is partially supported by NCI Grant 1R01CA213466-01.
 }

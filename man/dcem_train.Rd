@@ -22,7 +22,7 @@ convergence is not achieved within the specified count then the algorithm stops 
 \value{
 A list of objects. This list contains parameters associated with the Gaussian(s)
         (posterior probabilities, mean, standard-deviation and priors). The
-        parameters can be accessed as follows where sample_out is the list containig
+        parameters can be accessed as follows where sample_out is the list containing
         the output:
 
 \enumerate{
@@ -95,7 +95,7 @@ Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
 (2016) <doi:https://doi.org/10.1007/s41060-017-0062-1>.
 }
 \author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalikilic
+Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 
 This work is partially supported by NCI Grant 1R01CA213466-01.
 }

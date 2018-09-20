@@ -15,7 +15,7 @@ threshold, numrows, numcols)
 \item{sd_vector}{(vector): The vector containing the initial standard deviation for the Gaussians. The initial
 sd are set to be 1. They are updated during the iterations of the algorithm.}
 
-\item{prior_vec}{(vector): The vector containing the initial priors for the Gaussians. They are initialised
+\item{prior_vec}{(vector): The vector containing the initial priors for the Gaussians. They are initialized
 uniformly.}
 
 \item{num}{(numeric): The number of clusters specified by the user. Default value is 2.}
@@ -57,7 +57,7 @@ A list of objects. This list contains parameters associated with the
         }
 }
 \description{
-Implements the Expectation Maximisation algorithm for the univariate data. This function is internally
+Implements the Expectation Maximization algorithm for the univariate data. This function is internally
 called by the dcem_train routine.
 }
 \references{
@@ -65,7 +65,7 @@ Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
 (2016) <doi:https://doi.org/10.1007/s41060-017-0062-1>.
 }
 \author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalikilic
+Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 
 This work is partially supported by NCI Grant 1R01CA213466-01.
 }

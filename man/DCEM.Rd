@@ -4,12 +4,12 @@
 \name{DCEM}
 \alias{DCEM}
 \alias{DCEM-package}
-\title{DCEM: Data clustering through Expectation-Maximisation algorithm.}
+\title{DCEM: Data clustering through Expectation-Maximization algorithm.}
 \description{
-Implements Expectation-Maximisation (EM) algorithm for clustering the
+Implements Expectation-Maximization (EM) algorithm for clustering the
 univariate and multivariate finite Gaussian mixture data.
 Currently, the missing data is not imputed by the package and the user
-is expected to either remove fetures with missing values or impute them before
+is expected to either remove features with missing values or impute them before
 using DCEM.
 }
 \section{Demonstration and Testing}{
@@ -61,9 +61,9 @@ The function \code{\link{dcem_test}} calls the main routine
 See \code{\link{dcem_train}} for examples.
 }
 
-\section{Package organisation}{
+\section{Package organization}{
 
-The package is organised as a set of preprocessing functions and the core
+The package is organized as a set of preprocessing functions and the core
 clustering modules. These functions are briefly described below.
 \enumerate{
 
@@ -74,7 +74,7 @@ calling the dcem_train routine. \strong{User can also clean the dataset themselv
 
 \item \code{\link{dcem_train}}: This is the primary interface to the EM routine.
 It accepts the cleaned dataset and other parameters (number of iterations, convergence threshold etc.)
-and run the algorithm untill:
+and run the algorithm until:
 
 \enumerate{
    \item The number of iterations is crossed.
@@ -90,7 +90,7 @@ Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
 (2016) <doi:https://doi.org/10.1007/s41060-017-0062-1>.
 }
 \author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalikilic
+Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 
 This work is partially supported by NCI Grant 1R01CA213466-01.
 

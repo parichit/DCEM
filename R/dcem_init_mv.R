@@ -19,7 +19,7 @@
 #' # Get the mean(s) from the data
 #' means_mv(sample_data, num_means=2)
 #'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalikilic
+#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work was partially supported by NCI Grant 1R01CA213466-01.
 
@@ -31,7 +31,7 @@ means_mv <- function(data, num_means) {
 #'cov_mv: Part of DCEM package.
 #'
 #' Initializes the co-variance matrices as the identity matrices for the Gaussian(s).
-#' The list will simply contain one co-variance matrix per Gaussian. If the user wants 3 clustesr then
+#' The list will simply contain one co-variance matrix per Gaussian. If the user specifies 3 cluster(s) then
 #' there will be 3 entries in the list.
 #'
 #' The dimensions of each matrix will be numcol * numcol where numcol is the number of columns in the
@@ -55,7 +55,7 @@ means_mv <- function(data, num_means) {
 #' cov_mv(2, 3)
 #' cov_mv(10, 100)
 #'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalikilic
+#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 
@@ -90,7 +90,7 @@ cov_mv <- function(num_cov, numcol) {
 #' priors(2)
 #' priors(3)
 #'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalikilic
+#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work was partially supported by NCI Grant 1R01CA213466-01.
 

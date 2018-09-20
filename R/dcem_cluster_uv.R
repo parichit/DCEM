@@ -4,7 +4,7 @@ require(matrixcalc)
 
 #' dcem_cluster_uv (univariate data): Part of DCEM package.
 #'
-#' Implements the Expectation Maximisation algorithm for the univariate data. This function is internally
+#' Implements the Expectation Maximization algorithm for the univariate data. This function is internally
 #' called by the dcem_train routine.
 #'
 #' @param data (matrix): The dataset provided by the user (converted to matrix format).
@@ -14,7 +14,7 @@ require(matrixcalc)
 #' @param sd_vector (vector): The vector containing the initial standard deviation for the Gaussians. The initial
 #' sd are set to be 1. They are updated during the iterations of the algorithm.
 #'
-#' @param prior_vec (vector): The vector containing the initial priors for the Gaussians. They are initialised
+#' @param prior_vec (vector): The vector containing the initial priors for the Gaussians. They are initialized
 #' uniformly.
 #'
 #' @param num (numeric): The number of clusters specified by the user. Default value is 2.
@@ -60,7 +60,7 @@ require(matrixcalc)
 #' dcem_cluster_uv(data, mean_vector, sd_vector, prior_vec, num, iteration_count,
 #' threshold, numrows, numcols)
 #'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalikilic
+#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 #'
@@ -109,7 +109,7 @@ dcem_cluster_uv <-
         }
       }
 
-      #Maximise standard-deviation and mean
+      #Maximize standard-deviation and mean
       for (clus in 1:num) {
         prior_vec[clus] = sum(weight_mat[clus,]) / numrows
         mean_vector[clus] = (sum(data * weight_mat[clus,])/sum(weight_mat[clus,]))

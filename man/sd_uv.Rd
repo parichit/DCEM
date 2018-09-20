@@ -24,7 +24,7 @@ sd_uv(rnorm(100,20,10), 2)
 
 }
 \author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalikilic
+Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 
 This work was partially supported by NCI Grant 1R01CA213466-01.
 }

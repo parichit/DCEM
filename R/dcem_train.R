@@ -24,7 +24,7 @@ source("./R/dcem.R")
 #' @return
 #'         A list of objects. This list contains parameters associated with the Gaussian(s)
 #'         (posterior probabilities, mean, standard-deviation and priors). The
-#'         parameters can be accessed as follows where sample_out is the list containig
+#'         parameters can be accessed as follows where sample_out is the list containing
 #'         the output:
 #'
 #'\enumerate{
@@ -93,7 +93,7 @@ source("./R/dcem.R")
 #' #[1,]  2.053163  2.023351  2.017288  1.999596  1.983142
 #' #[2,] 13.948244 14.010651 13.897140 14.285898 13.752592
 #'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalikilic
+#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 #' @export

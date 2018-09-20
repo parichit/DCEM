@@ -38,7 +38,7 @@
 #' @return
 #' boolean: TRUE if the columns exists otherwise FALSE.
 #'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalikilic
+#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 
 validate_data <- function(columns, numcols){
@@ -106,7 +106,7 @@ validate_data <- function(columns, numcols){
 #' @return
 #' A dataframe with the specified column(s) removed from it.
 #'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalikilic
+#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 
 trim_data <- function(columns, data){

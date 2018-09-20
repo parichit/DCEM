@@ -12,7 +12,7 @@ means_mv(data, num_means)
 \item{num_means}{(numeric): The number of means (meu).}
 }
 \value{
-A matrix containing the randomly selected samples from the dataset. The inital
+A matrix containing the randomly selected samples from the dataset. The initial
 means will be updated during the iterations of the algorithm.
 }
 \description{
@@ -28,7 +28,7 @@ means_mv(sample_data, num_means=2)
 
 }
 \author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalikilic
+Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 
 This work was partially supported by NCI Grant 1R01CA213466-01.
 }
