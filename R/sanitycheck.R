@@ -86,7 +86,6 @@ validate_data <- function(columns, numcols){
 #' trim_data(columns, data)
 #'
 #' @examples
-#'
 #' # Remove a range of columns. Generally, the columns containing the labels or
 #' redundant values (such as all 0's) should be removed before training the model.
 #'

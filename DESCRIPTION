@@ -22,7 +22,7 @@ Imports:
     mvtnorm (>= 1.0.7),
     matrixcalc (>= 1.0.3),
     MASS (>= 7.3.49)
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Depends: R(>= 3.4.0)
 URL: https://github.iu.edu/parishar/DCEM
 BugReports: https://github.iu.edu/parishar/DCEM/issues
