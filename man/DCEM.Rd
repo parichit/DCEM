@@ -7,8 +7,10 @@
 \title{DCEM: Data clustering through Expectation-Maximisation algorithm.}
 \description{
 Implements Expectation-Maximisation (EM) algorithm for clustering the
-univariate and multivariate finite Gaussian mixture data. Currently, there is no
-support for missing data.
+univariate and multivariate finite Gaussian mixture data.
+Currently, the missing data is not imputed by the package and the user
+is expected to either remove fetures with missing values or impute them before
+using DCEM.
 }
 \section{Demonstration and Testing}{
 
