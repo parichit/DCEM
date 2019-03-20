@@ -21,7 +21,7 @@
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
-
+suppressWarnings(RNGversion("3.5.0"))
 means_uv <- function(data, num_means) {
   mean_vector = c(sample(min(data):max(data), num_means))
   return(mean_vector)

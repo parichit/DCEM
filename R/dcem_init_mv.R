@@ -22,7 +22,7 @@
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work was partially supported by NCI Grant 1R01CA213466-01.
-
+suppressWarnings(RNGversion("3.5.0"))
 means_mv <- function(data, num_means) {
   mean_matrix = data[sample(1:nrow(data), num_means),]
   return(mean_matrix)

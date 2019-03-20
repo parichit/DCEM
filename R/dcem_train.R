@@ -67,6 +67,7 @@ source("./R/dcem.R")
 #'rnorm(2000, 100, 40)), row=3500)
 #'
 #'# Randomly shuffle the samples.
+#'suppressWarnings(RNGversion("3.5.0"))
 #'sample_uv_data = as.data.frame(sample_uv_data[sample(1:nrow(sample_uv_data)),],
 #'row=nrow(sample_uv_data))
 #'
