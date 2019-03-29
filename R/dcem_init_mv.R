@@ -1,30 +1,103 @@
 #'means_mv: Part of DCEM package.
 #'
 #' Initialize the mean(s) for the Gaussian(s) by randomly selecting
-#' the samples from the dataset.
+#' the samples from the dataset. This is the \strong{default} method for initialising
+#' the means(s).
 #'
 #' @param data (matrix): The dataset provided by the user (converted to matrix format).
 #' @param num_means (numeric): The number of means (meu).
 #'
-#' @return A matrix containing the randomly selected samples from the dataset. The initial
+#' @return A matrix containing the selected samples from the dataset. The initial
 #' means will be updated during the iterations of the algorithm.
 #'
 #' @usage
+#' # Randomly seeding the mean(s).
 #' means_mv(data, num_means)
 #'
 #' @examples
 #' # Generate random samples from a multivariate distribution.
 #' sample_data = MASS::mvrnorm(n=10, rep(10,5), Sigma = diag(5))
 #'
-#' # Get the mean(s) from the data
+#' # Randomly selecting the mean(s) from the data.
 #' means_mv(sample_data, num_means=2)
 #'
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work was partially supported by NCI Grant 1R01CA213466-01.
-suppressWarnings(RNGversion("3.5.0"))
+#'
 means_mv <- function(data, num_means) {
   mean_matrix = data[sample(1:nrow(data), num_means),]
+  return(mean_matrix)
+}
+
+#'means_mv_impr: Part of DCEM package.
+#'
+#' Initialize the mean(s) for the Gaussian(s) by randomly selecting
+#' the samples from the dataset. It uses the proposed implementation from
+#' K-means++: The Advantages of Careful Seeding, David Arthur and Sergei Vassilvitskii.
+#' URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf.
+#'
+#' @param data (matrix): The dataset provided by the user (converted to matrix format).
+#' @param num_means (numeric): The number of means (meu).
+#'
+#' @return A matrix containing the selected samples from the dataset. The initial
+#' means will be updated during the iterations of the algorithm.
+#'
+#' @usage
+#' # Randomly seeding the mean(s).
+#' means_mv_impr(data, num_means)
+#'
+#' @examples
+#' # Generate random samples from a multivariate distribution.
+#' sample_data = MASS::mvrnorm(n=10, rep(10,5), Sigma = diag(5))
+#'
+#' # Randomly selecting the mean(s) from the data.
+#' means_mv_impr(sample_data, num_means=2)
+#'
+#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
+#'
+#' This work was partially supported by NCI Grant 1R01CA213466-01.
+
+means_mv_impr <- function(data, num_means){
+
+  mean_matrix = matrix(nrow = num_means,
+                       ncol = ncol(data),
+                       byrow = TRUE)
+
+  counter = 0
+  total = 0
+
+  #Selecting the first centroid in a uniform manner
+  mean_matrix[1,] = as.matrix(data[sample(nrow(data), 1),])
+  print(mean_matrix)
+
+  #Increase the var to track the selected centroids
+  counter = counter + 1
+
+  while (counter < num_means){
+
+    dist_vector <- matrix(0,nrow = nrow(data), ncol=1, byrow = TRUE)
+    counter = counter + 1
+
+    #Starting the probability calculations for selecting the next set of centroids
+    for (row in 1:nrow(data)){
+      for(srow in 1:counter){
+        dist = sum((data[srow,] - mean_matrix[counter,])^2)
+        dist_vector = rbind(dist_vector,dist)
+        total = total + dist
+      }
+    }
+
+    cent  = which.max(dist_vector / total)
+    print(dim(data))
+    print(cent)
+    mean_matrix[counter,] = data[counter,]
+    print(mean_matrix)
+
+    total = 0;
+
+  }
+
   return(mean_matrix)
 }
 

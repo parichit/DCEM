@@ -6,6 +6,21 @@
 #' is expected to either remove features with missing values or impute them before
 #' using DCEM.
 #'
+#' @section DCEM supports two initialisation schemes:
+#'
+#' \enumerate{
+#' \item \strong{Random Initialisation:} Initializes the mean randomly. Refer \code{\link{means_uv}} and
+#' \code{\link{means_mv}} for initialisation on univariate and multivariate data respectively.
+#'
+#' \item \strong{Improved Initialisation:} Based on the Kmeans++ idea published in,
+#' K-means++: The Advantages of Careful Seeding, David Arthur and Sergei Vassilvitskii.
+#' URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf. See \code{\link{means_uv_impr}} and
+#' \code{\link{means_mv_impr}} for details.
+#'
+#' \item This can be specified as the \strong{seeding} parameter during the training. See \code{\link{dcem_train}}
+#' for further details.
+#' }
+#'
 #' @section Demonstration and Testing:
 #' \strong{Cleaning the data:}
 #' The data should be cleaned (redundant columns should be removed). For example
@@ -47,7 +62,7 @@
 #'         (a vector of priors for the Gaussians.)
 #'         }
 #'
-# '@section How to run on your dataset:
+#' @section How to run on your dataset:
 #' See \code{\link{dcem_train}} for examples.
 #'
 #' @section Package organization:
@@ -88,6 +103,11 @@
 #' R package version 1.0-7. URL http://CRAN.R-project.org/package=mvtnorm
 #'
 #' [2] https://CRAN.R-project.org/package=matrixcalc
+#'
+#' For improving the initialisation of cluster mean(s), the original idea published in [3] is used.
+#'
+#' [3] k-means++: The Advantages of Careful Seeding, David Arthur and Sergei Vassilvitskii.
+#' URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf
 #'
 #' @docType package
 #' @name DCEM

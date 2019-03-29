@@ -5,7 +5,7 @@ source("./R/dcem.R")
 
 #' dcem_train: Part of DCEM package.
 #'
-#' Learn the Gaussian parameters, mean and co-variance from the dataset. It calls the relevant EM
+#' Learn the Gaussian parameters, mean and co-variance from the dataset. It calls the relevant
 #' clustering routine internally \code{\link{dcem_cluster_uv}} (univariate data) and
 #' \code{\link{dcem_cluster_mv}} (multivariate data).
 #'
@@ -20,6 +20,8 @@ source("./R/dcem.R")
 #' \strong{Default: 200}.
 #'
 #' @param num_clusters (numeric): The number of clusters. Default: \strong{2}
+#'
+#' @param seeding (string): The initialisation scheme ('rand', 'improved'). Default: \strong{rand}
 #'
 #' @return
 #'         A list of objects. This list contains parameters associated with the Gaussian(s)
@@ -52,7 +54,7 @@ source("./R/dcem.R")
 #'         }
 #'
 #' @usage
-#' dcem_train(data, threshold, iteration_count,  num_clusters)
+#' dcem_train(data, threshold, iteration_count,  num_clusters, seeding)
 #'
 #' @references
 #'Using data to build a better EM: EM* for big data.
@@ -63,16 +65,13 @@ source("./R/dcem.R")
 #' @examples
 #'# Simulating a mixture of univariate samples from three distributions
 #'# with mean as 20, 70 and 100 and standard deviation as 10, 100 and 40 respectively.
-#'sample_uv_data = as.data.frame(c(rnorm(1000, 20, 10), rnorm(500, 70, 100),
-#'rnorm(2000, 100, 40)), row=3500)
+#'sample_uv_data = as.data.frame(c(rnorm(1000, 20, 10), rnorm(500, 70, 100), rnorm(2000, 100, 40)))
 #'
 #'# Randomly shuffle the samples.
-#'suppressWarnings(RNGversion("3.5.0"))
-#'sample_uv_data = as.data.frame(sample_uv_data[sample(1:nrow(sample_uv_data)),],
-#'row=nrow(sample_uv_data))
+#'sample_uv_data = as.data.frame(sample_uv_data[sample(nrow(sample_uv_data)),])
 #'
 #'# Calling the dcem_train() function on the simulated data with threshold of
-#'# 0.000001 and iteration count of 1000 respectively.
+#'# 0.000001, iteration count of 1000 and random seeding respectively.
 #'sample_uv_out = dcem_train(sample_uv_data, num_clusters = 3, iteration_count = 1000,
 #'threshold = 0.000001)
 #'
@@ -87,7 +86,7 @@ source("./R/dcem.R")
 #'MASS::mvrnorm(n=50, rep(14,5), Sigma = diag(5))))
 #'
 #'# Calling the dcem_train() function on the simulated data with threshold of
-#'# 0.00001 and iteration count of 100 respectively.
+#'# 0.00001, iteration count of 100 and random seeding method respectively.
 #' sample_mv_out = dcem_train(sample_mv_data, threshold = 0.00001, iteration_count = 100)
 #'
 #' sample_mv_out$mean
@@ -99,46 +98,101 @@ source("./R/dcem.R")
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 #' @export
 
-dcem_train <-function(data, threshold, iteration_count, num_clusters){
+dcem_train <-
+  function(data,
+           threshold,
+           iteration_count,
+           num_clusters, seeding) {
+    if (missing(threshold)) {
+      threshold = 0.00001
+      print("Using default value for convergence threshold = 0.00001.")
+    }
+    else{
+      print(paste("Specified threshold = ", threshold))
+    }
 
-if(missing(threshold)){
-  threshold = 0.00001
-  print(paste("Using default value for convergence threshold = 0.00001"))
-}
+    if (missing(iteration_count)) {
+      iteration_count = 200
 
-if(missing(iteration_count)){
-  iteration_count = 200;
-  print(paste("Using default value for iteration count = 200"))
-}
+      print("Using default value for iteration count = 200.")
+    }
+    else{
+      print(paste("Specified iterations = ", iteration_count))
+    }
 
-if(missing(num_clusters)){
-  num_clusters = 2;
-  print(paste("Using default value for number of clusters = 2"))
-}
+    if (missing(num_clusters)) {
+      num_clusters = 2
 
-data = as.data.frame(sapply(data, as.numeric))
-data[sapply(data, function(x) all(is.na(x)))] <- NULL
+      print("Using default value for number of clusters = 2.")
+    }
+    else{
+      print(paste("Specified number of  clusters = ", num_clusters))
+    }
 
-# Safe copy the data for operations
-test_data = as.matrix.data.frame(data)
-numrows = nrow(test_data)
-valid_columns = ncol(test_data)
+    if (missing(seeding) ) {
+      seeding = "rand"
+      print("Using the random initialisation scheme.")
+    }
+    else{
+      seeding = seeding
+      print("Using the improved Kmeans++ initialisation scheme.")
+    }
 
-em_data_out = list()
 
-  if(valid_columns >= 2){
-  mean_mat = means_mv(test_data, num_clusters)
-  cov_list = cov_mv(num_clusters, valid_columns)
-  prior_vec = priors(num_clusters)
-  em_data_out = dcem_cluster_mv(test_data, mean_mat, cov_list, prior_vec, num_clusters, iteration_count, threshold, numrows, valid_columns)
+    data = as.data.frame(sapply(data, as.numeric))
+    data[sapply(data, function(x)
+      all(is.na(x)))] <- NULL
+
+    # Safe copy the data for operations
+    test_data = as.matrix.data.frame(data)
+    numrows = nrow(test_data)
+    valid_columns = ncol(test_data)
+
+    em_data_out = list()
+
+    if (valid_columns >= 2) {
+      if (seeding == "rand"){
+      mean_mat = means_mv(test_data, num_clusters)
+      }
+      else{
+      mean_mat = means_mv_impr(test_data, num_clusters)
+      }
+      cov_list = cov_mv(num_clusters, valid_columns)
+      prior_vec = priors(num_clusters)
+      em_data_out = dcem_cluster_mv(
+        test_data,
+        mean_mat,
+        cov_list,
+        prior_vec,
+        num_clusters,
+        iteration_count,
+        threshold,
+        numrows,
+        valid_columns
+      )
+    }
+
+    if (valid_columns < 2) {
+      if(seeding=="rand"){
+      mean_vector = means_uv(test_data, num_clusters)
+      }
+      else{
+      mean_vector = means_uv_impr(test_data, num_clusters)
+      }
+      sd_vector = sd_uv(test_data, num_clusters)
+      prior_vec = priors(num_clusters)
+      em_data_out = dcem_cluster_uv(
+        test_data,
+        mean_vector,
+        sd_vector,
+        prior_vec,
+        num_clusters,
+        iteration_count,
+        threshold,
+        numrows,
+        valid_columns
+      )
+    }
+
+    return(em_data_out)
   }
-
-  if(valid_columns < 2){
-  mean_vector = means_uv(test_data, num_clusters)
-  sd_vector = sd_uv(test_data,num_clusters)
-  prior_vec = priors(num_clusters)
-  em_data_out = dcem_cluster_uv(test_data, mean_vector, sd_vector, prior_vec, num_clusters, iteration_count, threshold, numrows, valid_columns)
-  }
-
-return(em_data_out)
-}
