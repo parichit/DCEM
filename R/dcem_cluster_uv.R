@@ -81,14 +81,13 @@ dcem_cluster_uv <-
            numcols)
 
   {
-
     counter = 1
     t_status = TRUE
 
     p_density = matrix(0,
-               nrow = num,
-               ncol = numrows,
-               byrow = TRUE)
+                       nrow = num,
+                       ncol = numrows,
+                       byrow = TRUE)
 
     #Repeat till threshold achieved or convergence whichever is earlier.
     while (counter <= iteration_count) {
@@ -99,7 +98,7 @@ dcem_cluster_uv <-
                           byrow = TRUE)
 
       for (clus in 1:num) {
-        p_density[clus,] = dnorm(data, mean_vector[clus] , sd_vector[clus]) * prior_vec[clus]
+        p_density[clus, ] = dnorm(data, mean_vector[clus] , sd_vector[clus]) * prior_vec[clus]
       }
 
       sum_p_density = colSums(p_density)
@@ -111,21 +110,21 @@ dcem_cluster_uv <-
 
       #Maximize standard-deviation and mean
       for (clus in 1:num) {
-        prior_vec[clus] = sum(weight_mat[clus,]) / numrows
-        mean_vector[clus] = (sum(data * weight_mat[clus,])/sum(weight_mat[clus,]))
-        sd_vector[clus] = sum(((data - mean_vector[clus])^2) * weight_mat[clus,])
-        sd_vector[clus] = sqrt(sd_vector[clus] / sum(weight_mat[clus,]))
+        prior_vec[clus] = sum(weight_mat[clus, ]) / numrows
+        mean_vector[clus] = (sum(data * weight_mat[clus, ]) / sum(weight_mat[clus, ]))
+        sd_vector[clus] = sum(((data - mean_vector[clus]) ^ 2) * weight_mat[clus, ])
+        sd_vector[clus] = sqrt(sd_vector[clus] / sum(weight_mat[clus, ]))
       }
 
       #Find the difference in the mean
-      mean_diff = (sum(mean_vector - old_mean)^2)
+      mean_diff = sum((mean_vector - old_mean) ^ 2)
 
-      if (mean_diff < threshold) {
+      if (!is.na(mean_diff) && mean_diff < threshold) {
         #print((paste("Convergence at iteration number: ", counter)))
         break
       }
 
-      if(counter == threshold) {
+      if (counter == threshold) {
         #print("Maximum iterations reached. Halting.")
         break
       }
@@ -133,7 +132,12 @@ dcem_cluster_uv <-
       counter = counter + 1
     }
 
-    output = list(prob = weight_mat,  mean = mean_vector, sd = sd_vector, prior = prior_vec)
+    output = list(
+      prob = weight_mat,
+      mean = mean_vector,
+      sd = sd_vector,
+      prior = prior_vec
+    )
     return(output)
 
   }

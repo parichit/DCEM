@@ -1,7 +1,7 @@
 
 **Package Overview**
 
-Implements the Expectation Maximisation Algorithm for clustering the multivariate and univariate datasets. The package has been tested with numerical datasets (not recommended for categorical/ordinal data). The package comes bundled with a dataset for demostration (ionosphere_data.csv). More help about the package can be seen by typing `?DCEM` in the R console (after installing the package).
+Implements the Expectation Maximisation Algorithm for clustering the multivariate and univariate datasets. The package has been tested with numerical datasets (not recommended for categorical/ordinal data). The package comes bundled with a dataset for demonstration (ionosphere_data.csv). More help about the package can be seen by typing `?DCEM` in the R console (after installing the package).
 
 **Currently, data imputation is not supported and user has to handle the missing data before using the package.**
 
@@ -37,7 +37,7 @@ install.packages(dcem_1.0.0.tgz, repos = NULL, type="source")
 
 **How to use the package (An Example: working with the default bundled dataset)**
 
-- The dcem package comes bundeled with the ionosphere_data.csv for demostration. Help about the dataset can be seen by typing `?ionosphere_data` in the R console. Additional details can be seen at the link [Ionosphere data](https://archive.ics.uci.edu/ml/datasets/ionosphere)
+- The dcem package comes bundled with the ionosphere_data.csv for demostration. Help about the dataset can be seen by typing `?ionosphere_data` in the R console. Additional details can be seen at the link [Ionosphere data](https://archive.ics.uci.edu/ml/datasets/ionosphere)
 
 - To use this dataset, paste the following code into the R console.
 
@@ -50,7 +50,7 @@ ionosphere_data = read.csv2(
 )
 ```
 
-- **_Cleaning the data_**: Before the model can be trained (`dcem_train()` function), the data must be cleaned. This simply means to remove all redundant columns (example can be label colum). This datset contains labels in the last column (35th) and only 0's in the 2nd column so let's remove them,
+- **_Cleaning the data_**: Before the model can be trained (`dcem_train()` function), the data must be cleaned. This simply means to remove all redundant columns (example can be label column). This dataset contains labels in the last column (35th) and only 0's in the 2nd column so let's remove them,
 
 Paste the below code in the R session to clean the dataset.
 

@@ -73,13 +73,7 @@ source("./R/dcem.R")
 #'# Calling the dcem_train() function on the simulated data with threshold of
 #'# 0.000001, iteration count of 1000 and random seeding respectively.
 #'sample_uv_out = dcem_train(sample_uv_data, num_clusters = 3, iteration_count = 1000,
-#'threshold = 0.000001)
-#'
-#'sample_uv_out$mean
-#'# 98.36404 70.19584 19.88569
-#'
-#'sample_uv_out$sd
-#'# 40.438697 102.299765   9.702907
+#'threshold = 0.0001)
 #'
 #'# Simulating a mixture of multivariate samples from 2 gaussian distributions.
 #'sample_mv_data = as.data.frame(rbind(MASS::mvrnorm(n=1200, rep(2,5), Sigma = diag(5)),
@@ -87,7 +81,7 @@ source("./R/dcem.R")
 #'
 #'# Calling the dcem_train() function on the simulated data with threshold of
 #'# 0.00001, iteration count of 100 and random seeding method respectively.
-#' sample_mv_out = dcem_train(sample_mv_data, threshold = 0.00001, iteration_count = 100)
+#' sample_mv_out = dcem_train(sample_mv_data, threshold = 0.0001, iteration_count = 100)
 #'
 #' sample_mv_out$mean
 #' #[1,]  2.053163  2.023351  2.017288  1.999596  1.983142
