@@ -129,8 +129,7 @@ dcem_cluster_mv <-
       # Find the difference in the mean
       mean_diff = (sum((mean_mat - old_mean) ^ 2))
 
-
-      if (mean_diff < threshold) {
+      if (!is.na(mean_diff) && mean_diff < threshold) {
         #print((paste("Convergence at iteration number: ",counter)))
         break
       }
