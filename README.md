@@ -37,7 +37,7 @@ install.packages(dcem_1.0.0.tgz, repos = NULL, type="source")
 
 **How to use the package (An Example: working with the default bundled dataset)**
 
-- The dcem package comes bundled with the ionosphere_data.csv for demostration. Help about the dataset can be seen by typing `?ionosphere_data` in the R console. Additional details can be seen at the link [Ionosphere data](https://archive.ics.uci.edu/ml/datasets/ionosphere)
+- The dcem package comes bundled with the ionosphere_data.csv for demonstration. Help about the dataset can be seen by typing `?ionosphere_data` in the R console. Additional details can be seen at the link [Ionosphere data](https://archive.ics.uci.edu/ml/datasets/ionosphere)
 
 - To use this dataset, paste the following code into the R console.
 
