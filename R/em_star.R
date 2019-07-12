@@ -2,8 +2,9 @@
 source("./R/sanitycheck.R")
 source("./R/dcem_init_mv.R")
 source("./R/dcem.R")
+source("./R/heap.R")
 
-#' dcem_train: Part of DCEM package.
+#' dcem_star_train: Part of DCEM package.
 #'
 #' Learn the Gaussian parameters, mean and co-variance from the dataset. It calls the relevant
 #' clustering routine internally \code{\link{dcem_cluster_uv}} (univariate data) and
@@ -92,13 +93,13 @@ source("./R/dcem.R")
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 #' @export
 
-dcem_train <-
+dcem_star_train <-
   function(data,
            threshold,
            iteration_count,
            num_clusters, seeding) {
     if (missing(threshold)) {
-      threshold = 0.00001
+      threshold = 0.0001
       print("Using default value for convergence threshold = 0.00001.")
     }
     else{
@@ -132,6 +133,7 @@ dcem_train <-
       print("Using the improved Kmeans++ initialisation scheme.")
     }
 
+
     data = as.data.frame(sapply(data, as.numeric))
     data[sapply(data, function(x)
       all(is.na(x)))] <- NULL
@@ -145,14 +147,14 @@ dcem_train <-
 
     if (valid_columns >= 2) {
       if (seeding == "rand"){
-      mean_mat = means_mv(test_data, num_clusters)
+        mean_mat = means_mv(test_data, num_clusters)
       }
       else{
-      mean_mat = means_mv_impr(test_data, num_clusters)
+        mean_mat = means_mv_impr(test_data, num_clusters)
       }
       cov_list = cov_mv(num_clusters, valid_columns)
       prior_vec = priors(num_clusters)
-      em_data_out = dcem_cluster_mv(
+      em_data_out = dcem_star_cluster_mv(
         test_data,
         mean_mat,
         cov_list,
@@ -167,14 +169,14 @@ dcem_train <-
 
     if (valid_columns < 2) {
       if(seeding=="rand"){
-      mean_vector = means_uv(test_data, num_clusters)
+        mean_vector = means_uv(test_data, num_clusters)
       }
       else{
-      mean_vector = means_uv_impr(test_data, num_clusters)
+        mean_vector = means_uv_impr(test_data, num_clusters)
       }
       sd_vector = sd_uv(test_data, num_clusters)
       prior_vec = priors(num_clusters)
-      em_data_out = dcem_cluster_uv(
+      em_data_out = dcem_star_cluster_uv(
         test_data,
         mean_vector,
         sd_vector,
