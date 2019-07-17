@@ -91,32 +91,47 @@ dcem_cluster_uv <-
 
     #Repeat till threshold achieved or convergence whichever is earlier.
     while (counter <= iteration_count) {
+
       old_mean = mean_vector
-      weight_mat = matrix(0,
-                          nrow = num,
-                          ncol = numrows,
-                          byrow = TRUE)
 
       for (clus in 1:num) {
         p_density[clus, ] = dnorm(data, mean_vector[clus] , sd_vector[clus]) * prior_vec[clus]
       }
 
       sum_p_density = colSums(p_density)
+
+      # Commented for testing.
+      # Same operation can be done in a single loop.
+
+      # for (i in 1:num) {
+      #   for (j in 1:numrows){
+      #     weight_mat[i, j] = p_density[i, j] / sum_p_density[j]
+      #   }
+      # }
+
       for (i in 1:num) {
-        for (j in 1:numrows) {
-          weight_mat[i, j] = p_density[i, j] / sum_p_density[j]
-        }
+          p_density[i, ] = p_density[i, ] / sum_p_density
       }
 
-      #Maximize standard-deviation and mean
+      # Maximize standard-deviation and mean
       for (clus in 1:num) {
-        prior_vec[clus] = sum(weight_mat[clus, ]) / numrows
-        mean_vector[clus] = (sum(data * weight_mat[clus, ]) / sum(weight_mat[clus, ]))
-        sd_vector[clus] = sum(((data - mean_vector[clus]) ^ 2) * weight_mat[clus, ])
-        sd_vector[clus] = sqrt(sd_vector[clus] / sum(weight_mat[clus, ]))
+
+        # Don't need an additional weight_mat variable.
+        # Probabilities can be stored in the p_density matrix itself.
+
+        # prior_vec[clus] = sum(weight_mat[clus, ]) / numrows
+        # mean_vector[clus] = (sum(data * weight_mat[clus, ]) / sum(weight_mat[clus, ]))
+        # sd_vector[clus] = sum(((data - mean_vector[clus]) ^ 2) * weight_mat[clus, ])
+        # sd_vector[clus] = sqrt(sd_vector[clus] / sum(weight_mat[clus, ]))
+
+        prior_vec[clus] = sum(p_density[clus, ]) / numrows
+        mean_vector[clus] = (sum(data * p_density[clus, ]) / sum(p_density[clus, ]))
+        sd_vector[clus] = sum(((data - mean_vector[clus]) ^ 2) * p_density[clus, ])
+        sd_vector[clus] = sqrt(sd_vector[clus] / sum(p_density[clus, ]))
+
       }
 
-      #Find the difference in the mean
+      # Find the difference in the mean
       mean_diff = sum((mean_vector - old_mean) ^ 2)
 
       if (!is.na(mean_diff) && mean_diff < threshold) {
@@ -132,12 +147,7 @@ dcem_cluster_uv <-
       counter = counter + 1
     }
 
-    output = list(
-      prob = weight_mat,
-      mean = mean_vector,
-      sd = sd_vector,
-      prior = prior_vec
-    )
+    output = list(prob = p_density, mean = mean_vector, sd = sd_vector, prior = prior_vec)
     return(output)
 
   }

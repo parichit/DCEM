@@ -1,7 +1,6 @@
 #The main EM routine.
 require(mvtnorm)
 require(matrixcalc)
-#source("./R/heap.R")
 
 #' dcem_star_cluster_uv (univariate data): Part of DCEM package.
 #'
@@ -99,21 +98,10 @@ dcem_star_cluster_uv <-
                          ncol = numrows,
                          byrow = TRUE)
 
-    weight_mat = matrix(0,
-                        nrow = num,
-                        ncol = numrows,
-                        byrow = TRUE)
-
-    old_weight_mat = matrix(0,
-                            nrow = num,
-                            ncol = numrows,
-                            byrow = TRUE)
-
     # Repeat till threshold achieved or convergence whichever is earlier.
     while (counter <= iteration_count) {
 
       old_mean = mean_vector
-      #print(paste('Iteration is:', counter))
 
       if (counter == 1){
 
@@ -124,16 +112,22 @@ dcem_star_cluster_uv <-
       sum_p_density = colSums(p_density)
 
       # Expectation, probability of data belonging to different gaussians.
+      # Commented for testing.
+      # Same operation can be done in a single loop.
+
       for (i in 1:num) {
-        for (j in 1:numrows) {
-          weight_mat[i, j] = p_density[i, j] / sum_p_density[j]
-        }
+          p_density[i, ] = p_density[i, ] / sum_p_density
       }
 
       # Put the data in the heap (data belonging to their own clusters)
       for (j in 1:numrows){
-        heap_index = which.max(weight_mat[ , j])
-        data_prob = max(weight_mat[ , j])
+
+        # Commented to avoid extra variable.
+        # p_density can be used instead of
+        # weight_mat.
+
+        heap_index = which.max(p_density[ , j])
+        data_prob = max(p_density[ , j])
         heap_list[[heap_index]] <- rbind(heap_list[[heap_index]], c(data_prob, j))
         cluster_map[, j] = heap_index
       }
@@ -146,17 +140,25 @@ dcem_star_cluster_uv <-
         heap_list[[clus]] <- build_heap(heap_list[[clus]])
         heap_list[[clus]] <- build_heap(heap_list[[clus]])
 
-        prior_vec[clus] = sum(weight_mat[clus, ]) / numrows
-        mean_vector[clus] = (sum(data * weight_mat[clus, ]) / sum(weight_mat[clus, ]))
-        sd_vector[clus] = sum(((data - mean_vector[clus]) ^ 2) * weight_mat[clus, ])
-        sd_vector[clus] = sqrt(sd_vector[clus] / sum(weight_mat[clus, ]))
+        # Commented to avoid extra variable.
+        # p_density can be used instead of
+        # weight_mat.
+
+        # prior_vec[clus] = sum(weight_mat[clus, ]) / numrows
+        # mean_vector[clus] = (sum(data * weight_mat[clus, ]) / sum(weight_mat[clus, ]))
+        # sd_vector[clus] = sum(((data - mean_vector[clus]) ^ 2) * weight_mat[clus, ])
+        # sd_vector[clus] = sqrt(sd_vector[clus] / sum(weight_mat[clus, ]))
+
+        prior_vec[clus] = sum(p_density[clus, ]) / numrows
+        mean_vector[clus] = (sum(data * p_density[clus, ]) / sum(p_density[clus, ]))
+        sd_vector[clus] = sum(((data - mean_vector[clus]) ^ 2) * p_density[clus, ])
+        sd_vector[clus] = sqrt(sd_vector[clus] / sum(p_density[clus, ]))
       }
 
       }
 
       else{
 
-        #old_weight_mat = weight_mat
         all_leaf_values = c()
         all_leaf_keys = c()
 
@@ -169,50 +171,35 @@ dcem_star_cluster_uv <-
           leaf_keys = leaf_mat$keys
           leaf_value = leaf_mat$vals
 
-          # Get the posterior probability for only the leaf nodes.
+          # Get the posterior probability for all the data points.
           p_density[clus, ] = dnorm(data, mean_vector[clus] , sd_vector[clus]) * prior_vec[clus]
 
           # Putting all leaf nodes together to re-assign later.
           all_leaf_keys <- c(all_leaf_keys, leaf_keys)
           all_leaf_values <- c(all_leaf_values, leaf_value)
-          print(paste("heap-", clus, "size-", nrow(heap_list[[clus]]),"leaves-", length(leaf_value)))
         }
 
         sum_p_density = colSums(p_density)
 
-        #Expectation, probability of data belonging to different gaussians.
+        # Expectation, probability of data belonging to different gaussians.
         for (i in 1:num) {
-          for (j in 1:numrows) {
-            weight_mat[i, j] = p_density[i, j] / sum_p_density[j]
-          }
+            p_density[i, ] = p_density[i, ] / sum_p_density
         }
 
-        #print(paste("heap-1 size: ", nrow(heap_list[[1]])))
-        #print(paste("heap-2 size: ", nrow(heap_list[[2]])))
-
         # Put the data into a heap (points belonging to their own clusters)
-
-        #print(paste("all leaves-", length(all_leaf_values)))
-
         for (j in 1:length(all_leaf_values)){
 
-          #for (j in 1:numrows){
-
           index = all_leaf_values[j]
-          # heap_index = which.max(weight_mat[ , j])
-          # data_prob = max(weight_mat[ , j])
-          # old_data_prob = max(old_weight_mat[, j])
 
-          heap_index = which.max(weight_mat[ , index])
-          data_prob = max(weight_mat[ , index])
-          #old_data_prob = max(old_weight_mat[, index])
+          heap_index = which.max(p_density[ , index])
+          data_prob = max(p_density[ , index])
 
           # If data point has higher weight for another cluster than the previous one,
           # re-assign.
           if (heap_index != cluster_map[, index]){
-            #print(paste("not equal", heap_index, cluster_map[, index], all_leaf_keys[j]))
 
-            #print(paste("1. heap-", cluster_map[, index], "size: ", nrow(heap_list[[cluster_map[, index]]])))
+            # print(paste("not equal", heap_index, cluster_map[, index], all_leaf_keys[j]))
+            # print(paste("1. heap-", cluster_map[, index], "size: ", nrow(heap_list[[cluster_map[, index]]])))
             # print(heap_list[[cluster_map[, index]]])
             # print(all_leaf_values)
             # print(all_leaf_keys)
@@ -220,32 +207,26 @@ dcem_star_cluster_uv <-
             # print(max(weight_mat[ , index]))
 
             heap_list[[cluster_map[, index]]] <- remove_node(heap_list[[cluster_map[, index]]], all_leaf_keys[j], cluster_map[, index])
-            #print(paste("heap-", cluster_map[, index], "size: ", nrow(heap_list[[cluster_map[, index]]])))
-            #print(paste("2. heap-", cluster_map[, index], "size: ", nrow(heap_list[[cluster_map[, index]]])))
-
 
             # Insert into new heap.
-            #heap_list[[paste('heap-', heap, sep='')]] <- insert(heap_list[[paste('heap-', heap, sep='')]], -temp_prob, index)
+
+            # heap_list[[paste('heap-', heap, sep='')]] <- insert(heap_list[[paste('heap-', heap, sep='')]], -temp_prob, index)
             # temp = heap_list[[heap_index]]
             # temp = insert_node(temp, c(data_prob, index))
             # heap_list[[heap_index]] = temp
 
             heap_list[[heap_index]] <- insert_node(heap_list[[heap_index]], c(data_prob, index))
-            #print(paste("heap-", heap_index, "size: ", nrow(heap_list[[heap_index]])))
-            #print(heap_list[[heap_index]])
             cluster_map[, index] = heap_index
           }
         }
 
         # Maximize standard-deviation and mean
         for (clus in 1:num) {
-          prior_vec[clus] = sum(weight_mat[clus, ]) / numrows
-          mean_vector[clus] = (sum(data * weight_mat[clus, ]) / sum(weight_mat[clus, ]))
-          sd_vector[clus] = sum(((data - mean_vector[clus]) ^ 2) * weight_mat[clus, ])
-          sd_vector[clus] = sqrt(sd_vector[clus] / sum(weight_mat[clus, ]))
+          prior_vec[clus] = sum(p_density[clus, ]) / numrows
+          mean_vector[clus] = (sum(data * p_density[clus, ]) / sum(p_density[clus, ]))
+          sd_vector[clus] = sum(((data - mean_vector[clus]) ^ 2) * p_density[clus, ])
+          sd_vector[clus] = sqrt(sd_vector[clus] / sum(p_density[clus, ]))
         }
-
-        #print(paste("heap-1 size, ", nrow(heap_list[[1]]), "heap-2 size, ", nrow(heap_list[[2]])))
 
       }
 
@@ -267,7 +248,7 @@ dcem_star_cluster_uv <-
     }
 
     output = list(
-      prob = weight_mat,
+      prob = p_density,
       mean = mean_vector,
       sd = sd_vector,
       prior = prior_vec
