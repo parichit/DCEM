@@ -2,10 +2,10 @@
 require(mvtnorm)
 require(matrixcalc)
 
-#' dcem_cluster (multivariate data): Part of DCEM package.
+#' dcem_star_cluster_mv (multivariate data): Part of DCEM package.
 #'
-#' Implements the Expectation Maximization algorithm for multivariate data. This function is internally
-#' called by the dcem_train routine.
+#' Implements the EM* algorithm for multivariate data. This function is internally
+#' called by the dcem_star_train routine.
 #'
 #' @param data A matrix: The dataset provided by the user.
 #'
@@ -159,10 +159,8 @@ dcem_star_cluster_mv <-
         for (clus in 1:num) {
 
           # Get the heap into a temporary list
-          leaf_mat = get_leaves(heap_list[[clus]])
-
-          leaf_keys = leaf_mat$keys
-          leaf_value = leaf_mat$vals
+          leaf_keys = get_leaves(heap_list[[clus]])[,1]
+          leaf_value = get_leaves(heap_list[[clus]])[,2]
 
           # Get the posterior probability for all data points.
           p_density[clus,] = mvtnorm::dmvnorm(data, mean_mat[clus,] , cov_list[[clus]]) * prior_vec[clus]
@@ -210,13 +208,8 @@ dcem_star_cluster_mv <-
           if (matrixcalc::is.singular.matrix(temp)) {
             #print("Handling singularity condition.");
             diag(temp) = diag(temp) + 0.0000000001
-            cov_list[[clus]] = temp
           }
-          else
-          {
-            cov_list[[clus]] = temp
-          }
-
+          cov_list[[clus]] = temp
         }
 
       }

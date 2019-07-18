@@ -1,11 +1,11 @@
-#The main EM routine.
+# The main EM_Star routine.
 require(mvtnorm)
 require(matrixcalc)
 
 #' dcem_star_cluster_uv (univariate data): Part of DCEM package.
 #'
-#' Implements the Expectation Maximization algorithm for the univariate data. This function is internally
-#' called by the dcem_train routine.
+#' Implements the EM* algorithm for the univariate data. This function is internally
+#' called by the dcem_star_train routine.
 #'
 #' @param data (matrix): The dataset provided by the user (converted to matrix format).
 #'
@@ -144,11 +144,6 @@ dcem_star_cluster_uv <-
         # p_density can be used instead of
         # weight_mat.
 
-        # prior_vec[clus] = sum(weight_mat[clus, ]) / numrows
-        # mean_vector[clus] = (sum(data * weight_mat[clus, ]) / sum(weight_mat[clus, ]))
-        # sd_vector[clus] = sum(((data - mean_vector[clus]) ^ 2) * weight_mat[clus, ])
-        # sd_vector[clus] = sqrt(sd_vector[clus] / sum(weight_mat[clus, ]))
-
         prior_vec[clus] = sum(p_density[clus, ]) / numrows
         mean_vector[clus] = (sum(data * p_density[clus, ]) / sum(p_density[clus, ]))
         sd_vector[clus] = sum(((data - mean_vector[clus]) ^ 2) * p_density[clus, ])
@@ -198,23 +193,9 @@ dcem_star_cluster_uv <-
           # re-assign.
           if (heap_index != cluster_map[, index]){
 
-            # print(paste("not equal", heap_index, cluster_map[, index], all_leaf_keys[j]))
-            # print(paste("1. heap-", cluster_map[, index], "size: ", nrow(heap_list[[cluster_map[, index]]])))
-            # print(heap_list[[cluster_map[, index]]])
-            # print(all_leaf_values)
-            # print(all_leaf_keys)
-            # print(weight_mat[ , index])
-            # print(max(weight_mat[ , index]))
-
             heap_list[[cluster_map[, index]]] <- remove_node(heap_list[[cluster_map[, index]]], all_leaf_keys[j], cluster_map[, index])
 
             # Insert into new heap.
-
-            # heap_list[[paste('heap-', heap, sep='')]] <- insert(heap_list[[paste('heap-', heap, sep='')]], -temp_prob, index)
-            # temp = heap_list[[heap_index]]
-            # temp = insert_node(temp, c(data_prob, index))
-            # heap_list[[heap_index]] = temp
-
             heap_list[[heap_index]] <- insert_node(heap_list[[heap_index]], c(data_prob, index))
             cluster_map[, index] = heap_index
           }
@@ -234,7 +215,7 @@ dcem_star_cluster_uv <-
       mean_diff = sum((mean_vector - old_mean) ^ 2)
 
       if (!is.na(mean_diff) && mean_diff < threshold) {
-        print((paste("Convergence at iteration number: ", counter)))
+        #print((paste("Convergence at iteration number: ", counter)))
         heap_list <- NULL
         break
       }
