@@ -40,19 +40,19 @@ require(matrixcalc)
 #'         Gaussian(s) (posterior probabilities, mean, co-variance/standard-deviation and priors)
 #'
 #'\enumerate{
-#'         \item [1] Posterior Probabilities: \strong{sample_out$prob}
+#'         \item (1) Posterior Probabilities: \strong{sample_out$prob}
 #'         A matrix of posterior-probabilities
 #'
-#'         \item [2] Mean(s): \strong{sample_out$mean}
+#'         \item (2) Mean(s): \strong{sample_out$mean}
 #'
 #'         For univariate data: It is a vector of means. Each element of the vector
 #'         corresponds to one Gaussian.
 #'
-#'         \item [3] Standard-deviation(s): \strong{sample_out$sd}
+#'         \item (3) Standard-deviation(s): \strong{sample_out$sd}
 #'
 #'         For univariate data: Vector of standard deviation for the Gaussian(s))
 #'
-#'         \item [4] Priors: \strong{sample_out$prior}
+#'         \item (4) Priors: \strong{sample_out$prior}
 #'         A vector of priors for the Gaussian(s).
 #'         }
 #'

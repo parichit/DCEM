@@ -41,10 +41,10 @@
 #' @section Accessing the output parameters:
 #'
 #' \enumerate{
-#'         \item [1] Posterior Probabilities:  \strong{sample_out$prob}
+#'         \item (1) Posterior Probabilities:  \strong{sample_out$prob}
 #'         (a matrix of posterior-probabilities for the points in the dataset.)
 #'
-#'         \item [2] Mean(s): \strong{sample_out$mean}
+#'         \item (2) Mean(s): \strong{sample_out$mean}
 #'
 #'         For multivariate data: It is a matrix of means for the Gaussians. Each row in
 #'         the  matrix corresponds to a mean for the Gaussian.
@@ -52,13 +52,13 @@
 #'         For univariate data: It is a vector of means. Each element of the vector
 #'         corresponds to one Gaussian.
 #'
-#'         \item [3] Co-variance matrices (in case of multivariate data): \strong{sample_out$cov}
+#'         \item (3) Co-variance matrices (in case of multivariate data): \strong{sample_out$cov}
 #'         (list of co-variance matrices for the Gaussians)
 #'
 #'         Standard-deviation (in case of univariate data): \strong{sample_out$sd}
 #'         (vector of standard deviation for the Gaussians)
 #'
-#'         \item [4] Priors: \strong{sample_out$prior}
+#'         \item (4) Priors: \strong{sample_out$prior}
 #'         (a vector of priors for the Gaussians.)
 #'         }
 #'

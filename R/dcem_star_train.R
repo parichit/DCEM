@@ -30,10 +30,10 @@ source("./R/dcem.R")
 #'         the output:
 #'
 #'\enumerate{
-#'         \item [1] Posterior Probabilities: \strong{sample_out$prob}
+#'         \item (1) Posterior Probabilities: \strong{sample_out$prob}
 #'         A matrix of posterior-probabilities
 #'
-#'         \item [2] Mean(s): \strong{sample_out$mean}
+#'         \item (2) Mean(s): \strong{sample_out$mean}
 #'
 #'         For multivariate data: It is a matrix of means for the Gaussian(s). Each row in
 #'         the  matrix corresponds to a mean for the Gaussian.
@@ -41,7 +41,7 @@ source("./R/dcem.R")
 #'         For univariate data: It is a vector of means. Each element of the vector
 #'         corresponds to one Gaussian.
 #'
-#'         \item [3] Co-variance matrices: \strong{sample_out$cov}
+#'         \item (3) Co-variance matrices: \strong{sample_out$cov}
 #'
 #'         For multivariate data: List of co-variance matrices for the Gaussian(s).
 #'
@@ -49,7 +49,7 @@ source("./R/dcem.R")
 #'
 #'         For univariate data: Vector of standard deviation for the Gaussian(s))
 #'
-#'         \item [4] Priors: \strong{sample_out$prior}
+#'         \item (4) Priors: \strong{sample_out$prior}
 #'         A vector of priors for the Gaussian(s).
 #'         }
 #'
