@@ -1,7 +1,7 @@
 #'means_mv: Part of DCEM package.
 #'
 #' Initialize the mean(s) for the Gaussian(s) by randomly selecting
-#' the samples from the dataset. This is the \strong{default} method for initialising
+#' the samples from the dataset. This is the \strong{default} method for initializing
 #' the means(s).
 #'
 #' @param data (matrix): The dataset provided by the user (converted to matrix format).

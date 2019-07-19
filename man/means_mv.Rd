@@ -18,7 +18,7 @@ means will be updated during the iterations of the algorithm.
 }
 \description{
 Initialize the mean(s) for the Gaussian(s) by randomly selecting
-the samples from the dataset. This is the \strong{default} method for initialising
+the samples from the dataset. This is the \strong{default} method for initializing
 the means(s).
 }
 \examples{

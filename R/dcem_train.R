@@ -21,7 +21,7 @@ source("./R/dcem.R")
 #'
 #' @param num_clusters (numeric): The number of clusters. Default: \strong{2}
 #'
-#' @param seeding (string): The initialisation scheme ('rand', 'improved'). Default: \strong{rand}
+#' @param seeding (string): The initialization scheme ('rand', 'improved'). Default: \strong{rand}
 #'
 #' @return
 #'         A list of objects. This list contains parameters associated with the Gaussian(s)
@@ -125,11 +125,11 @@ dcem_train <-
 
     if (missing(seeding) ) {
       seeding = "rand"
-      print("Using the random initialisation scheme.")
+      print("Using the random initialization scheme.")
     }
     else{
       seeding = seeding
-      print("Using the improved Kmeans++ initialisation scheme.")
+      print("Using the improved Kmeans++ initialization scheme.")
     }
 
     data = as.data.frame(sapply(data, as.numeric))

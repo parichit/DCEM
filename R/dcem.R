@@ -5,19 +5,19 @@
 #' Currently, the missing data is not handled by the package and the user
 #' is expected to either remove attributes with missing values or impute them.
 #'
-#' @section DCEM supports two initialisation schemes:
+#' @section DCEM supports two initialization schemes:
 #'
 #' \enumerate{
-#' \item \strong{Random Initialisation:} Initializes the mean randomly.
-#' Refer \code{\link{means_uv}} and \code{\link{means_mv}} for initialisation
+#' \item \strong{Random Initialization:} Initializes the mean randomly.
+#' Refer \code{\link{means_uv}} and \code{\link{means_mv}} for initialization
 #' on univariate and multivariate data respectively.
 #'
-#' \item \strong{Improved Initialisation:} Based on the Kmeans++ idea published in,
+#' \item \strong{Improved Initialization:} Based on the Kmeans++ idea published in,
 #' K-means++: The Advantages of Careful Seeding, David Arthur and Sergei Vassilvitskii.
 #' URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf. See \code{\link{means_uv_impr}} and
 #' \code{\link{means_mv_impr}} for details.
 #'
-#' \item Choice of initialisation scheme can be specified as the \strong{seeding}
+#' \item Choice of initialization scheme can be specified as the \strong{seeding}
 #' parameter during the training. See \code{\link{dcem_train}} for further details.
 #' }
 #'
@@ -99,7 +99,7 @@
 #' for multivariate density calculation and
 #' for checking the matrix singularity respectively.
 #'
-#' For improving the initialisation, ideas published in [3] is used.
+#' For improving the initialization, ideas published in [3] is used.
 #'
 #' [1] Alan Genz, Frank Bretz, Tetsuhisa Miwa, Xuefei Mi, Friedrich Leisch, Fabian Scheipl,
 #' Torsten Hothorn (2019). mvtnorm: Multivariate Normal and t Distributions.

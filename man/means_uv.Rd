@@ -19,7 +19,7 @@ The initial means will be updated during the execution.
 \description{
 This function is internally called by the dcem_train to initialize the
 mean(s) for the Gaussian(s). It randomly selects the mean(s) from the
-range min(data):max(data). This is the \strong{default} method for initialising
+range min(data):max(data). This is the \strong{default} method for initializing
 the means(s).
 }
 \examples{
