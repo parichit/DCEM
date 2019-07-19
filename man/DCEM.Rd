@@ -6,26 +6,26 @@
 \alias{DCEM-package}
 \title{DCEM: Data clustering through Expectation-Maximization algorithm.}
 \description{
-Implements Expectation-Maximization (EM) algorithm for clustering the
-univariate and multivariate finite Gaussian mixture data.
-Currently, the missing data is not imputed by the package and the user
-is expected to either remove features with missing values or impute them before
-using DCEM.
+Implements Expectation-Maximization (EM) and EM* (see list of references) algorithm
+for clustering the univariate and multivariate Gaussian mixture data.
+Currently, the missing data is not handled by the package and the user
+is expected to either remove attributes with missing values or impute them.
 }
 \section{DCEM supports two initialisation schemes}{
 
 
 \enumerate{
-\item \strong{Random Initialisation:} Initializes the mean randomly. Refer \code{\link{means_uv}} and
-\code{\link{means_mv}} for initialisation on univariate and multivariate data respectively.
+\item \strong{Random Initialisation:} Initializes the mean randomly.
+Refer \code{\link{means_uv}} and \code{\link{means_mv}} for initialisation
+on univariate and multivariate data respectively.
 
 \item \strong{Improved Initialisation:} Based on the Kmeans++ idea published in,
 K-means++: The Advantages of Careful Seeding, David Arthur and Sergei Vassilvitskii.
 URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf. See \code{\link{means_uv_impr}} and
 \code{\link{means_mv_impr}} for details.
 
-\item This can be specified as the \strong{seeding} parameter during the training. See \code{\link{dcem_train}}
-for further details.
+\item Choice of initialisation scheme can be specified as the \strong{seeding}
+parameter during the training. See \code{\link{dcem_train}} for further details.
 }
 }
 
@@ -34,7 +34,7 @@ for further details.
 \strong{Cleaning the data:}
 The data should be cleaned (redundant columns should be removed). For example
 columns containing the labels or redundant entries (such as a column of
-only 0's or 1's). See \code{\link{trim_data}} for details on
+all 0's or 1's). See \code{\link{trim_data}} for details on
 cleaning the data. Refer: \code{\link{dcem_test}} for more details.
 }
 
@@ -43,7 +43,8 @@ cleaning the data. Refer: \code{\link{dcem_test}} for more details.
 
 The function dcem_test() returns a list of objects.
 This list contains the parameters associated with the Gaussian(s),
-posterior probabilities (prob), mean (mean), co-variance (cov)/standard-deviation(sd) and priors.
+posterior probabilities (prob), mean (mean), co-variance (cov)/standard-deviation(sd)
+and priors.
 
 \strong{Note:} The routine dcem_test() is only for demonstration purpose.
 The function \code{\link{dcem_test}} calls the main routine
@@ -93,8 +94,8 @@ calling the dcem_train routine. \strong{User can also clean the dataset themselv
 (without using trim_data) and then pass it to the dcem_train function}
 
 \item \code{\link{dcem_train}}: This is the primary interface to the EM routine.
-It accepts the cleaned dataset and other parameters (number of iterations, convergence threshold etc.)
-and run the algorithm until:
+It accepts the cleaned dataset and other parameters (number of iterations,
+convergence threshold etc.) and run the algorithm until:
 
 \enumerate{
    \item The number of iterations is crossed.
@@ -118,13 +119,13 @@ This work is partially supported by NCI Grant 1R01CA213466-01.
 for multivariate density calculation and
 for checking the matrix singularity respectively.
 
+For improving the initialisation, ideas published in [3] is used.
+
 [1] Alan Genz, Frank Bretz, Tetsuhisa Miwa, Xuefei Mi, Friedrich Leisch, Fabian Scheipl,
 Torsten Hothorn (2019). mvtnorm: Multivariate Normal and t Distributions.
 R package version 1.0-7. URL http://CRAN.R-project.org/package=mvtnorm
 
 [2] https://CRAN.R-project.org/package=matrixcalc
-
-For improving the initialisation of cluster mean(s), the original idea published in [3] is used.
 
 [3] k-means++: The Advantages of Careful Seeding, David Arthur and Sergei Vassilvitskii.
 URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf
