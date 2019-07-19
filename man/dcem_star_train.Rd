@@ -19,7 +19,7 @@ convergence is not achieved within the specified count then the algorithm stops 
 
 \item{num_clusters}{(numeric): The number of clusters. Default: \strong{2}}
 
-\item{seeding}{(string): The initialisation scheme ('rand', 'improved'). Default: \strong{rand}}
+\item{seeding}{(string): The initialization scheme ('rand', 'improved'). Default: \strong{rand}}
 }
 \value{
 A list of objects. This list contains parameters associated with the Gaussian(s)
