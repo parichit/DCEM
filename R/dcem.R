@@ -1,3 +1,6 @@
+#' @useDynLib DCEM, .registration = TRUE
+#' @importFrom Rcpp sourceCpp
+NULL
 #' DCEM: Data clustering through Expectation-Maximization algorithm.
 #'
 #' Implements Expectation-Maximization (EM) and EM* (see list of references) algorithm

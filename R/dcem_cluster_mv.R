@@ -116,8 +116,8 @@ dcem_cluster_mv <-
         temp = stats::cov.wt(data, weight_mat[clus,], cor = FALSE, center = TRUE, method = "unbiased")$cov
 
         if (matrixcalc::is.singular.matrix(temp)) {
-          #print("Handling singularity condition.");
-          diag(temp) = diag(temp) + 0.01
+          print("Handling singularity condition.");
+          diag(temp) = diag(temp) + 0.000000001
           cov_list[[clus]] = temp
         }
         else{

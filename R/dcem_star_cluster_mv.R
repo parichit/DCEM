@@ -1,6 +1,8 @@
 #The main EM routine.
+library(Rcpp)
 require(mvtnorm)
 require(matrixcalc)
+sourceCpp('./src/heap_cpp.cpp')
 
 #' dcem_star_cluster_mv (multivariate data): Part of DCEM package.
 #'
@@ -87,12 +89,14 @@ dcem_star_cluster_mv <-
                        byrow = TRUE)
 
     # Create a list of heaps(one heap per cluster, heap is implemneted as a dataframes!).
-    heap_list = rep(list(data.frame()), num)
+    heap_list = rep(list(matrix(nrow=0, ncol=2)), num)
 
     cluster_map = matrix(0,
                          nrow = 1,
                          ncol = numrows,
                          byrow = TRUE)
+
+
 
     # Repeat till convergence threshold or iteration which-ever is earlier.
     while (counter <= iteration_count) {
@@ -114,6 +118,11 @@ dcem_star_cluster_mv <-
       for (j in 1:numrows){
         heap_index = which.max(p_density[ , j])
         data_prob = max(p_density[ , j])
+
+        # The p_density matrix sometimes picks up (NaN) as the
+        # probability. Uncomment below to troubleshoot that.
+        # print(paste("J: ", j ,"prob: ", p_density[ , j]))
+
         heap_list[[heap_index]] <- rbind(heap_list[[heap_index]], c(data_prob, j))
         cluster_map[, j] = heap_index
       }
@@ -129,16 +138,14 @@ dcem_star_cluster_mv <-
       for (clus in 1:num) {
 
         # Build the heap from data frames
-        colnames(heap_list[[clus]]) <- c('keys', 'vals')
-        heap_list[[clus]] <- build_heap(heap_list[[clus]])
         heap_list[[clus]] <- build_heap(heap_list[[clus]])
 
         cov_list[[clus]] = 0
         temp = stats::cov.wt(data, p_density[clus,], cor = FALSE, center = TRUE, method = "unbiased")$cov
 
         if (matrixcalc::is.singular.matrix(temp)) {
-          #print("Handling singularity condition.");
-          diag(temp) = diag(temp) + 0.0000000001
+          print("Handling singularity condition.");
+          diag(temp) = diag(temp) + 0.000000001
           cov_list[[clus]] = temp
         }
         else
@@ -188,7 +195,7 @@ dcem_star_cluster_mv <-
           # If data point has higher weight for another cluster than the previous one,
           # re-assign.
           if (heap_index != cluster_map[, index]){
-            heap_list[[cluster_map[, index]]] <- remove_node(heap_list[[cluster_map[, index]]], all_leaf_keys[j], cluster_map[, index])
+            heap_list[[cluster_map[, index]]] <- remove_node(heap_list[[cluster_map[, index]]], all_leaf_keys[j])
 
             # Insert into new heap.
             heap_list[[heap_index]] <- insert_node(heap_list[[heap_index]], c(data_prob, index))

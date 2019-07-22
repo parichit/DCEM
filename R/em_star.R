@@ -2,7 +2,6 @@
 source("./R/sanitycheck.R")
 source("./R/dcem_init_mv.R")
 source("./R/dcem.R")
-source("./R/heap.R")
 
 #' dcem_star_train: Part of DCEM package.
 #'
@@ -91,7 +90,6 @@ source("./R/heap.R")
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
-#' @export
 
 dcem_star_train <-
   function(data,

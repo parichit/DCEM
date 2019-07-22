@@ -69,7 +69,7 @@ means_mv_impr <- function(data, num_means){
 
   #Selecting the first centroid in a uniform manner
   mean_matrix[1,] = as.matrix(data[sample(nrow(data), 1),])
-  print(mean_matrix)
+  #print(mean_matrix)
 
   #Increase the var to track the selected centroids
   counter = counter + 1
@@ -89,10 +89,10 @@ means_mv_impr <- function(data, num_means){
     }
 
     cent  = which.max(dist_vector / total)
-    print(dim(data))
-    print(cent)
+    #print(dim(data))
+    #print(cent)
     mean_matrix[counter,] = data[counter,]
-    print(mean_matrix)
+    #print(mean_matrix)
 
     total = 0;
 

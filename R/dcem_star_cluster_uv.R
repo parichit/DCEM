@@ -91,7 +91,7 @@ dcem_star_cluster_uv <-
                        byrow = TRUE)
 
     # Create a list of heaps(one heap per cluster, heap is implemneted as a dataframes!).
-    heap_list = rep(list(data.frame()), num)
+    heap_list = rep(list(matrix(nrow=0, ncol=2)), num)
 
     cluster_map = matrix(0,
                          nrow = 1,
@@ -136,9 +136,9 @@ dcem_star_cluster_uv <-
       for (clus in 1:num) {
 
         # Build the heap from data frames
-        colnames(heap_list[[clus]]) <- c('keys', 'vals')
+        # colnames(heap_list[[clus]]) <- c('keys', 'vals')
         heap_list[[clus]] <- build_heap(heap_list[[clus]])
-        heap_list[[clus]] <- build_heap(heap_list[[clus]])
+        #heap_list[[clus]] <- build_heap(heap_list[[clus]])
 
         # Commented to avoid extra variable.
         # p_density can be used instead of
@@ -163,8 +163,8 @@ dcem_star_cluster_uv <-
           # Get the heap into a temporary list
           leaf_mat = get_leaves(heap_list[[clus]])
 
-          leaf_keys = leaf_mat$keys
-          leaf_value = leaf_mat$vals
+          leaf_keys = leaf_mat[,1]
+          leaf_value = leaf_mat[,2]
 
           # Get the posterior probability for all the data points.
           p_density[clus, ] = dnorm(data, mean_vector[clus] , sd_vector[clus]) * prior_vec[clus]
@@ -193,7 +193,7 @@ dcem_star_cluster_uv <-
           # re-assign.
           if (heap_index != cluster_map[, index]){
 
-            heap_list[[cluster_map[, index]]] <- remove_node(heap_list[[cluster_map[, index]]], all_leaf_keys[j], cluster_map[, index])
+            heap_list[[cluster_map[, index]]] <- remove_node(heap_list[[cluster_map[, index]]], all_leaf_keys[j])
 
             # Insert into new heap.
             heap_list[[heap_index]] <- insert_node(heap_list[[heap_index]], c(data_prob, index))

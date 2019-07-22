@@ -21,8 +21,11 @@ LazyData: true
 Imports: 
     mvtnorm (>= 1.0.7),
     matrixcalc (>= 1.0.3),
-    MASS (>= 7.3.49)
+    MASS (>= 7.3.49),
+    Rcpp
 RoxygenNote: 6.1.1
 Depends: R(>= 3.5.0)
 URL: https://github.iu.edu/parishar/DCEM
 BugReports: https://github.iu.edu/parishar/DCEM/issues
+LinkingTo: 
+    Rcpp
