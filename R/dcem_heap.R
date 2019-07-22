@@ -257,33 +257,3 @@ build_heap <- function(data){
   return(data)
 }
 
-
-
-# test_data = data.frame(keys=c(1,0,4,9,5), vals=c(2,4,5,0,7))
-# print(test_data)
-# data = build_heap(test_data)
-# data = build_heap(data)
-# print(data)
-
-# leaves = get_leaves(data)
-# print(leaves)
-#
-# d = remove_node(data, 0)
-# print(d)
-#
-# data = build_heap(test_data1)
-# data = build_heap(data)
-#print(matrix(unlist(data), ncol=2, byrow=TRUE))
-
-# data = list()
-#
-# #list(0,4), list(4,5), list(9,0), list(5,7)
-#
-# data = insert_node(data, list(1,2))
-# #print(matrix(unlist(data), ncol=2, byrow=TRUE))
-# data = insert_node(data, list(9,0))
-# data = insert_node(data, list(5,7))
-# data = insert_node(data, list(4,5))
-# data = insert_node(data, list(0,4))
-#
-# print(matrix(unlist(data), ncol=2, byrow=TRUE))
