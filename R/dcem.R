@@ -39,32 +39,8 @@
 #' The function \code{\link{dcem_test}} calls the main routine
 #' \code{\link{dcem_train}}. See \code{\link{dcem_train}} for further details.
 #'
-#' @section Accessing the output parameters:
-#'
-#' \enumerate{
-#'         \item (1) Posterior Probabilities:  \strong{sample_out$prob}
-#'         (a matrix of posterior-probabilities for the points in the dataset.)
-#'
-#'         \item (2) Mean(s): \strong{sample_out$mean}
-#'
-#'         For multivariate data: It is a matrix of means for the Gaussians. Each row in
-#'         the  matrix corresponds to a mean for the Gaussian.
-#'
-#'         For univariate data: It is a vector of means. Each element of the vector
-#'         corresponds to one Gaussian.
-#'
-#'         \item (3) Co-variance matrices (in case of multivariate data): \strong{sample_out$cov}
-#'         (list of co-variance matrices for the Gaussians)
-#'
-#'         Standard-deviation (in case of univariate data): \strong{sample_out$sd}
-#'         (vector of standard deviation for the Gaussians)
-#'
-#'         \item (4) Priors: \strong{sample_out$prior}
-#'         (a vector of priors for the Gaussians.)
-#'         }
-#'
 #' @section How to run on your dataset:
-#' See \code{\link{dcem_train}} for examples.
+#' See \code{\link{dcem_train}} and \code{\link{dcem_star_train}} for examples.
 #'
 #' @section Package organization:
 #' The package is organized as a set of preprocessing functions and the core
@@ -76,15 +52,17 @@
 #' calling the dcem_train routine. \strong{User can also clean the dataset themselves
 #' (without using trim_data) and then pass it to the dcem_train function}
 #'
-#' \item \code{\link{dcem_train}}: This is the primary interface to the EM routine.
-#' It accepts the cleaned dataset and other parameters (number of iterations,
-#' convergence threshold etc.) and run the algorithm until:
+#' \item \code{\link{dcem_train}} and \code{\link{dcem_star_train}}: These are the primary
+#' interface(s) to the EM routine. These function accept the cleaned dataset and other
+#' parameters (number of iterations, convergence threshold etc.) and run the algorithm until:
 #'
 #' \enumerate{
-#'    \item The number of iterations is crossed.
-#'    \item The convergence threshold is achieved.
+#'    \item The number of iterations is reached.
+#'    \item The convergence threshold is reached.
 #'    }
 #'    }
+#'
+#' \strong{For EM*, use the function \code{\link{dcem_star_train}}}
 #'
 #' @references
 #' Using data to build a better EM: EM* for big data.

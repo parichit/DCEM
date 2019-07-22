@@ -52,9 +52,10 @@ A list of objects. This list contains parameters associated with the Gaussian(s)
         }
 }
 \description{
-Learn the Gaussian parameters, mean and co-variance from the dataset. It calls the relevant
-clustering routine internally \code{\link{dcem_star_cluster_uv}} (univariate data) and
-\code{\link{dcem_star_cluster_mv}} (multivariate data).
+Implements the improved EM* algorithm. EM\* achieves faster convergence by avoiding
+revisitng the data during the iterations. For details on EM* see the 'References' section
+below. It calls the relevant clustering routine internally \code{\link{dcem_star_cluster_uv}}
+(univariate data) and \code{\link{dcem_star_cluster_mv}} (multivariate data).
 }
 \examples{
 # Simulating a mixture of univariate samples from three distributions

@@ -145,82 +145,6 @@ get_leaves <- function(heap) {
 
 }
 
-
-#' get_right: Part of DCEM package.
-#'
-#' Return the right successor of a node in a heap. This function is for internal use and is called
-#' by the \code{\link{dcem_star_cluster_uv}} (univariate data) and
-#' \code{\link{dcem_star_cluster_mv}} (multivariate data).
-#'
-#' @param index (numeric): The index of the current node.
-#'
-#' @usage
-#' get_right(index)
-#'
-#' @examples
-#' # Create a sample data frame
-#' heap <- data.frame(keys=c(0,3,4), vals=c(7,7,4))
-#'
-#' # Build the heap from the data frame.
-#' heap <- build_heap(heap)
-#'
-#' # Remove a node from the heap (key=3).
-#' get_right(1)
-#'
-#' @references
-#' Using data to build a better EM: EM* for big data.
-#'
-#' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#'(2016) <doi:https://doi.org/10.1007/s41060-017-0062-1>.
-#'
-#' @return
-#' numeric: The index of the right successor of the node.
-#'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
-
-# Function to get the right child
-get_right <-function(index){
-  return((2*index)+ 1)
-}
-
-#' get_left: Part of DCEM package.
-#'
-#' Return the left successor of a node in a heap. This function is for internal use and is called
-#' by the \code{\link{dcem_star_cluster_uv}} (univariate data) and
-#' \code{\link{dcem_star_cluster_mv}} (multivariate data).
-#'
-#' @param index (numeric): The index of the current node.
-#'
-#' @usage
-#' get_left(index)
-#'
-#' @examples
-#' # Create a sample data frame
-#' heap <- data.frame(keys=c(0,3,4), vals=c(7,7,4))
-#'
-#' # Build the heap from the data frame.
-#' heap <- build_heap(heap)
-#'
-#' # Remove a node from the heap (key=3).
-#' get_left(1)
-#'
-#' @references
-#' Using data to build a better EM: EM* for big data.
-#'
-#' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#'(2016) <doi:https://doi.org/10.1007/s41060-017-0062-1>.
-#'
-#' @return
-#' numeric: The index of the left successor of the node.
-#'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
-
-get_left <-function(index){
-  return(2*index)
-}
-
 #' max_heapify: Part of DCEM package.
 #'
 #' Implements the max-heapify process to create the heap. This function is for internal
@@ -266,8 +190,8 @@ get_left <-function(index){
 
 max_heapify <- function(data, index, N){
 
-  left = get_left(index)
-  right = get_right(index)
+  left = 2*index
+  right = (2*index)+ 1
   largest = index
 
   if ( (left <= N) && (data[left, 1] > data[largest, 1])){
@@ -332,6 +256,8 @@ build_heap <- function(data){
   }
   return(data)
 }
+
+
 
 # test_data = data.frame(keys=c(1,0,4,9,5), vals=c(2,4,5,0,7))
 # print(test_data)

@@ -1,13 +1,14 @@
 #Sourcing the required R scripts containing the dependencies.
 source("./R/sanitycheck.R")
 source("./R/dcem_init_mv.R")
-source("./R/dcem.R")
+source("./R/dcem_heap.R")
 
 #' dcem_star_train: Part of DCEM package.
 #'
-#' Learn the Gaussian parameters, mean and co-variance from the dataset. It calls the relevant
-#' clustering routine internally \code{\link{dcem_star_cluster_uv}} (univariate data) and
-#' \code{\link{dcem_star_cluster_mv}} (multivariate data).
+#' Implements the improved EM* algorithm. EM\* achieves faster convergence by avoiding
+#' revisitng the data during the iterations. For details on EM* see the 'References' section
+#' below. It calls the relevant clustering routine internally \code{\link{dcem_star_cluster_uv}}
+#' (univariate data) and \code{\link{dcem_star_cluster_mv}} (multivariate data).
 #'
 #' @param data (dataframe): The dataframe containing the data. See \code{\link{trim_data}} for
 #' cleaning the data.
