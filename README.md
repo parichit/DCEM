@@ -95,8 +95,9 @@ dcem_out = dcem_train(data = ionosphere_data, threshold = 0.0001, iteration_coun
 *How to access the help (after installing the package)*
 
 ```
-?dcem_train()
-?dcem_test()
+?dcem_star_train
+?dcem_train
+?dcem_test
 ?DCEM
 ```
 
