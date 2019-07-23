@@ -62,7 +62,7 @@ called by the dcem_star_train routine.
 }
 \references{
 Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-(2016) <doi:https://doi.org/10.1007/s41060-017-0062-1>.
+(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
 }
 \author{
 Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic

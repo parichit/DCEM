@@ -67,7 +67,7 @@ the output:
 Using data to build a better EM: EM* for big data.
 
 Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-(2016) <doi:https://doi.org/10.1007/s41060-017-0062-1>.
+(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
 }
 \author{
 Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
