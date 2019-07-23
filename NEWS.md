@@ -4,7 +4,7 @@ This is the third stable release of the DCEM package.
 
 **Major Features**
 
-Implements the EM\* algorithm from the ideas published in the Using data to build a better EM: EM* for big data. Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic (2016) <doi:https://doi.org/10.1007/s41060-017-0062-1>.
+Implements the EM\* algorithm from the ideas published in the Using data to build a better EM: EM* for big data. Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic (2016) <https://doi.org/10.1007/s41060-017-0062-1>.
 
 The package now supports the EM algorithm and the improved version EM\*. The EM\*
 leverages a heap structure to expedite the execution time manifold compared to the conventional EM.
