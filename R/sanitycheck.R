@@ -32,7 +32,7 @@
 #' Using data to build a better EM: EM* for big data.
 #'
 #' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#'(2016) <doi:https://doi.org/10.1007/s41060-017-0062-1>.
+#'(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
 #'
 #' @return
 #' boolean: TRUE if the columns exists otherwise FALSE.
@@ -100,7 +100,7 @@ validate_data <- function(columns, numcols){
 #' Using data to build a better EM: EM* for big data.
 #'
 #' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#' (2016) <doi:https://doi.org/10.1007/s41060-017-0062-1>.
+#' (2016) <https://doi.org/10.1007/s41060-017-0062-1>.
 #'
 #' @return
 #' A dataframe with the specified column(s) removed from it.

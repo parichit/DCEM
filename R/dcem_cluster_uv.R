@@ -66,7 +66,7 @@ require(matrixcalc)
 #'
 #' @references
 #' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#' (2016) <doi:https://doi.org/10.1007/s41060-017-0062-1>.
+#' (2016) <https://doi.org/10.1007/s41060-017-0062-1>.
 
 dcem_cluster_uv <-
 
