@@ -22,10 +22,7 @@ uniformly).}
 
 \item{iteration_count}{(numeric): The number of iterations for which the algorithm should run. If the
 convergence is not achieved within the specified threshold then the algorithm stops and exits.
-Default is 200.}
-
-\item{threshold}{(numeric): A small value to check for convergence (if the estimated mean(s) are within this
-specified threshold then the algorithm stops and exit).
+Default is 200.
 
 \strong{Note: Choosing a very small value (0.0000001) for threshold can increase the runtime substantially
 and the algorithm may not converge. On the other hand, choosing a larger value (0.1)

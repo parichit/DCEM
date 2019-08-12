@@ -5,7 +5,7 @@
 \title{dcem_cluster (multivariate data): Part of DCEM package.}
 \usage{
 dcem_cluster_mv(data, mean_mat, cov_list, prior_vec, num, iteration_count,
-threshold, numrows, numcols)
+threshold, numrows)
 }
 \arguments{
 \item{data}{A matrix: The dataset provided by the user.}
@@ -30,8 +30,6 @@ and the algorithm may not converge. On the other hand, choosing a larger value (
 can lead to sub-optimal clustering. Default: 0.00001}.}
 
 \item{numrows}{(numeric): Number of rows in the dataset (After processing the missing values).}
-
-\item{numcols}{(numeric): Number of columns in the dataset (After processing the missing values).}
 }
 \value{
 A list of objects. This list contains parameters associated with the

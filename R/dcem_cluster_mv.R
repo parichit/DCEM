@@ -30,8 +30,6 @@ require(matrixcalc)
 #'
 #' @param numrows (numeric): Number of rows in the dataset (After processing the missing values).
 #'
-#' @param numcols (numeric): Number of columns in the dataset (After processing the missing values).
-#'
 #' @return
 #'         A list of objects. This list contains parameters associated with the
 #'         Gaussian(s) (posterior probabilities, mean, co-variance and priors)
@@ -54,7 +52,7 @@ require(matrixcalc)
 #'
 #' @usage
 #' dcem_cluster_mv(data, mean_mat, cov_list, prior_vec, num, iteration_count,
-#' threshold, numrows, numcols)
+#' threshold, numrows)
 #'
 #' @references
 #'Using data to build a better EM: EM* for big data.
@@ -74,8 +72,7 @@ dcem_cluster_mv <-
            num,
            iteration_count,
            threshold,
-           numrows,
-           numcols)
+           numrows)
 
   {
 
@@ -130,12 +127,12 @@ dcem_cluster_mv <-
       mean_diff = (sum((mean_mat - old_mean) ^ 2))
 
       if (!is.na(mean_diff) && mean_diff < threshold) {
-        #print((paste("Convergence at iteration number: ",counter)))
+        print((paste("Convergence at iteration number: ",counter)))
         break
       }
 
       if(counter == threshold) {
-        #print("Iteration threshold crossed. Stoping the execution.")
+        print("Iteration threshold crossed. Stoping the execution.")
         break
       }
 

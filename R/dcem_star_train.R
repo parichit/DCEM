@@ -13,9 +13,6 @@ source("./R/dcem_heap.R")
 #' @param data (dataframe): The dataframe containing the data. See \code{\link{trim_data}} for
 #' cleaning the data.
 #'
-#' @param threshold (decimal): A  value to check for convergence (if the means are within this
-#' value then the algorithm stops and exit). \strong{Default: 0.00001}.
-#'
 #' @param iteration_count (numeric): The number of iterations for which the algorithm should run, if the
 #' convergence is not achieved within the specified count then the algorithm stops and exit.
 #' \strong{Default: 200}.
@@ -73,8 +70,7 @@ source("./R/dcem_heap.R")
 #'
 #'# Calling the dcem_star_train() function on the simulated data with threshold of
 #'# 0.000001, iteration count of 1000 and random seeding respectively.
-#'sample_uv_out = dcem_star_train(sample_uv_data, num_clusters = 3, iteration_count = 100,
-#'threshold = 0.001)
+#'sample_uv_out = dcem_star_train(sample_uv_data, num_clusters = 3, iteration_count = 100)
 #'
 #'# Simulating a mixture of multivariate samples from 2 gaussian distributions.
 #'sample_mv_data = as.data.frame(rbind(MASS::mvrnorm(n=100, rep(2,5), Sigma = diag(5)),
@@ -95,16 +91,8 @@ source("./R/dcem_heap.R")
 
 dcem_star_train <-
   function(data,
-           threshold,
            iteration_count,
            num_clusters, seeding) {
-    if (missing(threshold)) {
-      threshold = 0.0001
-      print("Using default value for convergence threshold = 0.00001.")
-    }
-    else{
-      print(paste("Specified threshold = ", threshold))
-    }
 
     if (missing(iteration_count)) {
       iteration_count = 200
@@ -161,10 +149,7 @@ dcem_star_train <-
         prior_vec,
         num_clusters,
         iteration_count,
-        threshold,
-        numrows,
-        valid_columns
-      )
+        numrows)
     }
 
     if (valid_columns < 2) {
@@ -183,10 +168,7 @@ dcem_star_train <-
         prior_vec,
         num_clusters,
         iteration_count,
-        threshold,
-        numrows,
-        valid_columns
-      )
+        numrows)
     }
 
     return(em_data_out)

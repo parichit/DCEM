@@ -4,8 +4,7 @@
 \alias{dcem_star_cluster_mv}
 \title{dcem_star_cluster_mv (multivariate data): Part of DCEM package.}
 \usage{
-dcem_star_cluster_mv(data, mean_mat, cov_list, prior_vec, num, iteration_count,
-threshold, numrows, numcols)
+dcem_star_cluster_mv(data, mean_mat, cov_list, prior_vec, num, iteration_count, numrows)
 }
 \arguments{
 \item{data}{A matrix: The dataset provided by the user.}
@@ -20,18 +19,13 @@ threshold, numrows, numcols)
 
 \item{iteration_count}{(numeric): The number of iterations for which the algorithm should run, if the
 convergence is not achieved within the specified threshold then the algorithm stops and exits.
-Default: 200.}
-
-\item{threshold}{(numeric): A small value to check for convergence (if the estimated mean(s) are within this
-specified threshold then the algorithm stops and exit).
+Default: 200.
 
 \strong{Note: Choosing a very small value (0.0000001) for threshold can increase the runtime substantially
 and the algorithm may not converge. On the other hand, choosing a larger value (0.1)
 can lead to sub-optimal clustering. Default: 0.00001}.}
 
 \item{numrows}{(numeric): Number of rows in the dataset (After processing the missing values).}
-
-\item{numcols}{(numeric): Number of columns in the dataset (After processing the missing values).}
 }
 \value{
 A list of objects. This list contains parameters associated with the

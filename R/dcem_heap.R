@@ -36,14 +36,14 @@
 
 insert_node <- function(heap, node){
 
-  data = rbind(heap, node)
-  i = nrow(heap)
+  heap <- rbind(heap, node)
+  i <- nrow(heap)
 
   while( (i>1)  && (heap[floor(i/2), 1] <  heap[i, 1])){
-    temp = heap[i, ]
-    heap[i, ] = heap[floor(i/2), ]
-    heap[floor(i/2), ] = temp
-    i = floor(i/2)
+    temp <- heap[i, ]
+    heap[i, ] <- heap[floor(i/2), ]
+    heap[floor(i/2), ] <- temp
+    i <- floor(i/2)
   }
   return(heap)
 }
@@ -86,15 +86,15 @@ insert_node <- function(heap, node){
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 
-remove_node <- function(heap, node_key, index){
+remove_node <- function(heap, node_key, temp){
 
   if (nrow(heap) == 0){
-    print(paste("Heap empty, can't remove the node.", index))
+    print("Heap empty, can't remove the node.")
+    print(temp)
     stop('Exiting: Heap node removal error.')
-    #return(data)
   }
 
-  heap = heap[-c(which(heap[, 1] == node_key)), ]
+  heap <- heap[-(which(heap[, 2] == node_key)), ]
   return(heap)
 }
 
@@ -138,11 +138,10 @@ get_leaves <- function(heap) {
     return(heap)
   }
 
-  leaf_start = floor(nrow(heap)/2) + 1
-  leaf_end = nrow(heap)
-
-  return(heap[leaf_start:leaf_end,])
-
+  leaf_start <- floor(nrow(heap)/2) + 1
+  leaf_end <- nrow(heap)
+  heap <- heap[leaf_start:leaf_end,]
+  return(heap)
 }
 
 #' max_heapify: Part of DCEM package.
@@ -190,22 +189,22 @@ get_leaves <- function(heap) {
 
 max_heapify <- function(data, index, N){
 
-  left = 2*index
-  right = (2*index)+ 1
-  largest = index
+  left <- 2*index
+  right <- (2*index)+ 1
+  largest <- index
 
   if ( (left <= N) && (data[left, 1] > data[largest, 1])){
-    largest = left
+    largest <- left
   }
 
   if ( (right <= N) && (data[right, 1] > data[largest, 1])){
-    largest = right
+    largest <- right
   }
 
   if (largest != index){
-    temp = data[largest, ]
-    data[largest, ] = data[index, ]
-    data[index, ] = temp
+    temp <- data[largest, ]
+    data[largest, ] <- data[index, ]
+    data[index, ] <- temp
     max_heapify(data, largest, N)
   }
   return(data)
@@ -249,10 +248,10 @@ build_heap <- function(data){
   return(data)
   }
 
-  i = floor(nrow(data)/2)
+  i <- floor(nrow(data)/2)
   while (i>=1){
-    data = max_heapify(data, i, nrow(data))
-    i = i-1
+    data <- max_heapify(data, i, nrow(data))
+    i <- i-1
   }
   return(data)
 }
