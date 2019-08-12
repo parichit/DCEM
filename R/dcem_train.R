@@ -160,8 +160,7 @@ dcem_train <-
         num_clusters,
         iteration_count,
         threshold,
-        numrows,
-        valid_columns
+        numrows
       )
     }
 

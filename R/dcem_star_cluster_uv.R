@@ -23,9 +23,6 @@ require(matrixcalc)
 #' convergence is not achieved within the specified threshold then the algorithm stops and exits.
 #' Default is 200.
 #'
-#' @param threshold (numeric): A small value to check for convergence (if the estimated mean(s) are within this
-#' specified threshold then the algorithm stops and exit).
-#'
 #' \strong{Note: Choosing a very small value (0.0000001) for threshold can increase the runtime substantially
 #' and the algorithm may not converge. On the other hand, choosing a larger value (0.1)
 #' can lead to sub-optimal clustering. Default is 0.00001}.
@@ -77,155 +74,148 @@ dcem_star_cluster_uv <-
            prior_vec,
            num,
            iteration_count,
-           threshold,
-           numrows,
-           numcols)
+           numrows)
 
   {
     counter = 1
-    t_status = TRUE
 
     p_density = matrix(0,
                        nrow = num,
                        ncol = numrows,
                        byrow = TRUE)
 
-    # Create a list of heaps(one heap per cluster, heap is implemneted as a dataframes!).
-    heap_list = rep(list(data.frame()), num)
+    # Create a list of heaps(one heap per cluster, heap is implemneted as a dataframes!)
+    heap_list <- rep(list(data.frame()), num)
 
-    cluster_map = matrix(0,
-                         nrow = 1,
-                         ncol = numrows,
-                         byrow = TRUE)
+    old_leaf_values <- c()
+    all_leaf_keys <- c()
 
-    # Repeat till threshold achieved or convergence whichever is earlier.
+    # Expectation, probability of data belonging to different gaussians
+    for (clus in 1:num) {
+      p_density[clus, ] <- dnorm(data, mean_vector[clus] , sd_vector[clus]) * prior_vec[clus]
+    }
+
+    sum_p_density <- colSums(p_density)
+    p_density <- p_density / sum_p_density
+
+    heap_index <- apply(p_density, 2, which.max)
+    data_prob <- apply(p_density, 2, max)
+    cluster_map <- heap_index
+
+    # Maximization
+    for (clus in 1:num) {
+      ind = which(heap_index == clus)
+      temp_data <- data.frame(data_prob[ind])
+      temp_data <- cbind(temp_data, ind)
+      colnames(temp_data) <- c('keys', 'vals')
+      heap_list[[clus]] <- temp_data
+
+      # Build the heap from data frames
+      heap_list[[clus]] <- build_heap(heap_list[[clus]])
+      heap_list[[clus]] <- build_heap(heap_list[[clus]])
+
+      # Get the heap into a temporary list
+      leaf_mat <- get_leaves(heap_list[[clus]])
+
+      leaf_keys <- leaf_mat$keys
+      leaf_values <- leaf_mat$vals
+
+      prior_vec[clus] <- sum(p_density[clus, ]) / numrows
+      mean_vector[clus] <- (sum(data * p_density[clus, ]) / sum(p_density[clus, ]))
+      sd_vector[clus] <- sqrt(sum(((data - mean_vector[clus]) ^ 2) * p_density[clus, ]) / sum(p_density[clus, ]) )
+
+      # Putting all leaf nodes together to re-assign later
+      all_leaf_keys <- c(all_leaf_keys, leaf_keys)
+      old_leaf_values <- c(old_leaf_values, leaf_values)
+
+    }
+
+    # Repeat till convergence (99 % of the leaves are same between iterations)
     while (counter <= iteration_count) {
 
-      old_mean = mean_vector
+        new_leaf_values <- c()
 
-      if (counter == 1){
-
-      for (clus in 1:num) {
-        p_density[clus, ] = dnorm(data, mean_vector[clus] , sd_vector[clus]) * prior_vec[clus]
-      }
-
-      sum_p_density = colSums(p_density)
-
-      # Expectation, probability of data belonging to different gaussians.
-      # Commented for testing.
-      # Same operation can be done in a single loop.
-
-      for (i in 1:num) {
-          p_density[i, ] = p_density[i, ] / sum_p_density
-      }
-
-      # Put the data in the heap (data belonging to their own clusters)
-      for (j in 1:numrows){
-
-        # Commented to avoid extra variable.
-        # p_density can be used instead of
-        # weight_mat.
-
-        heap_index = which.max(p_density[ , j])
-        data_prob = max(p_density[ , j])
-        heap_list[[heap_index]] <- rbind(heap_list[[heap_index]], c(data_prob, j))
-        cluster_map[, j] = heap_index
-      }
-
-      # Maximize standard-deviation and mean
-      for (clus in 1:num) {
-
-        # Build the heap from data frames
-        colnames(heap_list[[clus]]) <- c('keys', 'vals')
-        heap_list[[clus]] <- build_heap(heap_list[[clus]])
-        heap_list[[clus]] <- build_heap(heap_list[[clus]])
-
-        # Commented to avoid extra variable.
-        # p_density can be used instead of
-        # weight_mat.
-
-        prior_vec[clus] = sum(p_density[clus, ]) / numrows
-        mean_vector[clus] = (sum(data * p_density[clus, ]) / sum(p_density[clus, ]))
-        sd_vector[clus] = sum(((data - mean_vector[clus]) ^ 2) * p_density[clus, ])
-        sd_vector[clus] = sqrt(sd_vector[clus] / sum(p_density[clus, ]))
-      }
-
-      }
-
-      else{
-
-        all_leaf_values = c()
-        all_leaf_keys = c()
-
-        # Get the leaf nodes.
+        # Expectation, probability of data belonging to different gaussians
         for (clus in 1:num) {
-
-          # Get the heap into a temporary list
-          leaf_mat = get_leaves(heap_list[[clus]])
-
-          leaf_keys = leaf_mat$keys
-          leaf_value = leaf_mat$vals
-
-          # Get the posterior probability for all the data points.
-          p_density[clus, ] = dnorm(data, mean_vector[clus] , sd_vector[clus]) * prior_vec[clus]
-
-          # Putting all leaf nodes together to re-assign later.
-          all_leaf_keys <- c(all_leaf_keys, leaf_keys)
-          all_leaf_values <- c(all_leaf_values, leaf_value)
+          p_density[clus, ] <- dnorm(data, mean_vector[clus] , sd_vector[clus]) * prior_vec[clus]
         }
 
-        sum_p_density = colSums(p_density)
+        sum_p_density <- colSums(p_density)
+        p_density <- p_density / sum_p_density
 
-        # Expectation, probability of data belonging to different gaussians.
-        for (i in 1:num) {
-            p_density[i, ] = p_density[i, ] / sum_p_density
+        heap_index <- apply(p_density[, old_leaf_values], 2, which.max)
+        data_prob <- apply(p_density[, old_leaf_values], 2, max)
+        heap_index <- unlist(heap_index)
+
+        leaf_map = cluster_map[old_leaf_values]
+        points <- which(heap_index != leaf_map)
+
+        # print("1--")
+        # print(cluster_map[old_leaf_values])
+        # print(heap_index)
+        # print(old_leaf_values)
+        # print(points)
+
+        if (length(points) != 0){
+
+        # Re-assing leaf nodes
+        for (j in 1:length(points)){
+
+          index = points[j]
+
+          # Remove from heap
+          print(paste("delete from heap:", leaf_map[index], "Insert into heap:", heap_index[index], "val:", old_leaf_values[index]))
+          t <- heap_list[[leaf_map[index]]]
+          print(which(t[, 2] == old_leaf_values[index]))
+
+          heap_list[[leaf_map[index]]] <- remove_node(heap_list[[leaf_map[index]]], old_leaf_values[index], leaf_map[index])
+          #print("after removal")
+          #print(heap_list[[leaf_map[index]]])
+
+
+          # Insert into heap
+          heap_list[[heap_index[index]]] <- insert_node(heap_list[[heap_index[index]]], c(data_prob[index], old_leaf_values[index]))
+          #print("after insert")
+          #print(heap_list[[heap_index[index]]])
+        }
+        }
+#
+        for (clus in 1:num) {
+          print(dim(heap_list[[clus]]))
         }
 
-        # Put the data into a heap (points belonging to their own clusters)
-        for (j in 1:length(all_leaf_values)){
-
-          index = all_leaf_values[j]
-
-          heap_index = which.max(p_density[ , index])
-          data_prob = max(p_density[ , index])
-
-          # If data point has higher weight for another cluster than the previous one,
-          # re-assign.
-          if (heap_index != cluster_map[, index]){
-
-            heap_list[[cluster_map[, index]]] <- remove_node(heap_list[[cluster_map[, index]]], all_leaf_keys[j], cluster_map[, index])
-
-            # Insert into new heap.
-            heap_list[[heap_index]] <- insert_node(heap_list[[heap_index]], c(data_prob, index))
-            cluster_map[, index] = heap_index
-          }
-        }
+        cluster_map[old_leaf_values] = leaf_map
+        all_leaf_keys <- c()
 
         # Maximize standard-deviation and mean
         for (clus in 1:num) {
-          prior_vec[clus] = sum(p_density[clus, ]) / numrows
-          mean_vector[clus] = (sum(data * p_density[clus, ]) / sum(p_density[clus, ]))
-          sd_vector[clus] = sum(((data - mean_vector[clus]) ^ 2) * p_density[clus, ])
-          sd_vector[clus] = sqrt(sd_vector[clus] / sum(p_density[clus, ]))
+          prior_vec[clus] <- sum(p_density[clus, ]) / numrows
+          mean_vector[clus] <- (sum(data * p_density[clus, ]) / sum(p_density[clus, ]))
+          sd_vector[clus] <- sqrt(sum(((data - mean_vector[clus]) ^ 2) * p_density[clus, ]) / sum(p_density[clus, ]) )
+
+          # Get the values (data identifier) from heap
+          #print(paste("heap: ", clus))
+          temp <- get_leaves(heap_list[[clus]])
+          leaf_values <- temp$vals
+          leaf_keys <- temp$keys
+
+          # Putting all leaf nodes together to re-assign later
+          new_leaf_values <- c(new_leaf_values, leaf_values)
+          all_leaf_keys <- c(all_leaf_keys, leaf_keys)
         }
 
-      }
+        # Working on the stopping criteria
+        if (length(setdiff(old_leaf_values, new_leaf_values))/length(new_leaf_values) <= 0.01){
+          print(paste("Convergence, Halting.", counter))
+          break
+        }
 
-      #Find the difference in the mean
-      mean_diff = sum((mean_vector - old_mean) ^ 2)
+        print(paste("old leaves: ", length(old_leaf_values), "new leaves:", length(new_leaf_values), length(setdiff(old_leaf_values, new_leaf_values))))
 
-      if (!is.na(mean_diff) && mean_diff < threshold) {
-        #print((paste("Convergence at iteration number: ", counter)))
-        heap_list <- NULL
-        break
-      }
+        old_leaf_values <- c()
+        old_leaf_values <- new_leaf_values
 
-      if (counter == threshold) {
-        #print("Maximum iterations reached. Halting.")
-        break
-      }
-
-      counter = counter + 1
+      counter <- counter + 1
     }
 
     output = list(
