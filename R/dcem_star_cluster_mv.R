@@ -153,6 +153,7 @@ dcem_star_cluster_mv <-
 
     # Repeat till convergence threshold or iteration which-ever is earlier.
     while (counter <= iteration_count) {
+
       new_leaf_values = c()
 
       for (clus in 1:num) {
@@ -168,29 +169,49 @@ dcem_star_cluster_mv <-
         }
       }
 
-      heap_index <- apply(p_density[, old_leaf_values], 2, which.max)
-      print("3")
-      print(length(heap_index))
-      data_prob <- apply(p_density[, old_leaf_values], 2, max)
-      heap_index <- unlist(heap_index)
-      print(length(heap_index))
+      # heap_index <- apply(p_density[, old_leaf_values], 2, which.max)
+      # print("3")
+      # print(length(heap_index))
+      # data_prob <- apply(p_density[, old_leaf_values], 2, max)
+      # heap_index <- unlist(heap_index)
+      # print(length(heap_index))
+      #
+      # points <- which(heap_index != cluster_map[old_leaf_values])
+      #
+      # if (length(points) != 0){
+      #   # Re-assing leaf nodes
+      #   for (j in 1:length(points)){
+      #
+      #     index = points[j]
+      #     # If data point has higher weight for another cluster than the previous one,
+      #     # re-assign
+      #     heap_list[[cluster_map[index]]] <- remove_node(heap_list[[cluster_map[index]]], all_leaf_keys[index], cluster_map[j])
+      #
+      #     # Insert into new heap
+      #     heap_list[[heap_index[index]]] <- insert_node(heap_list[[heap_index[index]]], c(data_prob[index], index))
+      #     cluster_map[index] <- heap_index[index]
+      #   }
+      #
+      # }
 
-      points <- which(heap_index != cluster_map[old_leaf_values])
 
-      if (length(points) != 0){
-        # Re-assing leaf nodes
-        for (j in 1:length(points)){
+      # Put the data into a heap (points belonging to their own clusters)
+      for (j in 1:length(all_leaf_values)){
 
-          index = points[j]
-          # If data point has higher weight for another cluster than the previous one,
-          # re-assign
-          heap_list[[cluster_map[index]]] <- remove_node(heap_list[[cluster_map[index]]], all_leaf_keys[index], cluster_map[j])
+        index = all_leaf_values[j]
 
-          # Insert into new heap
-          heap_list[[heap_index[index]]] <- insert_node(heap_list[[heap_index[index]]], c(data_prob[index], index))
-          cluster_map[index] <- heap_index[index]
+        heap_index = which.max(p_density[ , index])
+        data_prob = max(p_density[ , index])
+
+        # If data point has higher weight for another cluster than the previous one,
+        # re-assign.
+        if (heap_index != cluster_map[, index]){
+          heap_list[[cluster_map[, index]]] <- remove_node(heap_list[[cluster_map[, index]]], all_leaf_keys[j], cluster_map[, index])
+
+          # Insert into new heap.
+          heap_list[[heap_index]] <- insert_node(heap_list[[heap_index]], c(data_prob, index))
+          cluster_map[, index] = heap_index
         }
-
       }
 
       all_leaf_keys <- NULL
