@@ -45,6 +45,7 @@ insert_node <- function(heap, node){
     heap[floor(i/2), ] <- temp
     i <- floor(i/2)
   }
+
   rownames(heap) <- NULL
   return(heap)
 }
