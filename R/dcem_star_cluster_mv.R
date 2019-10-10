@@ -83,11 +83,6 @@ dcem_star_cluster_mv <-
     old_leaf_values = c()
     all_leaf_keys = c()
 
-    cluster_map = matrix(0,
-                         nrow = 1,
-                         ncol = numrows,
-                         byrow = TRUE)
-
     # Expectation
     for (clus in 1:num) {
       p_density[clus, ] = mvtnorm::dmvnorm(data, mean_mat[clus, ] , cov_list[[clus]]) * prior_vec[clus]
@@ -196,21 +191,21 @@ dcem_star_cluster_mv <-
 
 
       # Put the data into a heap (points belonging to their own clusters)
-      for (j in 1:length(all_leaf_values)){
+      for (j in 1:length(old_leaf_values)){
 
-        index = all_leaf_values[j]
+        index = old_leaf_values[j]
 
         heap_index = which.max(p_density[ , index])
         data_prob = max(p_density[ , index])
 
         # If data point has higher weight for another cluster than the previous one,
         # re-assign.
-        if (heap_index != cluster_map[, index]){
-          heap_list[[cluster_map[, index]]] <- remove_node(heap_list[[cluster_map[, index]]], all_leaf_keys[j], cluster_map[, index])
+        if (heap_index != cluster_map[index]){
+          heap_list[[cluster_map[index]]] <- remove_node(heap_list[[cluster_map[index]]], all_leaf_keys[j], cluster_map[index])
 
           # Insert into new heap.
           heap_list[[heap_index]] <- insert_node(heap_list[[heap_index]], c(data_prob, index))
-          cluster_map[, index] = heap_index
+          cluster_map[index] = heap_index
         }
       }
 
@@ -237,6 +232,17 @@ dcem_star_cluster_mv <-
           diag(temp) = diag(temp) + 0.0000000001
         }
         cov_list[[clus]] = temp
+
+        # Get the values (data identifier) from heap
+        #print(paste("heap: ", clus))
+        temp <- get_leaves(heap_list[[clus]])
+        leaf_values <- temp$vals
+        leaf_keys <- temp$keys
+
+        # Putting all leaf nodes together to re-assign later
+        new_leaf_values <- c(new_leaf_values, leaf_values)
+        all_leaf_keys <- c(all_leaf_keys, leaf_keys)
+
       }
 
       # Working on the stopping criteria
@@ -245,7 +251,8 @@ dcem_star_cluster_mv <-
         break
       }
 
-      old_leaf_values = new_leaf_values
+      old_leaf_values <- c()
+      old_leaf_values <- new_leaf_values
 
       counter = counter + 1
 

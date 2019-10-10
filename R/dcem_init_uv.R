@@ -24,6 +24,7 @@
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 #'
 means_uv <- function(data, num_means) {
+  set.seed(31)
   mean_vector = c(sample(min(data):max(data), num_means))
   return(mean_vector)
 }
@@ -65,6 +66,7 @@ means_uv_impr <- function(data, num_means){
 
 
   #Selecting the first centroid in a uniform manner
+  set.seed(1005)
   mean_vector = c(mean_vector, data[sample(1:length(data), 1)])
 
   #Increase the var to track the selected centroids
