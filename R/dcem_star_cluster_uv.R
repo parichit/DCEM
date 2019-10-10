@@ -112,11 +112,11 @@ dcem_star_cluster_uv <-
       heap_list[[clus]] <- temp_data
 
       # Build the heap from data frames
-      heap_list[[clus]] <- build_heap(heap_list[[clus]])
+      heap_list[[clus]] <- c_build_heap(heap_list[[clus]])
       #heap_list[[clus]] <- build_heap(heap_list[[clus]])
 
       # Get the leaf nodes
-      leaf_mat <- get_leaves(heap_list[[clus]])
+      leaf_mat <- c_get_leaves(heap_list[[clus]])
 
       leaf_keys <- leaf_mat[,1]
       leaf_values <- leaf_mat[,2]
@@ -176,13 +176,14 @@ dcem_star_cluster_uv <-
           # print the position at which the value was present in the old heap
           #print(which(t[, 2] == old_leaf_values[index]))
 
-          heap_list[[leaf_map[index]]] <- remove_node(heap_list[[leaf_map[index]]], old_leaf_values[index], leaf_map[index])
+          #heap_list[[leaf_map[index]]] <- c_remove_node(heap_list[[leaf_map[index]]], old_leaf_values[index], leaf_map[index])
+          heap_list[[leaf_map[index]]] <- c_remove_node(heap_list[[leaf_map[index]]], old_leaf_values[index])
           #print("after removal")
           #print(heap_list[[leaf_map[index]]])
 
 
           # Insert into heap
-          heap_list[[heap_index[index]]] <- insert_node(heap_list[[heap_index[index]]], c(data_prob[index], old_leaf_values[index]))
+          heap_list[[heap_index[index]]] <- c_insert_node(heap_list[[heap_index[index]]], c(data_prob[index], old_leaf_values[index]))
           #print("after insert")
           #print(heap_list[[heap_index[index]]])
 
@@ -208,7 +209,7 @@ dcem_star_cluster_uv <-
           sd_vector[clus] <- sqrt(sum(((data - mean_vector[clus]) ^ 2) * p_density[clus, ]) / sum(p_density[clus, ]) )
 
           # Get the values from heap
-          temp <- get_leaves(heap_list[[clus]])
+          temp <- c_get_leaves(heap_list[[clus]])
           leaf_values <- temp[,2]
           leaf_keys <- temp[,1]
 
