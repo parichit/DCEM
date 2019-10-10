@@ -45,6 +45,7 @@ insert_node <- function(heap, node){
     heap[floor(i/2), ] <- temp
     i <- floor(i/2)
   }
+  rownames(heap) <- NULL
   return(heap)
 }
 
@@ -90,11 +91,11 @@ remove_node <- function(heap, node_key, temp){
 
   if (nrow(heap) == 0){
     print("Heap empty, can't remove the node.")
-    print(temp)
     stop('Exiting: Heap node removal error.')
   }
 
   heap <- heap[-(which(heap[, 2] == node_key)), ]
+  rownames(heap) <- NULL
   return(heap)
 }
 

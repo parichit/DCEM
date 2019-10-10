@@ -84,7 +84,7 @@ dcem_star_cluster_uv <-
                        ncol = numrows,
                        byrow = TRUE)
 
-    # Create a list of heaps(one heap per cluster, heap is implemneted as a dataframes!)
+    # Create a list of heaps(one heap per cluster, heap is implemneted as dataframes!)
     heap_list <- rep(list(data.frame()), num)
 
     old_leaf_values <- c()
@@ -102,7 +102,7 @@ dcem_star_cluster_uv <-
     data_prob <- apply(p_density, 2, max)
     cluster_map <- heap_index
 
-    # Maximization
+    # Heap creation
     for (clus in 1:num) {
       ind = which(heap_index == clus)
       temp_data <- data.frame(data_prob[ind])
@@ -114,7 +114,7 @@ dcem_star_cluster_uv <-
       heap_list[[clus]] <- build_heap(heap_list[[clus]])
       heap_list[[clus]] <- build_heap(heap_list[[clus]])
 
-      # Get the heap into a temporary list
+      # Get the leaf nodes
       leaf_mat <- get_leaves(heap_list[[clus]])
 
       leaf_keys <- leaf_mat$keys
@@ -147,26 +147,33 @@ dcem_star_cluster_uv <-
         data_prob <- apply(p_density[, old_leaf_values], 2, max)
         heap_index <- unlist(heap_index)
 
-        leaf_map = cluster_map[old_leaf_values]
+        leaf_map <- cluster_map[old_leaf_values]
+
+        # Find those points (leaves) whose heaps have changed after the new expectation
         points <- which(heap_index != leaf_map)
+        #cluster_map[, old_leaf_values] = leaf_map
 
         # print("1--")
         # print(cluster_map[old_leaf_values])
         # print(heap_index)
         # print(old_leaf_values)
-        # print(points)
+        #print("points")
+        #print(points)
 
         if (length(points) != 0){
 
         # Re-assing leaf nodes
-        for (j in 1:length(points)){
+        for (index in points){
 
-          index = points[j]
+          # this is the actual point index whose heap have changed (compared to previous assignment)
+          #index <- points[j]
 
           # Remove from heap
-          print(paste("delete from heap:", leaf_map[index], "Insert into heap:", heap_index[index], "val:", old_leaf_values[index]))
-          t <- heap_list[[leaf_map[index]]]
-          print(which(t[, 2] == old_leaf_values[index]))
+          #print(paste("delete from heap:", leaf_map[index], "Insert into heap:", heap_index[index], "val:", old_leaf_values[index]))
+          #t <- heap_list[[leaf_map[index]]]
+
+          # print the position at which the value was present in the old heap
+          #print(which(t[, 2] == old_leaf_values[index]))
 
           heap_list[[leaf_map[index]]] <- remove_node(heap_list[[leaf_map[index]]], old_leaf_values[index], leaf_map[index])
           #print("after removal")
@@ -177,14 +184,20 @@ dcem_star_cluster_uv <-
           heap_list[[heap_index[index]]] <- insert_node(heap_list[[heap_index[index]]], c(data_prob[index], old_leaf_values[index]))
           #print("after insert")
           #print(heap_list[[heap_index[index]]])
+
+          cluster_map[old_leaf_values[index]] = heap_index[index]
         }
-        }
-#
-        for (clus in 1:num) {
-          print(dim(heap_list[[clus]]))
         }
 
-        cluster_map[old_leaf_values] = leaf_map
+        # print("2----")
+        # print(cluster_map[old_leaf_values])
+
+        # Print the dimensions of the heaps
+        # for (clus in 1:num) {
+        #   print(dim(heap_list[[clus]]))
+        # }
+
+        #cluster_map[old_leaf_values] <- leaf_map
         all_leaf_keys <- c()
 
         # Maximize standard-deviation and mean
@@ -193,8 +206,7 @@ dcem_star_cluster_uv <-
           mean_vector[clus] <- (sum(data * p_density[clus, ]) / sum(p_density[clus, ]))
           sd_vector[clus] <- sqrt(sum(((data - mean_vector[clus]) ^ 2) * p_density[clus, ]) / sum(p_density[clus, ]) )
 
-          # Get the values (data identifier) from heap
-          #print(paste("heap: ", clus))
+          # Get the values from heap
           temp <- get_leaves(heap_list[[clus]])
           leaf_values <- temp$vals
           leaf_keys <- temp$keys
@@ -210,7 +222,21 @@ dcem_star_cluster_uv <-
           break
         }
 
-        print(paste("old leaves: ", length(old_leaf_values), "new leaves:", length(new_leaf_values), length(setdiff(old_leaf_values, new_leaf_values))))
+        else if(counter >= iteration_count){
+          print("Max iterations reached.")
+        }
+
+        # print(paste("old leaves: ", length(old_leaf_values), "new leaves:", length(new_leaf_values), length(setdiff(old_leaf_values, new_leaf_values))))
+        #
+        # print("old leaf")
+        # print(old_leaf_values)
+        # print("new leaf")
+        # print(new_leaf_values)
+
+        # print("1st heap")
+        # print(heap_list[[1]])
+        # print("2nd heap")
+        # print(heap_list[[2]])
 
         old_leaf_values <- c()
         old_leaf_values <- new_leaf_values
