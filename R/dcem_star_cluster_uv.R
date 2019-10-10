@@ -85,7 +85,7 @@ dcem_star_cluster_uv <-
                        byrow = TRUE)
 
     # Create a list of heaps(one heap per cluster, heap is implemneted as dataframes!)
-    heap_list <- rep(list(data.frame()), num)
+    heap_list <- rep(list(matrix()), num)
 
     old_leaf_values <- c()
     all_leaf_keys <- c()
@@ -108,17 +108,18 @@ dcem_star_cluster_uv <-
       temp_data <- data.frame(data_prob[ind])
       temp_data <- cbind(temp_data, ind)
       colnames(temp_data) <- c('keys', 'vals')
+      temp_data <- as.matrix(temp_data)
       heap_list[[clus]] <- temp_data
 
       # Build the heap from data frames
       heap_list[[clus]] <- build_heap(heap_list[[clus]])
-      heap_list[[clus]] <- build_heap(heap_list[[clus]])
+      #heap_list[[clus]] <- build_heap(heap_list[[clus]])
 
       # Get the leaf nodes
       leaf_mat <- get_leaves(heap_list[[clus]])
 
-      leaf_keys <- leaf_mat$keys
-      leaf_values <- leaf_mat$vals
+      leaf_keys <- leaf_mat[,1]
+      leaf_values <- leaf_mat[,2]
 
       prior_vec[clus] <- sum(p_density[clus, ]) / numrows
       mean_vector[clus] <- (sum(data * p_density[clus, ]) / sum(p_density[clus, ]))
@@ -208,8 +209,8 @@ dcem_star_cluster_uv <-
 
           # Get the values from heap
           temp <- get_leaves(heap_list[[clus]])
-          leaf_values <- temp$vals
-          leaf_keys <- temp$keys
+          leaf_values <- temp[,2]
+          leaf_keys <- temp[,1]
 
           # Putting all leaf nodes together to re-assign later
           new_leaf_values <- c(new_leaf_values, leaf_values)
