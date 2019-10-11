@@ -2,6 +2,8 @@
 # source("./R/sanitycheck.R")
 # source("./R/dcem_init_mv.R")
 # source("./R/dcem_heap.R")
+library(Rcpp)
+sourceCpp('./R/heap.cpp')
 
 #' dcem_star_train: Part of DCEM package.
 #'
