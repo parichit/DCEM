@@ -122,14 +122,13 @@ dcem_star_train <-
     }
 
 
-    data = as.data.frame(sapply(data, as.numeric))
-    data[sapply(data, function(x)
-      all(is.na(x)))] <- NULL
+    data <- apply(data, 2, as.numeric)
+    data[is.na(data)] <- NULL
 
     # Safe copy the data for operations
-    test_data = as.matrix.data.frame(data)
-    numrows = nrow(test_data)
-    valid_columns = ncol(test_data)
+    test_data <- as.matrix(data)
+    numrows <- nrow(test_data)
+    valid_columns <- ncol(test_data)
 
     em_data_out = list()
 

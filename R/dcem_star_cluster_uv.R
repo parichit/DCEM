@@ -95,11 +95,18 @@ dcem_star_cluster_uv <-
       p_density[clus, ] <- dnorm(data, mean_vector[clus] , sd_vector[clus]) * prior_vec[clus]
     }
 
+    p_density[is.nan(p_density)] <- 0
     sum_p_density <- colSums(p_density)
-    p_density <- p_density / sum_p_density
+    for (i in 1:num) {
+      p_density[i, ] = p_density[i, ] / sum_p_density
+    }
+    p_density[is.nan(p_density)] <- 0
 
     heap_index <- apply(p_density, 2, which.max)
     data_prob <- apply(p_density, 2, max)
+
+    #heap_list[[heap_index]] <- rbind(heap_list[[heap_index]], c(data_prob, j))
+
     cluster_map <- heap_index
 
     # Heap creation
@@ -107,13 +114,11 @@ dcem_star_cluster_uv <-
       ind = which(heap_index == clus)
       temp_data <- data.frame(data_prob[ind])
       temp_data <- cbind(temp_data, ind)
-      colnames(temp_data) <- c('keys', 'vals')
-      temp_data <- as.matrix(temp_data)
-      heap_list[[clus]] <- temp_data
+      #temp_data <- as.matrix(temp_data)
+      heap_list[[clus]] <- as.matrix(temp_data)
 
       # Build the heap from data frames
       heap_list[[clus]] <- c_build_heap(heap_list[[clus]])
-      #heap_list[[clus]] <- build_heap(heap_list[[clus]])
 
       # Get the leaf nodes
       leaf_mat <- c_get_leaves(heap_list[[clus]])
@@ -121,9 +126,14 @@ dcem_star_cluster_uv <-
       leaf_keys <- leaf_mat[,1]
       leaf_values <- leaf_mat[,2]
 
+      tmp = data[which(heap_index == clus)]
       prior_vec[clus] <- sum(p_density[clus, ]) / numrows
-      mean_vector[clus] <- (sum(data * p_density[clus, ]) / sum(p_density[clus, ]))
-      sd_vector[clus] <- sqrt(sum(((data - mean_vector[clus]) ^ 2) * p_density[clus, ]) / sum(p_density[clus, ]) )
+      mean_vector[clus] <- (sum(tmp * p_density[clus, which(heap_index == clus) ]) / sum(p_density[clus, which(heap_index == clus)]))
+      sd_vector[clus] <- sqrt(sum(((tmp - mean_vector[clus]) ^ 2) * p_density[clus, which(heap_index == clus)]) / sum(p_density[clus, which(heap_index == clus)]))
+
+      # prior_vec[clus] <- sum(p_density[clus, ]) / numrows
+      # mean_vector[clus] <- (sum(data * p_density[clus, ]) / sum(p_density[clus, ]))
+      # sd_vector[clus] <- sqrt(sum(((data - mean_vector[clus]) ^ 2) * p_density[clus, ]) / sum(p_density[clus, ]) )
 
       # Putting all leaf nodes together to re-assign later
       all_leaf_keys <- c(all_leaf_keys, leaf_keys)
@@ -141,8 +151,13 @@ dcem_star_cluster_uv <-
           p_density[clus, ] <- dnorm(data, mean_vector[clus] , sd_vector[clus]) * prior_vec[clus]
         }
 
+        p_density[is.nan(p_density)] <- 0
+
         sum_p_density <- colSums(p_density)
-        p_density <- p_density / sum_p_density
+        for (i in 1:num) {
+          p_density[i, ] = p_density[i, ] / sum_p_density
+        }
+        p_density[is.nan(p_density)] <- 0
 
         heap_index <- apply(p_density[, old_leaf_values], 2, which.max)
         data_prob <- apply(p_density[, old_leaf_values], 2, max)
@@ -152,14 +167,6 @@ dcem_star_cluster_uv <-
 
         # Find those points (leaves) whose heaps have changed after the new expectation
         points <- which(heap_index != leaf_map)
-        #cluster_map[, old_leaf_values] = leaf_map
-
-        # print("1--")
-        # print(cluster_map[old_leaf_values])
-        # print(heap_index)
-        # print(old_leaf_values)
-        #print("points")
-        #print(points)
 
         if (length(points) != 0){
 
@@ -171,42 +178,32 @@ dcem_star_cluster_uv <-
 
           # Remove from heap
           #print(paste("delete from heap:", leaf_map[index], "Insert into heap:", heap_index[index], "val:", old_leaf_values[index]))
-          #t <- heap_list[[leaf_map[index]]]
-
-          # print the position at which the value was present in the old heap
-          #print(which(t[, 2] == old_leaf_values[index]))
 
           #heap_list[[leaf_map[index]]] <- c_remove_node(heap_list[[leaf_map[index]]], old_leaf_values[index], leaf_map[index])
           heap_list[[leaf_map[index]]] <- c_remove_node(heap_list[[leaf_map[index]]], old_leaf_values[index])
           #print("after removal")
           #print(heap_list[[leaf_map[index]]])
 
-
           # Insert into heap
           heap_list[[heap_index[index]]] <- c_insert_node(heap_list[[heap_index[index]]], c(data_prob[index], old_leaf_values[index]))
-          #print("after insert")
-          #print(heap_list[[heap_index[index]]])
-
-          cluster_map[old_leaf_values[index]] = heap_index[index]
+          cluster_map[old_leaf_values[index]] <- heap_index[index]
         }
         }
-
-        # print("2----")
-        # print(cluster_map[old_leaf_values])
-
-        # Print the dimensions of the heaps
-        # for (clus in 1:num) {
-        #   print(dim(heap_list[[clus]]))
-        # }
 
         #cluster_map[old_leaf_values] <- leaf_map
         all_leaf_keys <- c()
 
         # Maximize standard-deviation and mean
         for (clus in 1:num) {
+
+          tmp = data[which(heap_index == clus)]
           prior_vec[clus] <- sum(p_density[clus, ]) / numrows
-          mean_vector[clus] <- (sum(data * p_density[clus, ]) / sum(p_density[clus, ]))
-          sd_vector[clus] <- sqrt(sum(((data - mean_vector[clus]) ^ 2) * p_density[clus, ]) / sum(p_density[clus, ]) )
+          mean_vector[clus] <- (sum(tmp * p_density[clus, which(heap_index == clus) ]) / sum(p_density[clus, which(heap_index == clus)]))
+          sd_vector[clus] <- sqrt(sum(((tmp - mean_vector[clus]) ^ 2) * p_density[clus, which(heap_index == clus)]) / sum(p_density[clus, which(heap_index == clus)]))
+
+          # prior_vec[clus] <- sum(p_density[clus, ]) / numrows
+          # mean_vector[clus] <- (sum(data * p_density[clus, ]) / sum(p_density[clus, ]))
+          # sd_vector[clus] <- sqrt(sum(((data - mean_vector[clus]) ^ 2) * p_density[clus, ]) / sum(p_density[clus, ]) )
 
           # Get the values from heap
           temp <- c_get_leaves(heap_list[[clus]])
@@ -218,6 +215,11 @@ dcem_star_cluster_uv <-
           all_leaf_keys <- c(all_leaf_keys, leaf_keys)
         }
 
+        # print("1st heap")
+        # print(heap_list[[1]])
+        # print("2nd heap")
+        # print(heap_list[[2]])
+
         # Working on the stopping criteria
         if (length(setdiff(old_leaf_values, new_leaf_values))/length(new_leaf_values) <= 0.01){
           print(paste("Convergence, Halting.", counter))
@@ -226,20 +228,11 @@ dcem_star_cluster_uv <-
 
         else if(counter >= iteration_count){
           print("Max iterations reached.")
+          break
         }
 
+        print(counter)
         # print(paste("old leaves: ", length(old_leaf_values), "new leaves:", length(new_leaf_values), length(setdiff(old_leaf_values, new_leaf_values))))
-        #
-        # print("old leaf")
-        # print(old_leaf_values)
-        # print("new leaf")
-        # print(new_leaf_values)
-
-        # print("1st heap")
-        # print(heap_list[[1]])
-        # print("2nd heap")
-        # print(heap_list[[2]])
-
         old_leaf_values <- c()
         old_leaf_values <- new_leaf_values
 

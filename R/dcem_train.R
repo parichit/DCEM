@@ -134,27 +134,27 @@ dcem_train <-
       print("Using the improved Kmeans++ initialization scheme.")
     }
 
-    data = as.data.frame(sapply(data, as.numeric))
-    data[sapply(data, function(x)
-      all(is.na(x)))] <- NULL
+    data <- apply(data, 2, as.numeric)
+    data[is.na(data)] <- NULL
 
     # Safe copy the data for operations
-    test_data = as.matrix.data.frame(data)
-    numrows = nrow(test_data)
-    valid_columns = ncol(test_data)
+    test_data <- as.matrix(data)
+    numrows <- nrow(test_data)
+    valid_columns <- ncol(test_data)
 
-    em_data_out = list()
+    em_data_out <- list()
 
     if (valid_columns >= 2) {
       if (seeding == "rand"){
-      mean_mat = means_mv(test_data, num_clusters)
+      mean_mat <- means_mv(test_data, num_clusters)
       }
       else{
-      mean_mat = means_mv_impr(test_data, num_clusters)
+      mean_mat <- means_mv_impr(test_data, num_clusters)
+      print("got the improved matrix")
       }
-      cov_list = cov_mv(num_clusters, valid_columns)
-      prior_vec = priors(num_clusters)
-      em_data_out = dcem_cluster_mv(
+      cov_list <- cov_mv(num_clusters, valid_columns)
+      prior_vec <- priors(num_clusters)
+      em_data_out <- dcem_cluster_mv(
         test_data,
         mean_mat,
         cov_list,
@@ -168,14 +168,14 @@ dcem_train <-
 
     if (valid_columns < 2) {
       if(seeding=="rand"){
-      mean_vector = means_uv(test_data, num_clusters)
+      mean_vector <- means_uv(test_data, num_clusters)
       }
       else{
-      mean_vector = means_uv_impr(test_data, num_clusters)
+      mean_vector <- means_uv_impr(test_data, num_clusters)
       }
-      sd_vector = sd_uv(test_data, num_clusters)
-      prior_vec = priors(num_clusters)
-      em_data_out = dcem_cluster_uv(
+      sd_vector <- sd_uv(test_data, num_clusters)
+      prior_vec <- priors(num_clusters)
+      em_data_out <- dcem_cluster_uv(
         test_data,
         mean_vector,
         sd_vector,
