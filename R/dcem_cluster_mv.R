@@ -92,35 +92,32 @@ dcem_cluster_mv <-
                           byrow = TRUE)
 
       for (clus in 1:num) {
-        p_density[clus,] = mvtnorm::dmvnorm(data, mean_mat[clus,] , cov_list[[clus]]) * prior_vec[clus]
+        p_density[clus,] = dmvnorm(data, mean_mat[clus,] , cov_list[[clus]], log=FALSE) * prior_vec[clus]
       }
 
+      p_density[is.nan(p_density)] <- 0
       sum_p_density = colSums(p_density)
       for (i in 1:num) {
         for (j in 1:numrows) {
           weight_mat[i, j] = p_density[i, j] / sum_p_density[j]
         }
       }
+      p_density[is.nan(p_density)] <- 0
 
       mean_mat = weight_mat %*% data
       mean_mat = mean_mat / rowSums(weight_mat)
-
       prior_vec = rowSums(weight_mat) / numrows
 
       # Maximise co-variance and prior vec
       for (clus in 1:num) {
         cov_list[[clus]] = 0
-        temp = stats::cov.wt(data, weight_mat[clus,], cor = FALSE, center = TRUE, method = "unbiased")$cov
+        temp = stats::cov.wt(data, weight_mat[clus,])$cov
 
         if (matrixcalc::is.singular.matrix(temp)) {
-          #print("Handling singularity condition.");
-          diag(temp) = diag(temp) + 0.01
-          cov_list[[clus]] = temp
-        }
-        else{
-          cov_list[[clus]] = temp
+          diag(temp) = diag(temp) + 0.000000000000001
         }
 
+        cov_list[[clus]] = temp
       }
 
       # Find the difference in the mean
@@ -131,12 +128,14 @@ dcem_cluster_mv <-
         break
       }
 
-      if(counter == threshold) {
+      #print(counter)
+      counter = counter + 1
+
+       if(counter == threshold) {
         print("Iteration threshold crossed. Stoping the execution.")
         break
       }
 
-      counter = counter + 1
     }
 
   output = list(prob = weight_mat,  mean = mean_mat, cov = cov_list, prior = prior_vec)

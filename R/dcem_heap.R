@@ -88,14 +88,14 @@ insert_node <- function(heap, node){
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 
-remove_node <- function(heap, node_key, temp){
+remove_node <- function(heap, node_val){
 
   if (nrow(heap) == 0){
     print("Heap empty, can't remove the node.")
     stop('Exiting: Heap node removal error.')
   }
 
-  heap <- heap[-(which(heap[, 2] == node_key)), ]
+  heap <- heap[-(which(heap[, 2] == node_val)), ]
   rownames(heap) <- NULL
   return(heap)
 }
@@ -138,6 +138,10 @@ get_leaves <- function(heap) {
   if (nrow(heap) == 0){
     print("Heap empty, can't get leaves.")
     return(heap)
+  }
+
+  else if(nrow(heap) == 1){
+  return(heap)
   }
 
   leaf_start <- floor(nrow(heap)/2) + 1
@@ -207,7 +211,7 @@ max_heapify <- function(data, index, N){
     temp <- data[largest, ]
     data[largest, ] <- data[index, ]
     data[index, ] <- temp
-    max_heapify(data, largest, N)
+    data = max_heapify(data, largest, N)
   }
   return(data)
 }

@@ -69,35 +69,32 @@ means_mv_impr <- function(data, num_means){
 
   #Selecting the first centroid in a uniform manner
   mean_matrix[1,] = as.matrix(data[sample(nrow(data), 1),])
-  print(mean_matrix)
 
   #Increase the var to track the selected centroids
   counter = counter + 1
 
-  while (counter < num_means){
+  while (counter <= num_means){
 
-    dist_vector <- matrix(0,nrow = nrow(data), ncol=1, byrow = TRUE)
-    counter = counter + 1
+    dist_vector <- matrix(0, nrow = nrow(data), ncol=1, byrow = TRUE)
 
     #Starting the probability calculations for selecting the next set of centroids
     for (row in 1:nrow(data)){
       for(srow in 1:counter){
-        dist = sum((data[srow,] - mean_matrix[counter,])^2)
-        dist_vector = rbind(dist_vector,dist)
-        total = total + dist
+        dist = sum((data[row, ] - mean_matrix[counter, ])^2)
+        dist_vector = rbind(dist_vector, dist)
       }
     }
 
-    cent  = which.max(dist_vector / total)
-    print(dim(data))
-    print(cent)
-    mean_matrix[counter,] = data[counter,]
-    print(mean_matrix)
 
+    cent  = which.max(dist_vector / sum(dist))
+
+    counter = counter + 1
+    mean_matrix[counter, ] = data[counter, ]
     total = 0;
 
   }
 
+  print(mean_matrix)
   return(mean_matrix)
 }
 

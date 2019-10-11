@@ -10,6 +10,9 @@ NumericMatrix c_insert_node(NumericMatrix heap, NumericVector node){
   NumericVector key1 = heap(_, 0);
   NumericVector val1 = heap(_, 1);
 
+  //printf("%f  ",node(0));
+  //printf("%f  ",node(1));
+
   key1.push_back(node(0));
   val1.push_back(node(1));
 
