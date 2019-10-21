@@ -10,9 +10,6 @@ NumericMatrix c_insert_node(NumericMatrix heap, NumericVector node){
   NumericVector key1 = heap(_, 0);
   NumericVector val1 = heap(_, 1);
 
-  //printf("%f  ",node(0));
-  //printf("%f  ",node(1));
-
   key1.push_back(node(0));
   val1.push_back(node(1));
 
@@ -37,39 +34,51 @@ NumericMatrix c_insert_node(NumericMatrix heap, NumericVector node){
   return heap1 ;
 }
 
+// NumericMatrix cpp_remove_node(NumericMatrix heap, NumericVector indices_to_remove){
+//
+//     int leaf_start = floor(heap.rows()/2);
+//
+//     NumericMatrix orig_mat = heap(Range(0, leaf_start-1), _);
+//     NumericMatrix leaf_matrix = heap(Range(leaf_start, heap.rows()-1), _);
+//
+//     NumericVector leaf_key = leaf_matrix(_, 0);
+//     NumericVector leaf_val = leaf_matrix(_, 1);
+//
+//     for(int j=0; j<=indices_to_remove.length(); j++){
+//       leaf_key.erase(indices_to_remove(j));
+//       leaf_val.erase(indices_to_remove(j));
+//     }
+//
+//     int len = orig_mat.rows() + leaf_mat.rows() -2;
+//
+//     NumericMatrix new_leaves(, 2);
+//
+//     heap1(Range(0, leaf_start-1), _) = orig_mat;
+//     heap1(Range(leaf_start, len), _) = heap( Range(leaf_start, len), _);
+//
+//     return heap1;
 
-// [[Rcpp::export]]
-NumericMatrix c_remove_node(NumericMatrix heap, int node_val){
 
-  if (heap.nrow() == 0){
-    std::cout << "Heap empty, can't remove the node." << std::endl;
-    //exit(1);
-  }
-
-  NumericVector key = heap(_, 0);
-  NumericVector val = heap(_, 1);
-
-  for(int j=0; j<=key.length();j++){
-    if (val[j] == node_val){
-      key.erase(j);
-      val.erase(j);
-      break;
-    }
-  }
-
-  NumericMatrix heap1(key.length(), 2);
-  heap1(_, 0) = key;
-  heap1(_, 1) = val;
-
-  return heap1;
-}
+  // NumericVector key = leaves(_, 0);
+  // NumericVector val = leaves(_, 1);
+  //
+  // for(int j=0; j<=indices_to_remove.length(); j++){
+  //     key.erase(indices_to_remove(j));
+  //     val.erase(indices_to_remove(j));
+  // }
+  //
+  // NumericMatrix new_leaves(key.length(), 2);
+  // new_leaves(_, 0) = key;
+  // new_leaves(_, 1) = val;
+  //
+  // return new_leaves;
+//}
 
 
 // [[Rcpp::export]]
 NumericMatrix c_get_leaves(NumericMatrix heap) {
 
-  if (heap.nrow() == 0){
-    std::cout << "Heap empty, can't get leaves." << std::endl;
+  if(heap.nrow() == 1 || heap.nrow() == 0){
     return heap;
   }
 
@@ -116,21 +125,40 @@ NumericMatrix c_max_heapify(NumericMatrix data, int index, int N){
   return data;
 }
 
-
 // [[Rcpp::export]]
 NumericMatrix c_build_heap(NumericMatrix data){
 
   if (data.nrow() == 1){
-    Rcout << "only 1 element in the heap" << std::endl ;
+    Rcout << "only 1 element in the heap" << std::endl;
     return data;
   }
 
   int i = floor((data.nrow())/2);
-
   while (i>=0){
     data = c_max_heapify(data, i, data.nrow()-1);
     i = i-1 ;
   }
-
   return data;
+}
+
+
+// [[Rcpp::export]]
+NumericVector c_separate_data(NumericMatrix heap){
+
+  if(heap.nrow() == 1 || heap.nrow() == 0){
+    //NumericMatrix leaves = heap(0, 0);
+    //List out = List::create(heap, leaves);
+    return heap(_,1);
+  }
+
+  int leaf_start = floor(heap.rows()/2);
+  int leaf_end = heap.rows()-1;
+
+  //NumericMatrix new_heap = heap( Range(0, leaf_start-1), _);
+  NumericMatrix leaves = heap( Range(leaf_start, leaf_end), _);
+  NumericVector leaf_index = leaves(_, 1);
+
+  //List out = List::create(new_heap, leaf_index);
+  //printf("success");
+  return leaf_index;
 }

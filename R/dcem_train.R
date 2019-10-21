@@ -1,6 +1,5 @@
 #Sourcing the required R scripts containing the dependencies.
 source("./R/sanitycheck.R")
-source("./R/dcem_init_uv.R")
 source("./R/dcem_init_mv.R")
 source("./R/dcem.R")
 library(Rcpp)

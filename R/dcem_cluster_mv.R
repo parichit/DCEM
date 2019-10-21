@@ -78,63 +78,66 @@ dcem_cluster_mv <-
 
     counter = 1
 
-    p_density = matrix(0,
+    p_density <- matrix(0,
                nrow = num,
                ncol = numrows,
                byrow = TRUE)
 
+    tt <- .Machine$double.eps
+
     # Repeat till convergence threshold or iteration which-ever is earlier.
     while (counter <= iteration_count) {
-      old_mean = mean_mat
-      weight_mat = matrix(0,
+      old_mean <- mean_mat
+
+
+      weight_mat <- matrix(0,
                           nrow = num,
                           ncol = numrows,
                           byrow = TRUE)
 
       for (clus in 1:num) {
-        p_density[clus,] = dmvnorm(data, mean_mat[clus,] , cov_list[[clus]], log=FALSE) * prior_vec[clus]
+        p_density[clus,] <- dmvnorm(data, mean_mat[clus,] , cov_list[[clus]]) * prior_vec[clus]
       }
 
-      p_density[is.nan(p_density)] <- 0
-      sum_p_density = colSums(p_density)
-      for (i in 1:num) {
-        for (j in 1:numrows) {
-          weight_mat[i, j] = p_density[i, j] / sum_p_density[j]
-        }
-      }
-      p_density[is.nan(p_density)] <- 0
+      p_density[is.nan(p_density)] <- tt
+      sum_p_density <- colSums(p_density)
 
-      mean_mat = weight_mat %*% data
-      mean_mat = mean_mat / rowSums(weight_mat)
-      prior_vec = rowSums(weight_mat) / numrows
+      weight_mat <- sweep(p_density, 2, sum_p_density, '/')
+
+      weight_mat[is.nan(weight_mat)] <- tt
+      weight_mat[weight_mat <= 0.0] <- tt
+
+      mean_mat <- weight_mat %*% data
+      mean_mat <- mean_mat / rowSums(weight_mat)
+      prior_vec <- rowSums(weight_mat) / numrows
 
       # Maximise co-variance and prior vec
       for (clus in 1:num) {
-        cov_list[[clus]] = 0
-        temp = stats::cov.wt(data, weight_mat[clus,])$cov
+        cov_list[[clus]] <- 0
+        temp = stats::cov.wt(data, weight_mat[clus,], cor = FALSE,
+                             center = TRUE,
+                             method = "unbiased")$cov
 
         if (matrixcalc::is.singular.matrix(temp)) {
-          diag(temp) = diag(temp) + 0.000000000000001
+          diag(temp) <- diag(temp) + 0.000000000000001
         }
 
-        cov_list[[clus]] = temp
+        cov_list[[clus]] <- temp
       }
 
       # Find the difference in the mean
-      mean_diff = (sum((mean_mat - old_mean) ^ 2))
+      mean_diff <- sqrt(sum((mean_mat - old_mean) ^ 2))
 
-      if (!is.na(mean_diff) && mean_diff < threshold) {
+      if (!is.na(mean_diff) && round(mean_diff, 4) < threshold) {
         print((paste("Convergence at iteration number: ",counter)))
         break
       }
 
-      #print(counter)
+     if(counter == iteration_count) {
+      print("Iteration threshold crossed. Stoping the execution.")
+      break
+     }
       counter = counter + 1
-
-       if(counter == threshold) {
-        print("Iteration threshold crossed. Stoping the execution.")
-        break
-      }
 
     }
 

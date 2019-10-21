@@ -83,57 +83,42 @@ dcem_star_cluster_mv <-
     old_leaf_values <- c()
     all_leaf_keys <- c()
 
+    tt <- .Machine$double.eps
+
     # Expectation
     for (clus in 1:num) {
       p_density[clus, ] <- dmvnorm(data, mean_mat[clus, ] , cov_list[[clus]]) * prior_vec[clus]
     }
 
-    sum_p_density <- colSums(p_density)
-    # for (i in 1:num) {
-    #   for (j in 1:numrows) {
-    #     p_density[i, j] = p_density[i, j] / sum_p_density[j]
-    #   }
-    # }
-    p_density <- sweep(p_density, 2, sum_p_density, '/')
+    p_density[is.nan(p_density)] <- tt
+    p_density[p_density <= 0.0] <- tt
 
-    p_density[is.nan(p_density)] <- 0
+    sum_p_density <- colSums(p_density)
+    p_density <- sweep(p_density, 2, sum_p_density, '/')
 
     heap_index <- apply(p_density, 2, which.max)
     data_prob <- apply(p_density, 2, max)
     cluster_map <- heap_index
 
-    # print("all probabilities")
-    # print(p_density)
-    #
-    # print("assigned heap")
-    # print(heap_index)
-    #
-    # print("max probabiltity")
-    # print(data_prob)
-
     # Maximisation
-
-    # Mean and prior
     mean_mat <- p_density %*% data
     mean_mat <- mean_mat / rowSums(p_density)
     prior_vec <- rowSums(p_density) / numrows
 
     # Setup heap
     for (clus in 1:num) {
+
       # Put the data in the heap (data belonging to their own clusters)
       ind = which(heap_index == clus)
-      temp_data <- data.frame(data_prob[ind])
+      temp_data <- as.matrix(data_prob[ind])
       temp_data <- cbind(temp_data, ind)
-      heap_list[[clus]] <- as.matrix(temp_data)
+      heap_list[[clus]] <- temp_data
 
       # Build the heap from data frames
       heap_list[[clus]] <- c_build_heap(heap_list[[clus]])
 
       # Get the heap into a temporary list
       leaf_mat <- c_get_leaves(heap_list[[clus]])
-
-      # print(paste("heap:",clus ,"size of leaf matrix"))
-      # print(dim(leaf_mat))
 
       leaf_keys <- leaf_mat[,1]
       leaf_value <- leaf_mat[,2]
@@ -157,49 +142,46 @@ dcem_star_cluster_mv <-
       old_leaf_values <- c(old_leaf_values, leaf_value)
     }
 
+    print("initial step done.")
+
     # Repeat till convergence threshold or iteration which-ever is earlier.
     while (counter <= iteration_count) {
-
       new_leaf_values <- c()
-      for (clus in 1:num) {
 
-        # Get the posterior probability for all data points.
-        p_density[clus, ] <- dmvnorm(data, mean_mat[clus, ], cov_list[[clus]], log=FALSE) * prior_vec[clus]
+      for (clus in 1:num) {
+        p_density[clus, ] <- dmvnorm(data, mean_mat[clus, ], cov_list[[clus]]) * prior_vec[clus]
       }
 
-      # Expectation, probability of data belonging to different gaussians.
+      # Expectation
       sum_p_density <- colSums(p_density)
 
-      # for (i in 1:num) {
-      #   for (j in 1:numrows) {
-      #     p_density[i, j] = p_density[i, j] / sum_p_density[j]
-      #   }
-      # }
-
       p_density <- sweep(p_density, 2, sum_p_density, '/')
-      p_density[is.nan(p_density)] <- 0
+      p_density[is.nan(p_density)] <- tt
+      p_density[p_density <= 0.0] <- tt
 
+      # get the new heap for the leaves
       heap_index <- apply(p_density[, old_leaf_values], 2, which.max)
-      data_prob <- apply(p_density[, old_leaf_values], 2, max)
 
+      # get the new probability for the leaf
+      data_prob <- apply(p_density[, old_leaf_values], 2, max)
       heap_index <- unlist(heap_index)
+
+      # get the old heap for the leaves
       leaf_map <- cluster_map[old_leaf_values]
 
+      # get the leaves for which the heap has changes (new heap != old heap)
       points <- which(heap_index != leaf_map)
 
-      # print("1st heap size")
-      # print(dim(heap_list[[1]]))
-      # print("2nd heap size")
-      # print(dim(heap_list[[2]]))
-
       if (length(points) != 0){
+        print(paste("leaves that are going to be reassigned are: ", length(points)))
 
         # Re-assing leaf nodes
         for (index in points){
 
           # If data point has higher weight for another cluster than the previous one,
-          # re-assign
           heap_list[[cluster_map[index]]] <- c_remove_node(heap_list[[leaf_map[index]]], old_leaf_values[index])
+
+          #print("removed")
 
           # Insert into new heap
           heap_list[[heap_index[index]]] <- c_insert_node(heap_list[[heap_index[index]]], c(data_prob[index], old_leaf_values[index]))
@@ -208,11 +190,11 @@ dcem_star_cluster_mv <-
 
       }
 
+      print("leaf reassignment done.")
+
       all_leaf_keys <- c()
 
       # Maximisation
-
-      # Mean and prior
       mean_mat <- p_density %*% data
       mean_mat <- mean_mat / rowSums(p_density)
       prior_vec <- rowSums(p_density) / numrows
@@ -243,8 +225,14 @@ dcem_star_cluster_mv <-
       }
 
       # Working on the stopping criteria
-      if ((length(setdiff(old_leaf_values, new_leaf_values)) / length(new_leaf_values)) <= 0.01) {
+      if (round( (length(setdiff(old_leaf_values, new_leaf_values)) / length(new_leaf_values)), 4) <= 0.01) {
         print(paste("Leaves identical, Halting.", counter))
+        break
+      }
+
+      print(counter)
+      if (counter == iteration_count) {
+        print("Maximum iterations reached. Halting.")
         break
       }
 

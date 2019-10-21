@@ -55,24 +55,24 @@ below. It calls the relevant clustering routine internally \code{\link{dcem_star
 (univariate data) and \code{\link{dcem_star_cluster_mv}} (multivariate data).
 }
 \examples{
-# Simulating a mixture of univariate samples from three distributions
-# with mean as 20, 70 and 100 and standard deviation as 10, 100 and 40 respectively.
+Simulating a mixture of univariate samples from three distributions
+with mean as 20, 70 and 100 and standard deviation as 10, 100 and 40 respectively.
 sample_uv_data = as.data.frame(c(rnorm(100, 20, 10), rnorm(70, 70, 100), rnorm(50, 100, 40)))
 
-# Randomly shuffle the samples.
+Randomly shuffle the samples.
 sample_uv_data = as.data.frame(sample_uv_data[sample(nrow(sample_uv_data)),])
 
-# Calling the dcem_star_train() function on the simulated data with threshold of
-# 0.000001, iteration count of 1000 and random seeding respectively.
+Calling the dcem_star_train() function on the simulated data with iteration count of 1000
+and random seeding respectively.
 sample_uv_out = dcem_star_train(sample_uv_data, num_clusters = 3, iteration_count = 100)
 
-# Simulating a mixture of multivariate samples from 2 gaussian distributions.
+Simulating a mixture of multivariate samples from 2 gaussian distributions.
 sample_mv_data = as.data.frame(rbind(MASS::mvrnorm(n=100, rep(2,5), Sigma = diag(5)),
 MASS::mvrnorm(n=50, rep(14,5), Sigma = diag(5))))
 
-# Calling the dcem_star_train() function on the simulated data with threshold of
-# 0.00001, iteration count of 100 and random seeding method respectively.
-sample_mv_out = dcem_star_train(sample_mv_data, threshold = 0.001, iteration_count = 100)
+Calling the dcem_star_train() function on the simulated data with iteration count of 100 and
+random seeding method respectively.
+sample_mv_out = dcem_star_train(sample_mv_data, iteration_count = 100, num_clusters=2)
 
 sample_mv_out$mean
 #[1,]  2.053163  2.023351  2.017288  1.999596  1.983142

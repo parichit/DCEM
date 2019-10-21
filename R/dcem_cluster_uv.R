@@ -99,9 +99,8 @@ dcem_cluster_uv <-
       }
 
       sum_p_density = colSums(p_density)
-      for (i in 1:num) {
-          p_density[i, ] = p_density[i, ] / sum_p_density
-      }
+      sum_p_density <- colSums(p_density)
+      p_density <- sweep(p_density, 2, sum_p_density, '/')
 
       # Maximize standard-deviation and mean
       for (clus in 1:num) {
@@ -115,14 +114,14 @@ dcem_cluster_uv <-
       }
 
       # Find the difference in the mean
-      mean_diff = sum((mean_vector - old_mean) ^ 2)
+      mean_diff = sqrt(sum((mean_vector - old_mean) ^ 2))
 
-      if (!is.na(mean_diff) && mean_diff < threshold) {
+      if (!is.na(mean_diff) && round(mean_diff, 4) < threshold) {
         print((paste("Convergence at iteration number: ", counter)))
         break
       }
 
-      if (counter == threshold) {
+      if (counter == iteration_count) {
         print("Maximum iterations reached. Halting.")
         break
       }

@@ -24,8 +24,9 @@
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 #'
 means_uv <- function(data, num_means) {
-  set.seed(31)
+  set.seed(903)
   mean_vector = c(sample(min(data):max(data), num_means))
+  #mean_vector = data[1:num_means]
   return(mean_vector)
 }
 
