@@ -99,9 +99,7 @@ dcem_cluster_mv <-
         p_density[clus,] <- dmvnorm(data, mean_mat[clus,] , cov_list[[clus]]) * prior_vec[clus]
       }
 
-      p_density[is.nan(p_density)] <- tt
       sum_p_density <- colSums(p_density)
-
       weight_mat <- sweep(p_density, 2, sum_p_density, '/')
 
       weight_mat[is.nan(weight_mat)] <- tt
@@ -114,7 +112,7 @@ dcem_cluster_mv <-
       # Maximise co-variance and prior vec
       for (clus in 1:num) {
         cov_list[[clus]] <- 0
-        temp = stats::cov.wt(data, weight_mat[clus,], cor = FALSE,
+        temp <- stats::cov.wt(data, weight_mat[clus,], cor = FALSE,
                              center = TRUE,
                              method = "unbiased")$cov
 

@@ -67,19 +67,58 @@ require(matrixcalc)
 
 remove_data <- function(heap, indices){
 
+  if(!is.null(nrow(heap))){
+
   leaf_start <- floor((nrow(heap)/2 + 1))
-  leaves <- heap[leaf_start:nrow(heap), ]
-  #new_heap = heap[1:leaf]
+  leaves <- as.matrix(heap[leaf_start:nrow(heap), ])
 
-  #print(leaf_start)
-
-  for (i in indices){
-    leaves <- leaves[-i, ]
+  if(length(indices) == nrow(leaves)){
+    heap <- heap[1:leaf_start-1, ]
+  }
+  else{
+    leaves <- leaves[-indices, ]
+    heap <- heap[1:leaf_start-1, ]
+    heap <- rbind(heap, leaves)
   }
 
-  heap <- heap[1:leaf_start-1, ]
-  heap <- rbind(heap, leaves)
+  }
+
+  #print("Heap and leaves dimensions")
+  # print(dim(heap))
+  # print(dim(leaves))
+  # print(indices)
+  # print(leaves)
+
   return(heap)
+}
+
+insert_data <- function(heap, node){
+
+  heap <- rbind(heap, c(node[1], node[2]))
+  i <- nrow(heap)
+  # print(heap[floor(i/2), 1])
+  # print(heap[i, 1])
+
+  while(floor(i/2)>0){
+
+    # print(paste("1", heap[floor(i/2), 1] ))
+    # print(paste("2", heap[i, 1] ))
+    # print(paste("3", i))
+
+    if ( heap[floor(i/2), 1] <  heap[i, 1]){
+      temp = heap[i, ]
+      heap[floor(i/2), ] <- temp
+      heap[i, ] <- temp
+      i = floor(i/2);
+    }
+    else{
+      break
+    }
+
+  }
+
+  return(heap)
+
 }
 
 
@@ -196,15 +235,14 @@ dcem_star_cluster_uv <-
 
           leaves_ind = index_list[[clus]]
 
-          #print("pdensity")
-          #print(p_density)
-
-          new_heap_assign_for_leaves <- apply(p_density[, leaves_ind], 2, which.max)
-          new_liklihood_for_leaves <- apply(p_density[, leaves_ind], 2, max)
-
-          #print("cluster", clus)
-          #print("new heap")
-          #print(new_heap_assign_for_leaves)
+          if (length(leaves_ind) == 1){
+            new_heap_assign_for_leaves <-which.max(p_density[, leaves_ind])
+            new_liklihood_for_leaves <- max(p_density[, leaves_ind])
+          }
+          else{
+          new_heap_assign_for_leaves <- unlist(apply(p_density[, leaves_ind], 2, which.max))
+          new_liklihood_for_leaves <- unlist(apply(p_density[, leaves_ind], 2, max))
+        }
 
           # index of leaves for which new heap is different from old heap.
           leaves_whose_heap_has_changed = which(new_heap_assign_for_leaves != clus)
@@ -229,31 +267,37 @@ dcem_star_cluster_uv <-
           new_data_prob = new_liklihood_for_leaves[leaves_whose_heap_has_changed]
           node_val = leaves_ind[leaves_whose_heap_has_changed]
 
-          #print("hello")
+          # print("from loop")
+          # print(leaves_whose_heap_has_changed)
+
           # Remove from old heap
           #heap_list[[clus]] <- cpp_remove_node(heap_list[[clus]], leaves_whose_heap_has_changed)
           heap_list[[clus]] <- remove_data(heap_list[[clus]], leaves_whose_heap_has_changed)
 
           # Insert into new heap
           #heap_list <- c_insert_node(heap_list, new_heaps, c(new_data_prob, node_val))
-
           for (j in 1:length(new_heaps)){
-            heap_list[[new_heaps[j]]] <- c_insert_node(heap_list[[new_heaps[j]]], c(data_prob[j], node_val[j]))
+            heap_list[[new_heaps[j]]] <- insert_data(heap_list[[new_heaps[j]]], c(data_prob[j], node_val[j]))
           }
         }
 
         }
 
         for (clus in 1:num) {
+
+        if (is.null(nrow(heap_list[[clus]]))){
+          #print("not a matrix")
+          #print(typeof(heap_list[[clus]]))
+          #print(heap_list[[clus]])
+          next
+        }
+
+          #print(clus)
+          # print(dim(heap_list[[clus]]))
+          # print(heap_list[[clus]])
+
         #heap_list[[clus]] <- rbind(heap_list[[clus]], leaf_list[[clus]])
         index_list[[clus]] <- c_separate_data(heap_list[[clus]])
-
-        #heap_list[[clus]] <- temp_out[[1]]
-        #leaf_list[[clus]] <- temp_out[[2]]
-        #index_list[[clus]] <- temp_out[[3]]
-
-        #print("leaves")
-        #print(index_list[[clus]])
 
         # Putting all leaf nodes together to re-assign later
         new_leaf_values <- c(new_leaf_values, index_list[[clus]])
@@ -292,8 +336,10 @@ dcem_star_cluster_uv <-
         #print(old_leaf_values)
         #print(new_leaf_values)
 
+        #print(paste("leaf size", length(old_leaf_values), length(new_leaf_values), length(setdiff(old_leaf_values, new_leaf_values))))
+
         if (length(setdiff(old_leaf_values, new_leaf_values))/length(new_leaf_values) <= 0.01){
-          print(paste("Leaves same, Halting.", counter))
+          print(paste("Convergence at iteration", counter))
           break
         }
 

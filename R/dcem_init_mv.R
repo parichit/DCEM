@@ -26,7 +26,9 @@
 #' This work was partially supported by NCI Grant 1R01CA213466-01.
 #'
 means_mv <- function(data, num_means) {
+  #set.seed(2)
   mean_matrix = data[sample(1:nrow(data), num_means),]
+  #mean_matrix = data[1:num_means,]
   return(mean_matrix)
 }
 

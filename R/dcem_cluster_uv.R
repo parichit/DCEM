@@ -99,7 +99,6 @@ dcem_cluster_uv <-
       }
 
       sum_p_density = colSums(p_density)
-      sum_p_density <- colSums(p_density)
       p_density <- sweep(p_density, 2, sum_p_density, '/')
 
       # Maximize standard-deviation and mean
