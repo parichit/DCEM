@@ -1,52 +1,40 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-// NumericMatrix c_insert_node(NumericMatrix heap, NumericVector node){
-//
-//   int key=0, val=0;
-//   int i = heap.nrow();
-//
-//   NumericVector key1 = heap(_, 0);
-//   NumericVector val1 = heap(_, 1);
-//
-//   key1.push_back(node(0));
-//   val1.push_back(node(1));
-//
-//   while( i>0  && key1(floor(i/2)) <  key1(i)){
-//
-//     key = key1(i);
-//     val = val1(i);
-//
-//     key1(i) = key1(floor(i/2));
-//     val1(i) = val1(floor(i/2));
-//
-//     key1(floor(i/2)) = key;
-//     val1(floor(i/2)) = val;
-//
-//     i = floor(i/2);
-//   }
-//
-//   NumericMatrix heap1(key1.length(), 2);
-//   heap1(_, 0) = key1;
-//   heap1(_, 1) = val1;
-//
-//   return heap1 ;
-// }
-
 
 // [[Rcpp::export]]
-NumericMatrix c_insert_node(NumericMatrix heap, NumericVector node){
+List c_insert_node(List heap_list, NumericVector heap_assn, NumericVector data_prob, NumericVector leaf_ind){
 
   int key=0, val=0;
+  NumericVector key1;
+  NumericVector val1;
+
+  //Rcout << heap_assn(0) << "\n";
+
+  //return heap_list;
+  //Rprintf("total leaves: %d\n", leaf_ind.length());
+
+  for (int k=0; k<leaf_ind.length(); k++)
+  {
+
+  NumericMatrix heap = heap_list[heap_assn(k)];
+
   int i = heap.ncol();
+  key1 = heap(0, _);
+  val1 = heap(1, _);
 
-  NumericVector key1 = heap(0, _);
-  NumericVector val1 = heap(1, _);
+  key1.push_back(data_prob(k));
+  val1.push_back(leaf_ind(k));
 
-  key1.push_back(node(0));
-  val1.push_back(node(1));
+  Rcout << "11111" << "\n";
 
-  while( i>0  && key1(floor(i/2)) <  key1(i)){
+  //Rprintf("new_heap: %d, key: %f, val: %d\n", heap_assn(k), data_prob(k), leaf_ind(k));
+  Rcout << heap_assn(k) << "\n";
+  Rcout << leaf_ind(k) << "\n" ;
+
+  Rcout << "2222" << "\n";
+
+  while( i>0  && key1(floor(i/2)) < key1(i)){
 
     key = key1(i);
     val = val1(i);
@@ -64,7 +52,15 @@ NumericMatrix c_insert_node(NumericMatrix heap, NumericVector node){
   heap1(0, _) = key1;
   heap1(1, _) = val1;
 
-  return heap1 ;
+  heap_list[heap_assn(k)] = heap1;
+
+  printf("in function 6");
+
+  }
+
+  printf("in function 7");
+
+  return heap_list;
 }
 
 // NumericMatrix cpp_remove_node(NumericMatrix heap, NumericVector indices_to_remove){

@@ -1,18 +1,18 @@
-# library(tictoc)
-# census_data <- read.csv2(file="/Users/schmuck/Documents/Box Sync/Courses/Spring2018/Independent Study/gmailgithub/DCEM/census.txt",sep=",", header=FALSE, stringsAsFactors = FALSE)
-#
-# dim(census_data)
-# # Remove the label column,
-# census_data = census_data[-c(1),-c(7)]
-# census_data <- na.omit(census_data)
-#
-# # Drop rows containig empty/NA values
-# dim(census_data)
-# census_data = apply(census_data, 2, as.numeric)
-#
-# star_time = c()
-# dcem_time = c()
-# clusters = c(20, 30)
+library(tictoc)
+census_data <- read.csv2(file="/Users/schmuck/Documents/Box Sync/Courses/Spring2018/Independent Study/gmailgithub/DCEM/census.txt",sep=",", header=FALSE, stringsAsFactors = FALSE)
+
+dim(census_data)
+# Remove the label column,
+census_data = census_data[-c(1),-c(7)]
+census_data <- na.omit(census_data)
+
+# Drop rows containig empty/NA values
+dim(census_data)
+census_data = apply(census_data, 2, as.numeric)
+
+star_time = c()
+dcem_time = c()
+clusters = c(20, 30)
 #
 # for (i in clusters){
 #   tic();
