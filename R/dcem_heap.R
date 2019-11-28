@@ -140,6 +140,7 @@ get_leaves <- function(heap) {
     return(heap)
   }
 
+<<<<<<< HEAD
   else if(nrow(heap) == 1){
   return(heap)
   }
@@ -148,6 +149,13 @@ get_leaves <- function(heap) {
   leaf_end <- nrow(heap)
   heap <- heap[leaf_start:leaf_end,]
   return(heap)
+=======
+  leaf_start = floor(nrow(heap)/2) + 1
+  leaf_end = nrow(heap)
+
+  return(heap[leaf_start:leaf_end,])
+
+>>>>>>> df71bd21b20d73663f51b71ba022d4b882fe95e6
 }
 
 #' max_heapify: Part of DCEM package.
@@ -195,9 +203,15 @@ get_leaves <- function(heap) {
 
 max_heapify <- function(data, index, N){
 
+<<<<<<< HEAD
   left <- 2*index
   right <- (2*index)+ 1
   largest <- index
+=======
+  left = 2*index
+  right = (2*index)+ 1
+  largest = index
+>>>>>>> df71bd21b20d73663f51b71ba022d4b882fe95e6
 
   if ( (left <= N) && (data[left, 1] > data[largest, 1])){
     largest <- left

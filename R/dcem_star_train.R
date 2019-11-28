@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 # Sourcing the required R scripts containing the dependencies.
+=======
+#Sourcing the required R scripts containing the dependencies.
+source("./R/sanitycheck.R")
+source("./R/dcem_init_mv.R")
+source("./R/dcem_heap.R")
+>>>>>>> df71bd21b20d73663f51b71ba022d4b882fe95e6
 
 #' dcem_star_train: Part of DCEM package.
 #'

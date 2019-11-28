@@ -64,6 +64,7 @@ require(matrixcalc)
 #' @references
 #' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
 #' (2016) <https://doi.org/10.1007/s41060-017-0062-1>.
+<<<<<<< HEAD
 
 remove_data <- function(heap, indices){
 
@@ -120,6 +121,8 @@ insert_data <- function(heap, node){
   return(heap)
 
 }
+=======
+>>>>>>> df71bd21b20d73663f51b71ba022d4b882fe95e6
 
 
 dcem_star_cluster_uv <-
