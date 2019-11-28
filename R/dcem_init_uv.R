@@ -1,4 +1,4 @@
-#'means_uv: Part of DCEM package.
+#'meu_uv: Part of DCEM package.
 #'
 #' This function is internally called by the dcem_train to initialize the
 #' meu(s). It randomly selects the meu(s) from the
@@ -10,19 +10,19 @@
 #' @return A vector containing the selected samples from the dataset.
 #'
 #' @usage
-#' # Randomly seeding the mean(s).
-#' means_uv(data, num_meu)
+#' # Randomly seeding the meu.
+#' meu_uv(data, num_meu)
 #'
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 
-means_uv <- function(data, num_meu) {
-  mean_vector = c(sample(min(data):max(data), num_meu))
-  return(mean_vector)
+meu_uv <- function(data, num_meu) {
+  meu_vector = c(sample(min(data):max(data), num_meu))
+  return(meu_vector)
 }
 
-#'means_uv_impr: Part of DCEM package.
+#'meu_uv_impr: Part of DCEM package.
 #'
 #' This function is internally called by the dcem_train to initialize the
 #' meu(s). It uses the proposed implementation from
@@ -35,23 +35,23 @@ means_uv <- function(data, num_meu) {
 #' @return A vector containing the selected samples from the dataset.
 #'
 #' @usage
-#' # Seeding the means using the K-means++ implementation.
-#' means_uv_impr(data, num_meu)
+#' # Seeding the meu using the K-means++ implementation.
+#' meu_uv_impr(data, num_meu)
 #'
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 
-means_uv_impr <- function(data, num_meu){
+meu_uv_impr <- function(data, num_meu){
 
-  mean_vector = c()
+  meu_vector = c()
   counter = 0
   total = 0
 
 
   #Selecting the first centroid in a uniform manner
   set.seed(1005)
-  mean_vector = c(mean_vector, data[sample(1:length(data), 1)])
+  meu_vector = c(meu_vector, data[sample(1:length(data), 1)])
 
   #Increase the var to track the selected centroids
   counter = counter + 1
@@ -64,18 +64,18 @@ means_uv_impr <- function(data, num_meu){
     #Starting the probability calculations for selecting the next set of centroids
     for (row in 1:length(data)){
       for(srow in 1:counter){
-        dist = sum((data[srow] - mean_vector[counter])^2)
+        dist = sum((data[srow] - meu_vector[counter])^2)
         dist_vector = c(dist_vector, dist)
         total = total + dist
       }
     }
 
     dist_vector  = dist_vector / total
-    mean_vector = c(mean_vector, data[counter])
+    meu_vector = c(meu_vector, data[counter])
 
   }
 
-  return(mean_vector)
+  return(meu_vector)
 }
 
 #'sigma_uv: Part of DCEM package.
@@ -89,13 +89,13 @@ means_uv_impr <- function(data, num_meu){
 #'         A vector of standard deviation value(s).
 #'
 #' @usage
-#' sd_uv(data, num_sigma)
+#' sigma_uv(data, num_sigma)
 #'
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work was partially supported by NCI Grant 1R01CA213466-01.
 
-sd_uv <- function(data, num_sigma) {
+sigma_uv <- function(data, num_sigma) {
   cov_vec = rep(sd(data), num_sigma)
   return(cov_vec)
 }

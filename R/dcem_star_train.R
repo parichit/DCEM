@@ -126,12 +126,12 @@ dcem_star_train <-
 
     if (valid_columns >= 2) {
       if (seeding == "rand"){
-        meu = means_mv(test_data, num_clusters)
+        meu = meu_mv(test_data, num_clusters)
       }
       else{
-        meu = means_mv_impr(test_data, num_clusters)
+        meu = meu_mv_impr(test_data, num_clusters)
       }
-      sigma = cov_mv(num_clusters, valid_columns)
+      sigma = sigma_mv(num_clusters, valid_columns)
       priors = get_priors(num_clusters)
       em_data_out = dcem_star_cluster_mv(
         test_data,
@@ -145,12 +145,12 @@ dcem_star_train <-
 
     if (valid_columns < 2) {
       if(seeding=="rand"){
-        meu = means_uv(test_data, num_clusters)
+        meu = meu_uv(test_data, num_clusters)
       }
       else{
-        meu = means_uv_impr(test_data, num_clusters)
+        meu = meu_uv_impr(test_data, num_clusters)
       }
-      sigma = sd_uv(test_data, num_clusters)
+      sigma = sigma_uv(test_data, num_clusters)
       priors = get_priors(num_clusters)
       em_data_out = dcem_star_cluster_uv(
         test_data,

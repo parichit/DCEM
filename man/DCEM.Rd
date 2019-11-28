@@ -6,23 +6,21 @@
 \alias{DCEM-package}
 \title{DCEM: Data clustering through Expectation-Maximization algorithm.}
 \description{
-Implements Expectation-Maximization (EM) and EM* (see list of references) algorithm
+Implements the EM* (see list of references) and EM algorithm
 for clustering the univariate and multivariate Gaussian mixture data.
-Currently, the missing data is not handled by the package and the user
-is expected to either remove attributes with missing values or impute them.
 }
-\section{DCEM supports two initialization schemes}{
+\section{DCEM supports following initialization schemes}{
 
 
 \enumerate{
 \item \strong{Random Initialization:} Initializes the mean randomly.
-Refer \code{\link{means_uv}} and \code{\link{means_mv}} for initialization
+Refer \code{\link{meu_uv}} and \code{\link{meu_mv}} for initialization
 on univariate and multivariate data respectively.
 
 \item \strong{Improved Initialization:} Based on the Kmeans++ idea published in,
 K-means++: The Advantages of Careful Seeding, David Arthur and Sergei Vassilvitskii.
-URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf. See \code{\link{means_uv_impr}} and
-\code{\link{means_mv_impr}} for details.
+URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf. See \code{\link{meu_uv_impr}} and
+\code{\link{meu_mv_impr}} for details.
 
 \item Choice of initialization scheme can be specified as the \strong{seeding}
 parameter during the training. See \code{\link{dcem_train}} for further details.
@@ -43,8 +41,8 @@ cleaning the data. Refer: \code{\link{dcem_test}} for more details.
 
 The function dcem_test() returns a list of objects.
 This list contains the parameters associated with the Gaussian(s),
-posterior probabilities (prob), mean (mean), co-variance (cov)/standard-deviation(sd)
-and priors.
+posterior probabilities (prob), mean (meu), co-variance/standard-deviation(sigma)
+and priors (prior).
 
 \strong{Note:} The routine dcem_test() is only for demonstration purpose.
 The function \code{\link{dcem_test}} calls the main routine
@@ -67,17 +65,15 @@ from the dataset. The user should clean the dataset before
 calling the dcem_train routine. \strong{User can also clean the dataset themselves
 (without using trim_data) and then pass it to the dcem_train function}
 
-\item \code{\link{dcem_train}} and \code{\link{dcem_star_train}}: These are the primary
-interface(s) to the EM routine. These function accept the cleaned dataset and other
+\item \code{\link{dcem_star_train}} and \code{\link{dcem_train}}: These are the primary
+interface to the EM and EM* algorithms respectively. These function accept the cleaned dataset and other
 parameters (number of iterations, convergence threshold etc.) and run the algorithm until:
 
 \enumerate{
    \item The number of iterations is reached.
-   \item The convergence threshold is reached.
+   \item The convergence is achieved.
    }
    }
-
-\strong{For EM*, use the function \code{\link{dcem_star_train}}}
 }
 
 \references{

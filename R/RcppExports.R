@@ -7,7 +7,7 @@
 #'
 #' @param data (NumericMatrix): The dataset provided by the user.
 #' @param index (int): The index of the data point.
-#' @param num_data (int): Number of data points.
+#' @param num_data (numeric): The total number of observations in the data.
 #'
 #' @return A NumericMatrix with the max heap property.
 #'

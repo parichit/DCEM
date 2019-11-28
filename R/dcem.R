@@ -7,13 +7,13 @@
 #'
 #' \enumerate{
 #' \item \strong{Random Initialization:} Initializes the mean randomly.
-#' Refer \code{\link{means_uv}} and \code{\link{means_mv}} for initialization
+#' Refer \code{\link{meu_uv}} and \code{\link{meu_mv}} for initialization
 #' on univariate and multivariate data respectively.
 #'
 #' \item \strong{Improved Initialization:} Based on the Kmeans++ idea published in,
 #' K-means++: The Advantages of Careful Seeding, David Arthur and Sergei Vassilvitskii.
-#' URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf. See \code{\link{means_uv_impr}} and
-#' \code{\link{means_mv_impr}} for details.
+#' URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf. See \code{\link{meu_uv_impr}} and
+#' \code{\link{meu_mv_impr}} for details.
 #'
 #' \item Choice of initialization scheme can be specified as the \strong{seeding}
 #' parameter during the training. See \code{\link{dcem_train}} for further details.

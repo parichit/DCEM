@@ -7,7 +7,7 @@
 #' @param data (dataframe): The dataframe containing the data. See \code{\link{trim_data}} for
 #' cleaning the data.
 #'
-#' @param threshold (decimal): A  value to check for convergence (if the means are within this
+#' @param threshold (decimal): A  value to check for convergence (if the meu are within this
 #' value then the algorithm stops and exit). \strong{Default: 0.00001}.
 #'
 #' @param iteration_count (numeric): The number of iterations for which the algorithm should run, if the
@@ -20,7 +20,7 @@
 #'
 #' @return
 #'         A list of objects. This list contains parameters associated with the Gaussian(s)
-#'         (posterior probabilities, mean, standard-deviation and priors). The
+#'         (posterior probabilities, meu, sigma and priors). The
 #'         parameters can be accessed as follows where sample_out is the list containing
 #'         the output:
 #'
@@ -56,7 +56,7 @@
 #'
 #' @examples
 #'# Simulating a mixture of univariate samples from three distributions
-#'# with mean as 20, 70 and 100 and standard deviation as 10, 100 and 40 respectively.
+#'# with meu as 20, 70 and 100 and standard deviation as 10, 100 and 40 respectively.
 #'sample_uv_data = as.data.frame(c(rnorm(100, 20, 10), rnorm(70, 70, 100), rnorm(50, 100, 40)))
 #'
 #'# Randomly shuffle the samples.
@@ -75,7 +75,7 @@
 #'# 0.00001, iteration count of 100 and random seeding method respectively.
 #' sample_mv_out = dcem_train(sample_mv_data, threshold = 0.001, iteration_count = 100)
 #'
-#' sample_mv_out$mean
+#' sample_mv_out$meu
 #'
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
@@ -134,13 +134,13 @@ dcem_train <-
 
     if (valid_columns >= 2) {
       if (seeding == "rand"){
-        meu <- means_mv(test_data, num_clusters)
+        meu <- meu_mv(test_data, num_clusters)
       }
       else{
-        meu <- means_mv_impr(test_data, num_clusters)
+        meu <- meu_mv_impr(test_data, num_clusters)
         print("got the improved matrix")
       }
-      sigma <- cov_mv(num_clusters, valid_columns)
+      sigma <- sigma_mv(num_clusters, valid_columns)
       priors <- get_priors(num_clusters)
       em_data_out <- dcem_cluster_mv(
         test_data,
@@ -156,12 +156,12 @@ dcem_train <-
 
     if (valid_columns < 2) {
       if(seeding=="rand"){
-        meu <- means_uv(test_data, num_clusters)
+        meu <- meu_uv(test_data, num_clusters)
       }
       else{
-        meu <- means_uv_impr(test_data, num_clusters)
+        meu <- meu_uv_impr(test_data, num_clusters)
       }
-      sigma <- sd_uv(test_data, num_clusters)
+      sigma <- sigma_uv(test_data, num_clusters)
       priors <- get_priors(num_clusters)
       em_data_out <- dcem_cluster_uv(
         test_data,

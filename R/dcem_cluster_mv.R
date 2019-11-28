@@ -27,7 +27,7 @@ require(matrixcalc)
 #' and the algorithm may not converge. On the other hand, choosing a larger value (0.1)
 #' can lead to sub-optimal clustering. Default: 0.00001}.
 #'
-#' @param num_data (numeric): number of rows in the dataset (After processing the missing values).
+#' @param num_data (numeric): The total number of observations in the data.
 #'
 #' @return
 #'         A list of objects. This list contains parameters associated with the
@@ -102,11 +102,11 @@ dcem_cluster_mv <-
       sigma = out$sigma
       prior = out$prior
 
-      # Find the difference in the mean
-      mean_diff <- sqrt(sum((meu - old_meu) ^ 2))
+      # Find the difference in the meu
+      meu_diff <- sqrt(sum((meu - old_meu) ^ 2))
 
       # Check convergence
-      if (!is.na(mean_diff) && round(mean_diff, 4) < threshold) {
+      if (!is.na(meu_diff) && round(meu_diff, 4) < threshold) {
         print((paste(
           "Convergence at iteration num_clustersber: ", counter
         )))

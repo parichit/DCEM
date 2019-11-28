@@ -68,7 +68,7 @@ Paste the below code in the R session to call the dcem_train() function.
 dcem_out = dcem_train(data = ionosphere_data, threshold = 0.0001, iteration_count = 50, num_clusters = 2)
 ```
 
-- **_Accessing the output:_** The list returned by the `dcem_train()` is stored in the **_dcem_out_** object. It contains the parameters associated with the clusters (Gaussian(s)). These parameters are namely - posterior probabilities, mean, co-variance (multivariate data) or standard-deviation (univariate data) and priors. Paste the following code in the R session to access any/all the output parameters. 
+- **_Accessing the output:_** The list returned by the `dcem_train()` is stored in the **_dcem_out_** object. It contains the parameters associated with the clusters (Gaussian(s)). These parameters are namely - posterior probabilities, meu, sigma and priors. Paste the following code in the R session to access any/all the output parameters. 
 
 ``` 
           [1] Posterior Probabilities: `**dcem_out$prob**`: A matrix of posterior-probabilities for the 

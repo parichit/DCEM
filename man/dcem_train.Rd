@@ -10,7 +10,7 @@ dcem_train(data, threshold, iteration_count,  num_clusters, seeding)
 \item{data}{(dataframe): The dataframe containing the data. See \code{\link{trim_data}} for
 cleaning the data.}
 
-\item{threshold}{(decimal): A  value to check for convergence (if the means are within this
+\item{threshold}{(decimal): A  value to check for convergence (if the meu are within this
 value then the algorithm stops and exit). \strong{Default: 0.00001}.}
 
 \item{iteration_count}{(numeric): The number of iterations for which the algorithm should run, if the
@@ -23,42 +23,39 @@ convergence is not achieved within the specified count then the algorithm stops 
 }
 \value{
 A list of objects. This list contains parameters associated with the Gaussian(s)
-        (posterior probabilities, mean, standard-deviation and priors). The
+        (posterior probabilities, meu, sigma and priors). The
         parameters can be accessed as follows where sample_out is the list containing
         the output:
 
 \enumerate{
-        \item (1) Posterior Probabilities: \strong{sample_out$prob}
-        A matrix of posterior-probabilities
+        \item (1) Posterior Probabilities: \strong{sample_out$prob}: A matrix of
+        posterior-probabilities
 
-        \item (2) Mean(s): \strong{sample_out$mean}
+        \item (2) Meu: \strong{sample_out$meu}
 
-        For multivariate data: It is a matrix of means for the Gaussian(s). Each row in
-        the  matrix corresponds to a mean for the Gaussian.
+        For multivariate data: It is a matrix of meu(s). Each row in
+        the  matrix corresponds to one meu.
 
-        For univariate data: It is a vector of means. Each element of the vector
-        corresponds to one Gaussian.
+        For univariate data: It is a vector of meu(s). Each element of the vector
+        corresponds to one meu.
 
-        \item (3) Co-variance matrices: \strong{sample_out$cov}
+        \item (3) Sigma: \strong{sample_out$sigma}
 
         For multivariate data: List of co-variance matrices for the Gaussian(s).
 
-        Standard-deviation: \strong{sample_out$sd}
-
         For univariate data: Vector of standard deviation for the Gaussian(s))
 
-        \item (4) Priors: \strong{sample_out$prior}
-        A vector of priors for the Gaussian(s).
+        \item (4) Priors: \strong{sample_out$prior}: A vector of priors.
         }
 }
 \description{
-Learn the Gaussian parameters, mean and co-variance from the dataset. It calls the relevant
-clustering routine internally \code{\link{dcem_cluster_uv}} (univariate data) and
+Implements the EM algorithm. It calls the relevant clustering routine internally
+\code{\link{dcem_cluster_uv}} (univariate data) and
 \code{\link{dcem_cluster_mv}} (multivariate data).
 }
 \examples{
 # Simulating a mixture of univariate samples from three distributions
-# with mean as 20, 70 and 100 and standard deviation as 10, 100 and 40 respectively.
+# with meu as 20, 70 and 100 and standard deviation as 10, 100 and 40 respectively.
 sample_uv_data = as.data.frame(c(rnorm(100, 20, 10), rnorm(70, 70, 100), rnorm(50, 100, 40)))
 
 # Randomly shuffle the samples.
@@ -77,9 +74,7 @@ MASS::mvrnorm(n=50, rep(14,5), Sigma = diag(5))))
 # 0.00001, iteration count of 100 and random seeding method respectively.
 sample_mv_out = dcem_train(sample_mv_data, threshold = 0.001, iteration_count = 100)
 
-sample_mv_out$mean
-#[1,]  2.053163  2.023351  2.017288  1.999596  1.983142
-#[2,] 13.948244 14.010651 13.897140 14.285898 13.752592
+sample_mv_out$meu
 
 }
 \references{

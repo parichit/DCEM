@@ -1,4 +1,4 @@
-#'means_mv: Part of DCEM package.
+#'meu_mv: Part of DCEM package.
 #'
 #' Initialize the meus(s) by randomly selecting the samples from the dataset. This is the
 #' \strong{default} method for initializing the meu(s).
@@ -10,46 +10,46 @@
 #'
 #' @usage
 #' # Randomly seeding the mean(s).
-#' means_mv(data, num_meu)
+#' meu_mv(data, num_meu)
 #'
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work was partially supported by NCI Grant 1R01CA213466-01.
 
-means_mv <- function(data, num_meu) {
+meu_mv <- function(data, num_meu) {
   mean_matrix = data[sample(1:nrow(data), num_meu),]
   return(mean_matrix)
 }
 
-#'means_mv_impr: Part of DCEM package.
+#'meu_mv_impr: Part of DCEM package.
 #'
 #' Initialize the meu(s) by randomly selecting the samples from the dataset. It uses the proposed
 #' implementation from K-means++: The Advantages of Careful Seeding, David Arthur and Sergei
 #' Vassilvitskii. URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf.
 #'
 #' @param data (matrix): The dataset provided by the user.
-#' @param num_meu (numeric): The number of means meu.
+#' @param num_meu (numeric): The number of meu.
 #'
 #' @return A matrix containing the selected samples from the dataset.
 #'
 #' @usage
-#' # Randomly seeding the mean(s).
-#' means_mv_impr(data, num_meu)
+#' # Randomly seeding the meu.
+#' meu_mv_impr(data, num_meu)
 #'
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work was partially supported by NCI Grant 1R01CA213466-01.
 
-means_mv_impr <- function(data, num_meu){
+meu_mv_impr <- function(data, num_meu){
 
-  mean_matrix = matrix(nrow = num_meu,
+  meu_matrix = matrix(nrow = num_meu,
                        ncol = ncol(data),
                        byrow = TRUE)
 
   counter = 0
 
   #Selecting the first centroid in a uniform manner
-  mean_matrix[1,] = as.matrix(data[sample(nrow(data), 1),])
+  meu_matrix[1,] = as.matrix(data[sample(nrow(data), 1),])
 
   #Increase the var to track the selected centroids
   counter = counter + 1
@@ -61,20 +61,20 @@ means_mv_impr <- function(data, num_meu){
     #Starting the probability calculations for selecting the next set of centroids
     for (row in 1:nrow(data)){
       for(srow in 1:counter){
-        dist = sum((data[row, ] - mean_matrix[counter, ])^2)
+        dist = sum((data[row, ] - meu_matrix[counter, ])^2)
         dist_vector = rbind(dist_vector, dist)
       }
     }
 
     counter = counter + 1
-    mean_matrix[counter, ] = data[counter, ]
+    meu_matrix[counter, ] = data[counter, ]
 
   }
 
-  return(mean_matrix)
+  return(meu_matrix)
 }
 
-#'cov_mv: Part of DCEM package.
+#'sigma_mv: Part of DCEM package.
 #'
 #' Initializes the co-variance matrices as the identity matrices.
 #'
@@ -86,13 +86,13 @@ means_mv_impr <- function(data, num_meu){
 #'         is equal to the input parameter (num_cov).
 #'
 #' @usage
-#' cov_mv(num_sigma, numcol)
+#' sigma_mv(num_sigma, numcol)
 #'
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 
-cov_mv <- function(num_sigma, numcol) {
+sigma_mv <- function(num_sigma, numcol) {
   i = 1
   sigma_vec = list()
   while (i <= num_sigma) {

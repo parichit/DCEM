@@ -2,14 +2,13 @@
 % Please edit documentation in R/sanitycheck.R
 \name{validate_data}
 \alias{validate_data}
-\title{validate_data: Part of DCEM package.}
+\title{validate_data: Part of DCEM package. Used internally in the package.}
 \usage{
 validate_data(columns, numcols)
 }
 \arguments{
 \item{columns}{(string): A comma separated
-list of columns that needs to be removed from the dataset.
-Default: ''}
+list of columns that needs to be removed from the dataset. Default: ''}
 
 \item{numcols}{(numeric): Number of columns in the dataset.}
 }
@@ -24,19 +23,6 @@ by the \code{\link{dcem_train}}.
 An example would be to check if the column to be removed exist
 or not? \code{\link{trim_data}} internally calls this function before removing
 the column(s).
-}
-\examples{
-#Generate a dataframe with 2 columns containing random values.
-
-# Check a range of columns.
-validate_data("2,3,4", ncol(data.frame(x1=sample(1:100,10),
-x2=sample(500:1000, 10), x3=sample(-100:0,10))))
-
-# Check a single column.
-
-validate_data("2", ncol(data.frame(x1=sample(1:100,10),
-x2=sample(500:1000, 10))))
-
 }
 \references{
 Using data to build a better EM: EM* for big data.

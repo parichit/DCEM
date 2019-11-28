@@ -21,15 +21,14 @@ require(matrixcalc)
 #' convergence is not achieved then the algorithm stops.
 #' Default: 200.
 #'
-#' @param threshold (numeric): A small value to check for convergence (if the estimated mean(s)
+#' @param threshold (numeric): A small value to check for convergence (if the estimated meu(s)
 #' are within the threshold then the algorithm stops).
 #'
 #' \strong{Note: Choosing a very small value (0.0000001) for threshold can increase the runtime
 #' substantially and the algorithm may not converge. On the other hand, choosing a larger
 #' value (0.1) can lead to sub-optimal clustering. Default: 0.00001}.
 #'
-#' @param num_data (numeric): Number of rows in the dataset (After processing the missing
-#' values).
+#' @param num_data (numeric): The total number of observations in the data.
 #'
 #' @param numcols (numeric): Number of columns in the dataset (After processing the
 #' missing values).
@@ -89,7 +88,7 @@ dcem_cluster_uv <-
     #Repeat till threshold achieved or convergence whichever is earlier.
     while (counter <= iteration_count) {
 
-      old_mean = meu
+      old_meu = meu
 
       # Expectation
       weights = expectation_uv(data, weights, meu, sigma, prior, num_clusters, tolerance)
@@ -101,7 +100,7 @@ dcem_cluster_uv <-
       prior = out$prior
 
       # Check convergence
-      mean_diff = sqrt(sum((meu - old_mean) ^ 2))
+      mean_diff = sqrt(sum((meu - old_meu) ^ 2))
 
       if (!is.na(mean_diff) && round(mean_diff, 4) <= threshold) {
         print((paste("Convergence at iteration number: ", counter)))

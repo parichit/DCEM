@@ -30,7 +30,7 @@ require(matrixcalc)
 #'         \item (1) Posterior Probabilities: \strong{prob}
 #'         A matrix of posterior-probabilities
 #'
-#'         \item (2) Meu: \strong{meu}: It is a vector of means. Each element of
+#'         \item (2) Meu: \strong{meu}: It is a vector of meus. Each element of
 #'         the vector corresponds to one meu.
 #'
 #'         \item (3) Sigma: Standard-deviation(s): \strong{sigma}
@@ -86,7 +86,7 @@ dcem_star_cluster_uv <-
     # Maximisation
     out = maximisation_uv(data, weights, meu, sigma, prior, num_clusters, num_data)
     mean_vec = out$meu
-    sd_vec = out$sd
+    sd_vec = out$sigma
     prior = out$prior
 
     # Creating heaps

@@ -25,8 +25,8 @@ source("./R/dcem_train.R")
 #' @section Accessing the output parameters:
 #'
 #' The function dcem_test() calls dcem_train() that returns a list of objects.
-#' This list contains parameters associated with the Gaussian
-#' (posterior probabilities, mean, covariance/standard-deviation and priors). The
+#' This list contains estimated parameters of the Gaussian
+#' (posterior probabilities, meu, sigma and prior). The
 #' parameters can be accessed as follows where sample_out is the list containing
 #' the output:
 #'
