@@ -98,7 +98,7 @@ dcem_star_cluster_uv <-
       temp_matrix <- cbind(temp_matrix, ind)
 
       heap_list[[clus]] <- temp_matrix
-      print(paste("heap: ", clus, "size: ", nrow(heap_list[[clus]])))
+      #print(paste("heap: ", clus, "size: ", nrow(heap_list[[clus]])))
 
       # Build the heap from data frames
       temp_out <- build_heap(heap_list[[clus]])
@@ -159,7 +159,7 @@ dcem_star_cluster_uv <-
 
 
       # Insert into new heap
-      print(paste("Inserting", length(leaves_ind)))
+      #print(paste("Inserting", length(leaves_ind)))
       heap_list <-
         insert_nodes(
           heap_list,
@@ -168,7 +168,7 @@ dcem_star_cluster_uv <-
           leaves_ind,
           num_clusters
         )
-      print(paste("Inserting done: ", length(leaves_ind)))
+      #print(paste("Inserting done: ", length(leaves_ind)))
 
       out = separate_data(heap_list, num_clusters)
       heap_list <- out[[1]]
