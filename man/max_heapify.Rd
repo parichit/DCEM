@@ -11,7 +11,7 @@ max_heapify(data, index, num_data)
 
 \item{index}{(int): The index of the data point.}
 
-\item{num_data}{(int): Number of data points.}
+\item{num_data}{(numeric): The total number of observations in the data.}
 }
 \value{
 A NumericMatrix with the max heap property.
