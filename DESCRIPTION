@@ -1,7 +1,7 @@
 Package: DCEM
 Type: Package
 Title: Clustering for Multivariate and Univariate Data Using Expectation Maximization Algorithm
-Version: 1.0.0
+Version: 2.0.0
 Authors@R: c(
     person("Sharma", "Parichit", email = "parishar@iu.edu", role = c("aut","cre", "ctb")),
     person("Kurban", "Hasan", role = c("aut","ctb")),
@@ -22,6 +22,8 @@ Imports:
     mvtnorm (>= 1.0.7),
     matrixcalc (>= 1.0.3),
     MASS (>= 7.3.49),
+    Rcpp (>= 1.0.2)
+LinkingTo: Rcpp
 RoxygenNote: 6.1.1
 Depends: R(>= 3.5.0)
 URL: https://github.iu.edu/parishar/DCEM
