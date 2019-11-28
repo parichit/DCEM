@@ -34,24 +34,21 @@ source("./R/dcem_train.R")
 #'         \item (1) Posterior Probabilities: \strong{sample_out$prob}
 #'         A matrix of posterior-probabilities
 #'
-#'         \item (2) Mean(s): \strong{sample_out$mean}
+#'         \item (2) Meu: \strong{meu}
 #'
-#'         For multivariate data: It is a matrix of means for the Gaussian(s). Each row in
-#'         the  matrix corresponds to a mean for the Gaussian.
+#'         For multivariate data: It is a matrix of meu(s). Each row in
+#'         the  matrix corresponds to one meu.
 #'
-#'         For univariate data: It is a vector of means. Each element of the vector
-#'         corresponds to one Gaussian.
-#'
-#'         \item (3) Co-variance matrices: \strong{sample_out$cov}
+#'         \item (3) Co-variance matrices: \strong{sample_out$sigma}
 #'
 #'         For multivariate data: List of co-variance matrices for the Gaussian(s).
 #'
-#'         Standard-deviation: \strong{sample_out$sd}
+#'         Standard-deviation: \strong{sample_out$sigma}
 #'
 #'         For univariate data: Vector of standard deviation for the Gaussian(s))
 #'
 #'         \item (4) Priors: \strong{sample_out$prior}
-#'         A vector of priors for the Gaussian(s).
+#'         A vector of prior.
 #'         }
 #'
 #' @usage
@@ -70,25 +67,25 @@ source("./R/dcem_train.R")
 dcem_test <- function()
 {
 
-# Setting the filepath to read from the bundled csv file.
-data_file =  paste(trimws(getwd()),"/data/","ionosphere_data.csv",sep = "")
+  # Setting the filepath to read from the bundled csv file.
+  data_file =  paste(trimws(getwd()),"/data/","ionosphere_data.csv",sep = "")
 
-# Reading the input file into a dataframe.
+  # Reading the input file into a dataframe.
   ionosphere_data = read.csv2(
-  file = data_file,
-  sep = ",",
-  header = FALSE,
-  stringsAsFactors = FALSE
-)
+    file = data_file,
+    sep = ",",
+    header = FALSE,
+    stringsAsFactors = FALSE
+  )
 
-# Cleaning the data by removing the 35th and 2nd column as they contain the labels and 0's respectively.
-ionosphere_data =  trim_data("2, 35", ionosphere_data)
+  # Cleaning the data by removing the 35th and 2nd column as they contain the labels and 0's respectively.
+  ionosphere_data =  trim_data("2, 35", ionosphere_data)
 
-# Calling the dcem_train() function with the cleaned dataset.
-sample_out = dcem_train(ionosphere_data, 0.001, 200, 2)
+  # Calling the dcem_train() function with the cleaned dataset.
+  sample_out = dcem_train(ionosphere_data, 0.001, 200, 2)
 
-# Return the list containing the output parameters.
-return(sample_out)
+  # Return the list containing the output parameters.
+  return(sample_out)
 }
 
 
