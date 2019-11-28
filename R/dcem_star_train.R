@@ -1,15 +1,18 @@
+# Sourcing the required R scripts containing the dependencies.
+
 #' dcem_star_train: Part of DCEM package.
 #'
-#' Implements the improved EM* algorithm. EM* achieves faster convergence by avoiding
+#' Implements the improved EM* algorithm. EM\* achieves faster convergence by avoiding
 #' revisitng the data during the iterations. For details on EM* see the 'References' section
-#' below. It calls the \code{\link{dcem_star_cluster_uv}} routine internally
-#' (univariate data) and \code{\link{dcem_star_cluster_mv}} for (multivariate data).
+#' below. It calls the relevant clustering routine internally \code{\link{dcem_star_cluster_uv}}
+#' (univariate data) and \code{\link{dcem_star_cluster_mv}} (multivariate data).
 #'
 #' @param data (dataframe): The dataframe containing the data. See \code{\link{trim_data}} for
 #' cleaning the data.
 #'
 #' @param iteration_count (numeric): The number of iterations for which the algorithm should run, if the
-#' convergence is not achieved then the algorithm stops and exit. \strong{Default: 200}.
+#' convergence is not achieved within the specified count then the algorithm stops and exit.
+#' \strong{Default: 200}.
 #'
 #' @param num_clusters (numeric): The number of clusters. Default: \strong{2}
 #'
@@ -17,36 +20,36 @@
 #'
 #' @return
 #'         A list of objects. This list contains parameters associated with the Gaussian(s)
-#'         (posterior probabilities, meu, sigma and priors). The
+#'         (posterior probabilities, mean, standard-deviation and priors). The
 #'         parameters can be accessed as follows where sample_out is the list containing
 #'         the output:
 #'
 #'\enumerate{
 #'         \item (1) Posterior Probabilities: \strong{sample_out$prob}
-#'         A matrix of posterior-probabilities.
+#'         A matrix of posterior-probabilities
 #'
-#'         \item (2) Meu(s): \strong{sample_out$meu}
+#'         \item (2) Mean(s): \strong{sample_out$mean}
 #'
-#'         For multivariate data: It is a matrix of meu(s). Each row in
-#'         the  matrix corresponds to one mean.
+#'         For multivariate data: It is a matrix of means for the Gaussian(s). Each row in
+#'         the  matrix corresponds to a mean for the Gaussian.
 #'
-#'         For univariate data: It is a vector of meu(s). Each element of the vector
-#'         corresponds to one meu.
+#'         For univariate data: It is a vector of means. Each element of the vector
+#'         corresponds to one Gaussian.
 #'
-#'         \item (3) Co-variance matrices: \strong{sample_out$sigma}
+#'         \item (3) Co-variance matrices: \strong{sample_out$cov}
 #'
-#'         For multivariate data: List of co-variance matrices.
+#'         For multivariate data: List of co-variance matrices for the Gaussian(s).
 #'
-#'         Standard-deviation: \strong{sample_out$sigma}
+#'         Standard-deviation: \strong{sample_out$sd}
 #'
-#'         For univariate data: Vector of standard deviation.
+#'         For univariate data: Vector of standard deviation for the Gaussian(s))
 #'
 #'         \item (4) Priors: \strong{sample_out$prior}
-#'         A vector of priors.
+#'         A vector of priors for the Gaussian(s).
 #'         }
 #'
 #' @usage
-#' dcem_star_train(data, iteration_count,  num_clusters, seeding)
+#' dcem_star_train(data, threshold, iteration_count,  num_clusters, seeding)
 #'
 #' @references
 #' Using data to build a better EM: EM* for big data.
@@ -55,26 +58,28 @@
 #'(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
 #'
 #' @examples
-#'# Simulating a mixture of univariate samples from three distributions
-#'# with mean as 20, 70 and 100 and standard deviation as 10, 100 and 40 respectively.
+#' Simulating a mixture of univariate samples from three distributions
+#' with mean as 20, 70 and 100 and standard deviation as 10, 100 and 40 respectively.
 #' sample_uv_data = as.data.frame(c(rnorm(100, 20, 10), rnorm(70, 70, 100), rnorm(50, 100, 40)))
 #'
-#'# Randomly shuffle the samples.
+#' Randomly shuffle the samples.
 #' sample_uv_data = as.data.frame(sample_uv_data[sample(nrow(sample_uv_data)),])
 #'
-#'# Calling the dcem_star_train() function on the simulated data with iteration count of 1000
-#'# and random seeding respectively.
+#' Calling the dcem_star_train() function on the simulated data with iteration count of 1000
+#' and random seeding respectively.
 #' sample_uv_out = dcem_star_train(sample_uv_data, num_clusters = 3, iteration_count = 100)
 #'
-#'# Simulating a mixture of multivariate samples from 2 gaussian distributions.
-#' sample_mv_data = as.data.frame(rbind(MASS::mvrnorm(n=2, rep(2,5), Sigma = diag(5)),
-#' MASS::mvrnorm(n=5, rep(14,5), Sigma = diag(5))))
+#' Simulating a mixture of multivariate samples from 2 gaussian distributions.
+#' sample_mv_data = as.data.frame(rbind(MASS::mvrnorm(n=100, rep(2,5), Sigma = diag(5)),
+#' MASS::mvrnorm(n=50, rep(14,5), Sigma = diag(5))))
 #'
-#'# Calling the dcem_star_train() function on the simulated data with iteration count of 100 and
-#'# random seeding method respectively.
+#' Calling the dcem_star_train() function on the simulated data with iteration count of 100 and
+#' random seeding method respectively.
 #' sample_mv_out = dcem_star_train(sample_mv_data, iteration_count = 100, num_clusters=2)
 #'
-#' sample_mv_out$meu
+#' sample_mv_out$mean
+#' #[1,]  2.053163  2.023351  2.017288  1.999596  1.983142
+#' #[2,] 13.948244 14.010651 13.897140 14.285898 13.752592
 #'
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
@@ -119,47 +124,47 @@ dcem_star_train <-
 
     # Safe copy the data for operations
     test_data <- as.matrix(data)
-    num_data <- nrow(test_data)
+    numrows <- nrow(test_data)
     valid_columns <- ncol(test_data)
 
     em_data_out = list()
 
     if (valid_columns >= 2) {
       if (seeding == "rand"){
-        meu = means_mv(test_data, num_clusters)
+        mean_mat = means_mv(test_data, num_clusters)
       }
       else{
-        meu = means_mv_impr(test_data, num_clusters)
+        mean_mat = means_mv_impr(test_data, num_clusters)
       }
-      sigma = cov_mv(num_clusters, valid_columns)
-      priors = get_priors(num_clusters)
+      cov_list = cov_mv(num_clusters, valid_columns)
+      prior_vec = priors(num_clusters)
       em_data_out = dcem_star_cluster_mv(
         test_data,
-        meu,
-        sigma,
-        priors,
+        mean_mat,
+        cov_list,
+        prior_vec,
         num_clusters,
         iteration_count,
-        num_data)
+        numrows)
     }
 
     if (valid_columns < 2) {
       if(seeding=="rand"){
-        meu = means_uv(test_data, num_clusters)
+        mean_vector = means_uv(test_data, num_clusters)
       }
       else{
-        meu = means_uv_impr(test_data, num_clusters)
+        mean_vector = means_uv_impr(test_data, num_clusters)
       }
-      sigma = sd_uv(test_data, num_clusters)
-      priors = get_priors(num_clusters)
+      sd_vector = sd_uv(test_data, num_clusters)
+      prior_vec = priors(num_clusters)
       em_data_out = dcem_star_cluster_uv(
         test_data,
-        meu,
-        sigma,
-        priors,
+        mean_vector,
+        sd_vector,
+        prior_vec,
         num_clusters,
-        num_data,
-        iteration_count)
+        iteration_count,
+        numrows)
     }
 
     return(em_data_out)

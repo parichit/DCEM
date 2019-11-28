@@ -5,21 +5,30 @@
 \title{means_uv_impr: Part of DCEM package.}
 \usage{
 # Seeding the means using the K-means++ implementation.
-means_uv_impr(data, num_meu)
+means_uv_impr(data, num_means)
 }
 \arguments{
-\item{data}{(matrix): The dataset provided by the user.}
+\item{data}{(matrix): The dataset provided by the user (converted to matrix format).}
 
-\item{num_meu}{(number): The number of meu.}
+\item{num_means}{(number): The number of means (meu).}
 }
 \value{
 A vector containing the selected samples from the dataset.
+The initial means will be updated during the execution.
 }
 \description{
 This function is internally called by the dcem_train to initialize the
-meu(s). It uses the proposed implementation from
+mean(s) for the Gaussian(s). It uses the proposed implementation from
 K-means++: The Advantages of Careful Seeding, David Arthur and Sergei Vassilvitskii.
 URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf.
+}
+\examples{
+# Selecting the inital mean(s) using the non-uniform distance weighting.
+# k-means++: The Advantages of Careful Seeding, David Arthur
+# and Sergei Vassilvitskii.
+# URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf.
+means_uv_impr(rnorm(100,20,10), 2)
+
 }
 \author{
 Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic

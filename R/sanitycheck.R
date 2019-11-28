@@ -1,4 +1,4 @@
-#' validate_data: Part of DCEM package. Used internally in the package.
+#' validate_data: Part of DCEM package.
 #'
 #' Implements sanity check for the input data. This function is for internal use and is called
 #' by the \code{\link{dcem_train}}.
@@ -8,12 +8,25 @@
 #' the column(s).
 #'
 #' @param columns (string): A comma separated
-#' list of columns that needs to be removed from the dataset. Default: ''
+#' list of columns that needs to be removed from the dataset.
+#' Default: ''
 #'
 #' @param numcols (numeric): Number of columns in the dataset.
 #'
 #' @usage
 #' validate_data(columns, numcols)
+#'
+#' @examples
+#' #Generate a dataframe with 2 columns containing random values.
+#'
+#' # Check a range of columns.
+#' validate_data("2,3,4", ncol(data.frame(x1=sample(1:100,10),
+#' x2=sample(500:1000, 10), x3=sample(-100:0,10))))
+#'
+#' # Check a single column.
+#'
+#' validate_data("2", ncol(data.frame(x1=sample(1:100,10),
+#' x2=sample(500:1000, 10))))
 #'
 #' @references
 #' Using data to build a better EM: EM* for big data.
@@ -58,7 +71,7 @@ validate_data <- function(columns, numcols){
   return(TRUE)
 }
 
-#' trim_data: Part of DCEM package. Used internally in the package.
+#' trim_data: Part of DCEM package.
 #'
 #' Removes the specified column(s) from the dataset.
 #'
@@ -70,6 +83,18 @@ validate_data <- function(columns, numcols){
 #'
 #' @usage
 #' trim_data(columns, data)
+#'
+#' @examples
+#' # Remove a range of columns. Generally, the columns containing the labels or
+#' # redundant values (such as all 0's) should be removed before training the model.
+#'
+#' trim_data("1,2", data.frame(x1=sample(1:100,10),
+#' x2=sample(500:1000, 10), x3=sample(-100:0,10)))
+#'
+#' # Remove a single column.
+#'
+#' trim_data("2", data.frame(x1=sample(1:100,10),
+#' x2=sample(500:1000, 10), x3=sample(-100:0,10)))
 #'
 #' @references
 #' Using data to build a better EM: EM* for big data.

@@ -6,10 +6,12 @@
 \alias{DCEM-package}
 \title{DCEM: Data clustering through Expectation-Maximization algorithm.}
 \description{
-Implements the EM* (see list of references) and EM algorithm
+Implements Expectation-Maximization (EM) and EM* (see list of references) algorithm
 for clustering the univariate and multivariate Gaussian mixture data.
+Currently, the missing data is not handled by the package and the user
+is expected to either remove attributes with missing values or impute them.
 }
-\section{DCEM supports following initialization schemes}{
+\section{DCEM supports two initialization schemes}{
 
 
 \enumerate{
@@ -41,8 +43,8 @@ cleaning the data. Refer: \code{\link{dcem_test}} for more details.
 
 The function dcem_test() returns a list of objects.
 This list contains the parameters associated with the Gaussian(s),
-posterior probabilities (prob), mean (meu), co-variance/standard-deviation(sigma)
-and priors (prior).
+posterior probabilities (prob), mean (mean), co-variance (cov)/standard-deviation(sd)
+and priors.
 
 \strong{Note:} The routine dcem_test() is only for demonstration purpose.
 The function \code{\link{dcem_test}} calls the main routine
@@ -65,15 +67,17 @@ from the dataset. The user should clean the dataset before
 calling the dcem_train routine. \strong{User can also clean the dataset themselves
 (without using trim_data) and then pass it to the dcem_train function}
 
-\item \code{\link{dcem_star_train}} and \code{\link{dcem_train}}: These are the primary
-interface to the EM and EM* algorithms respectively. These function accept the cleaned dataset and other
+\item \code{\link{dcem_train}} and \code{\link{dcem_star_train}}: These are the primary
+interface(s) to the EM routine. These function accept the cleaned dataset and other
 parameters (number of iterations, convergence threshold etc.) and run the algorithm until:
 
 \enumerate{
    \item The number of iterations is reached.
-   \item The convergence is achieved.
+   \item The convergence threshold is reached.
    }
    }
+
+\strong{For EM*, use the function \code{\link{dcem_star_train}}}
 }
 
 \references{

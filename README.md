@@ -1,8 +1,8 @@
 
 **Package Overview**
 
-Implements the Expectation Maximisation Algorithm for clustering the multivariate and univariate datasets. There are two versions of EM implemented-EM* (converge faster by avoiding revisiting the data) and EM. For more details on EM\*, see the 'References' section below.  
-The package has been tested with both real and simulated datasets. The package comes bundled with a dataset for demonstration (ionosphere_data.csv). More help about the package can be seen by typing `?DCEM` in the R console (after installing the package).
+Implements the Expectation Maximisation Algorithm for clustering the multivariate and univariate datasets. There are two versions of EM implemented- EM and EM* (converge faster by avoiding revisiting the data). For more details on EM\*, see the 'References' section below.  
+The package has been tested with numerical datasets (not recommended for categorical/ordinal data). The package comes bundled with a dataset for demonstration (ionosphere_data.csv). More help about the package can be seen by typing `?DCEM` in the R console (after installing the package).
 
 **Currently, data imputation is not supported and user has to handle the missing data before using the package.**
 
@@ -15,11 +15,11 @@ The package has been tested with both real and simulated datasets. The package c
 
 *For Reporting Issues*
 
-[Issues](https://github.com/parichit/DCEM/issues)
+[Issues](https://github.iu.edu/parishar/DCEM/issues)
 
 *GitHub Repository Link*
 
-[Github Repository](https://github.com/parichit/DCEM)
+[Github Repository](https://github.iu.edu/parishar/DCEM)
   
   
 **Installation Instructions**
@@ -27,18 +27,18 @@ The package has been tested with both real and simulated datasets. The package c
 **_Installing from CRAN_**
 
 ```
-install.packages(DCEM)
+install.packages(dcem)
 ```
 
 **_Installing from the Binary Package_**
 
 ```
-install.packages(DCEM_2.0.0.tgz, repos = NULL, type="source")
+install.packages(dcem_1.0.0.tgz, repos = NULL, type="source")
 ```
 
 **How to use the package (An Example: working with the default bundled dataset)**
 
-- The DCEM package comes bundled with the ionosphere_data.csv for demonstration. Help about the dataset can be seen by typing `?ionosphere_data` in the R console. Additional details can be seen at the link [Ionosphere data](https://archive.ics.uci.edu/ml/datasets/ionosphere)
+- The dcem package comes bundled with the ionosphere_data.csv for demonstration. Help about the dataset can be seen by typing `?ionosphere_data` in the R console. Additional details can be seen at the link [Ionosphere data](https://archive.ics.uci.edu/ml/datasets/ionosphere)
 
 - To use this dataset, paste the following code into the R console.
 
@@ -74,21 +74,22 @@ dcem_out = dcem_train(data = ionosphere_data, threshold = 0.0001, iteration_coun
           [1] Posterior Probabilities: `**dcem_out$prob**`: A matrix of posterior-probabilities for the 
               points in the dataset.
               
-          [2] Meu(s): `**dcem_out$meu**`
+          [2] Mean(s): `**dcem_out$mean**`
               
-              For multivariate data: It is a matrix of meu(s). Each row in the  
-              matrix corresponds to one meu.
+              For multivariate data: It is a matrix of means for the gaussians. Each row in the  
+              matrix corresponds to a mean for the gaussian.
               
-              For univariate data: It is a vector if meu(s). Each element of the vector corresponds 
-              to one meu.
+              For univariate data: It is a vector if means. Each element of the vector corresponds 
+              to one gaussian.
               
           [3] Co-variance matrices 
           
-              For multivariate data: `**dcem_out$sigma**`: List of co-variance matrices.
+              For multivariate data: `**dcem_out$cov**`: list of co-variance matrices for the gaussians.
           
-              For univariate data: `**dcem_out$sigma**`: Vector of standard deviation(s).
+              For univariate data: Standard-deviation `**dcem_out$sd**`: vector of standard deviation(s) 
+              for the gaussians.
                
-          [4] Priors: `**dcem_out$prior**`: A vector of prior.
+          [4] Priors: `**dcem_out$prior**`: a vector of priors for the gaussians.
 ```
 
 *How to access the help (after installing the package)*

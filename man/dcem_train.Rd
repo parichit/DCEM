@@ -28,29 +28,32 @@ A list of objects. This list contains parameters associated with the Gaussian(s)
         the output:
 
 \enumerate{
-        \item (1) Posterior Probabilities: \strong{sample_out$prob}: A matrix of
-        posterior-probabilities
+        \item (1) Posterior Probabilities: \strong{sample_out$prob}
+        A matrix of posterior-probabilities
 
-        \item (2) Meu: \strong{sample_out$meu}
+        \item (2) Mean(s): \strong{sample_out$mean}
 
-        For multivariate data: It is a matrix of meu(s). Each row in
-        the  matrix corresponds to one meu.
+        For multivariate data: It is a matrix of means for the Gaussian(s). Each row in
+        the  matrix corresponds to a mean for the Gaussian.
 
-        For univariate data: It is a vector of meu(s). Each element of the vector
-        corresponds to one meu.
+        For univariate data: It is a vector of means. Each element of the vector
+        corresponds to one Gaussian.
 
-        \item (3) Sigma: \strong{sample_out$sigma}
+        \item (3) Co-variance matrices: \strong{sample_out$cov}
 
         For multivariate data: List of co-variance matrices for the Gaussian(s).
 
+        Standard-deviation: \strong{sample_out$sd}
+
         For univariate data: Vector of standard deviation for the Gaussian(s))
 
-        \item (4) Priors: \strong{sample_out$prior}: A vector of priors.
+        \item (4) Priors: \strong{sample_out$prior}
+        A vector of priors for the Gaussian(s).
         }
 }
 \description{
-Implements the EM algorithm. It calls the relevant clustering routine internally
-\code{\link{dcem_cluster_uv}} (univariate data) and
+Learn the Gaussian parameters, mean and co-variance from the dataset. It calls the relevant
+clustering routine internally \code{\link{dcem_cluster_uv}} (univariate data) and
 \code{\link{dcem_cluster_mv}} (multivariate data).
 }
 \examples{
@@ -75,6 +78,8 @@ MASS::mvrnorm(n=50, rep(14,5), Sigma = diag(5))))
 sample_mv_out = dcem_train(sample_mv_data, threshold = 0.001, iteration_count = 100)
 
 sample_mv_out$mean
+#[1,]  2.053163  2.023351  2.017288  1.999596  1.983142
+#[2,] 13.948244 14.010651 13.897140 14.285898 13.752592
 
 }
 \references{

@@ -4,51 +4,56 @@
 \alias{dcem_cluster_mv}
 \title{dcem_cluster (multivariate data): Part of DCEM package.}
 \usage{
-dcem_cluster_mv(data, meu, sigma, prior, num_clusters, iteration_count,
-threshold, num_data)
+dcem_cluster_mv(data, mean_mat, cov_list, prior_vec, num, iteration_count,
+threshold, numrows)
 }
 \arguments{
 \item{data}{A matrix: The dataset provided by the user.}
 
-\item{meu}{(matrix): The matrix containing the initial meu(s).}
+\item{mean_mat}{(matrix): The matrix containing the initial mean(s) for the Gaussian(s).}
 
-\item{sigma}{(list): A list containing the initial covariance matrices.}
+\item{cov_list}{(list): A list containing the initial covariance matrices for the Gaussian(s).}
 
-\item{prior}{(vector): A vector containing the initial prior.}
+\item{prior_vec}{(vector): A vector containing the initial priors for the Gaussian(s).}
 
-\item{num_clusters}{(numeric): The number of clusters specified by the user. Default value is 2.}
+\item{num}{(numeric): The number of clusters specified by the user. Default value is 2.}
 
 \item{iteration_count}{(numeric): The number of iterations for which the algorithm should run, if the
-convergence is not achieved then the algorithm stops. Default: 200.}
+convergence is not achieved within the specified threshold then the algorithm stops and exits.
+Default: 200.}
 
-\item{threshold}{(numeric): A small value to check for convergence (if the estimated meu are within this
+\item{threshold}{(numeric): A small value to check for convergence (if the estimated mean(s) are within this
 specified threshold then the algorithm stops and exit).
 
 \strong{Note: Choosing a very small value (0.0000001) for threshold can increase the runtime substantially
 and the algorithm may not converge. On the other hand, choosing a larger value (0.1)
 can lead to sub-optimal clustering. Default: 0.00001}.}
 
-\item{num_data}{(numeric): number of rows in the dataset (After processing the missing values).}
+\item{numrows}{(numeric): Number of rows in the dataset (After processing the missing values).}
 }
 \value{
 A list of objects. This list contains parameters associated with the
-        Gaussian(s) (posterior probabilities, meu, co-variance and prior)
+        Gaussian(s) (posterior probabilities, mean, co-variance and priors)
 
 \enumerate{
-        \item (1) Posterior Probabilities:  \strong{prob} :A matrix of
-        posterior-probabilities.
+        \item (1) Posterior Probabilities:  \strong{sample_out$prob}
+        (a matrix of posterior-probabilities for the points in the dataset.)
 
-        \item (2) Meu: \strong{meu}: It is a matrix of meu(s). Each row in
-        the matrix corresponds to one meu.
+        \item (2) Mean(s): \strong{sample_out$mean}
 
-        \item (3) Sigma: Co-variance matrices: \strong{sigma}
+        For multivariate data: It is a matrix of means for the Gaussian(s). Each row in
+        the  matrix corresponds to a mean for the Gaussian.
 
-        \item (4) prior: \strong{prior}: A vector of prior.
+        \item (3) Co-variance matrices (in case of multivariate data): \strong{sample_out$cov}
+        (list of co-variance matrices for the Gaussian(s))
+
+        \item (4) Priors: \strong{sample_out$prior}
+        (a vector of priors for the Gaussian(s).)
         }
 }
 \description{
-Implements the Expectation Maximization algorithm for multivariate data. This function is called
-by the dcem_train routine.
+Implements the Expectation Maximization algorithm for multivariate data. This function is internally
+called by the dcem_train routine.
 }
 \references{
 Using data to build a better EM: EM* for big data.

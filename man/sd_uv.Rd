@@ -2,20 +2,26 @@
 % Please edit documentation in R/dcem_init_uv.R
 \name{sd_uv}
 \alias{sd_uv}
-\title{sigma_uv: Part of DCEM package.}
+\title{sd_uv: Part of DCEM package.}
 \usage{
-sd_uv(data, num_sigma)
+sd_uv(data, num_sd)
 }
 \arguments{
-\item{data}{(matrix): The dataset provided by the user.}
+\item{data}{(matrix): The dataset provided by the user (converted to matrix format).}
 
-\item{num_sigma}{(number): Number of sigma (standard_deviations).}
+\item{num_sd}{(number): Number of values corresponding to the number of clusters.}
 }
 \value{
 A vector of standard deviation value(s).
 }
 \description{
 Initializes the standard deviation for the Gaussian(s).
+}
+\examples{
+# Standard deviation of a random sample.
+
+sd_uv(rnorm(100,20,10), 2)
+
 }
 \author{
 Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
