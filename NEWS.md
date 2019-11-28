@@ -1,3 +1,13 @@
+**DCEM 2.0.0**
+
+This is the fourth major release of the DCEM package.
+
+**Major Features**
+
+Improves the EM\* implementation for eceb faster execution. The EM\* is motivated from the ideas published in the Using data to build a better EM: EM* for big data. Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic (2016) <https://doi.org/10.1007/s41060-017-0062-1>.
+
+The package now supports both the EM\* and the traditional EM algorithm for speed-up comparison. The EM\* leverages the max-heap structure to expedite the execution time manifold compared to the conventional EM.
+
 **DCEM 1.0.0**
 
 This is the third stable release of the DCEM package.
