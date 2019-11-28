@@ -1,7 +1,7 @@
 #' dcem_star_train: Part of DCEM package.
 #'
 #' Implements the improved EM* algorithm. EM* achieves faster convergence by avoiding
-#' revisitng the data during the iterations. For details on EM* see the 'References' section
+#' revisiting the data during the iterations. For details on EM* see the 'References' section
 #' below. It calls the \code{\link{dcem_star_cluster_uv}} routine internally
 #' (univariate data) and \code{\link{dcem_star_cluster_mv}} for (multivariate data).
 #'
