@@ -18,7 +18,7 @@
 #'
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 max_heapify <- function(data, index, num_data) {
-    .Call('_DCEM_max_heapify', PACKAGE = 'DCEM', data, index, num_data)
+    .Call(`_DCEM_max_heapify`, data, index, num_data)
 }
 
 #' build_heap: Part of DCEM package.
@@ -36,6 +36,6 @@ max_heapify <- function(data, index, num_data) {
 #'
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 build_heap <- function(data) {
-    .Call('_DCEM_build_heap', PACKAGE = 'DCEM', data)
+    .Call(`_DCEM_build_heap`, data)
 }
 
