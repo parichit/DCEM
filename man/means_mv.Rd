@@ -5,29 +5,19 @@
 \title{means_mv: Part of DCEM package.}
 \usage{
 # Randomly seeding the mean(s).
-means_mv(data, num_means)
+means_mv(data, num_meu)
 }
 \arguments{
-\item{data}{(matrix): The dataset provided by the user (converted to matrix format).}
+\item{data}{(matrix): The dataset provided by the user.}
 
-\item{num_means}{(numeric): The number of means (meu).}
+\item{num_meu}{(numeric): The number of meu.}
 }
 \value{
-A matrix containing the selected samples from the dataset. The initial
-means will be updated during the iterations of the algorithm.
+A matrix containing the selected samples from the dataset.
 }
 \description{
-Initialize the mean(s) for the Gaussian(s) by randomly selecting
-the samples from the dataset. This is the \strong{default} method for initializing
-the means(s).
-}
-\examples{
-# Generate random samples from a multivariate distribution.
-sample_data = MASS::mvrnorm(n=10, rep(10,5), Sigma = diag(5))
-
-# Randomly selecting the mean(s) from the data.
-means_mv(sample_data, num_means=2)
-
+Initialize the meus(s) by randomly selecting the samples from the dataset. This is the
+\strong{default} method for initializing the meu(s).
 }
 \author{
 Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic

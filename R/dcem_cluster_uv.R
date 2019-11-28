@@ -9,56 +9,52 @@ require(matrixcalc)
 #'
 #' @param data (matrix): The dataset provided by the user (converted to matrix format).
 #'
-#' @param mean_vector (vector): The vector containing the initial means of the Gaussians.
+#' @param meu (vector): The vector containing the initial meu.
 #'
-#' @param sd_vector (vector): The vector containing the initial standard deviation for the Gaussians. The initial
-#' sd are set to be 1. They are updated during the iterations of the algorithm.
+#' @param sigma (vector): The vector containing the initial standard deviation.
 #'
-#' @param prior_vec (vector): The vector containing the initial priors for the Gaussians. They are initialized
-#' uniformly.
+#' @param prior (vector): The vector containing the initial prior.
 #'
-#' @param num (numeric): The number of clusters specified by the user. Default value is 2.
+#' @param num_clusters (numeric): The number of clusters specified by the user. Default is 2.
 #'
-#' @param iteration_count (numeric): The number of iterations for which the algorithm should run. if the
-#' convergence is not achieved within the specified threshold then the algorithm stops and exits.
+#' @param iteration_count (numeric): The number of iterations for which the algorithm should run. If the
+#' convergence is not achieved then the algorithm stops.
 #' Default: 200.
 #'
-#' @param threshold (numeric): A small value to check for convergence (if the estimated mean(s) are within this
-#' specified threshold then the algorithm stops and exit).
+#' @param threshold (numeric): A small value to check for convergence (if the estimated mean(s)
+#' are within the threshold then the algorithm stops).
 #'
-#' \strong{Note: Choosing a very small value (0.0000001) for threshold can increase the runtime substantially
-#' and the algorithm may not converge. On the other hand, choosing a larger value (0.1)
-#' can lead to sub-optimal clustering. Default: 0.00001}.
+#' \strong{Note: Choosing a very small value (0.0000001) for threshold can increase the runtime
+#' substantially and the algorithm may not converge. On the other hand, choosing a larger
+#' value (0.1) can lead to sub-optimal clustering. Default: 0.00001}.
 #'
-#' @param numrows (numeric): Number of rows in the dataset (After processing the missing values).
+#' @param num_data (numeric): Number of rows in the dataset (After processing the missing
+#' values).
 #'
-#' @param numcols (numeric): Number of columns in the dataset (After processing the missing values).
+#' @param numcols (numeric): Number of columns in the dataset (After processing the
+#' missing values).
 #'
 #'
 #' @return
 #'         A list of objects. This list contains parameters associated with the
-#'         Gaussian(s) (posterior probabilities, mean, co-variance/standard-deviation and priors)
+#'         Gaussian(s) (posterior probabilities, meu, standard-deviation and prior)
 #'
 #'\enumerate{
-#'         \item (1) Posterior Probabilities: \strong{sample_out$prob}
-#'         A matrix of posterior-probabilities
+#'         \item (1) Posterior Probabilities: \strong{prob}: A matrix of
+#'         posterior-probabilities.
 #'
-#'         \item (2) Mean(s): \strong{sample_out$mean}
+#'         \item (2) Meu(s): \strong{meu}: It is a vector of
+#'         meu. Each element of the vector corresponds to one meu.
 #'
-#'         For univariate data: It is a vector of means. Each element of the vector
-#'         corresponds to one Gaussian.
+#'         \item (3) Sigma: Standard-deviation(s): \strong{sigma}: A vector of standard
+#'         deviation.
 #'
-#'         \item (3) Standard-deviation(s): \strong{sample_out$sd}
-#'
-#'         For univariate data: Vector of standard deviation for the Gaussian(s))
-#'
-#'         \item (4) Priors: \strong{sample_out$prior}
-#'         A vector of priors for the Gaussian(s).
+#'         \item (4) prior: \strong{prior}: A vector of prior.
 #'         }
 #'
 #' @usage
-#' dcem_cluster_uv(data, mean_vector, sd_vector, prior_vec, num, iteration_count,
-#' threshold, numrows, numcols)
+#' dcem_cluster_uv(data, meu, sigma, prior, num_clusters, iteration_count,
+#' threshold, num_data, numcols)
 #'
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
@@ -71,56 +67,49 @@ require(matrixcalc)
 dcem_cluster_uv <-
 
   function(data,
-           mean_vector,
-           sd_vector,
-           prior_vec,
-           num,
+           meu,
+           sigma,
+           prior,
+           num_clusters,
            iteration_count,
            threshold,
-           numrows,
+           num_data,
            numcols)
 
   {
     counter = 1
     t_status = TRUE
 
-    p_density = matrix(0,
-                       nrow = num,
-                       ncol = numrows,
+    weights = matrix(0,
+                       nrow = num_clusters,
+                       ncol = num_data,
                        byrow = TRUE)
+    tolerance <- .Machine$double.eps
 
     #Repeat till threshold achieved or convergence whichever is earlier.
     while (counter <= iteration_count) {
 
-      old_mean = mean_vector
+      old_mean = meu
 
-      for (clus in 1:num) {
-        p_density[clus, ] = dnorm(data, mean_vector[clus] , sd_vector[clus]) * prior_vec[clus]
-      }
+      # Expectation
+      weights = expectation_uv(data, weights, meu, sigma, prior, num_clusters, tolerance)
 
-      sum_p_density = colSums(p_density)
-      p_density <- sweep(p_density, 2, sum_p_density, '/')
+      # Maximisation
+      out = maximisation_uv(data, weights, meu, sigma, prior, num_clusters, num_data)
+      meu = out$meu
+      sigma = out$sigma
+      prior = out$prior
 
-      # Maximize standard-deviation and mean
-      for (clus in 1:num) {
+      # Check convergence
+      mean_diff = sqrt(sum((meu - old_mean) ^ 2))
 
-        # Don't need an additional weight_mat variable.
-        # Probabilities can be stored in the p_density matrix itself.
-        prior_vec[clus] = sum(p_density[clus, ]) / numrows
-        mean_vector[clus] = (sum(data * p_density[clus, ]) / sum(p_density[clus, ]))
-        sd_vector[clus] = sqrt(sum(((data - mean_vector[clus]) ^ 2) * p_density[clus, ]) / sum(p_density[clus, ]) )
-
-      }
-
-      # Find the difference in the mean
-      mean_diff = sqrt(sum((mean_vector - old_mean) ^ 2))
-
-      if (!is.na(mean_diff) && round(mean_diff, 4) < threshold) {
+      if (!is.na(mean_diff) && round(mean_diff, 4) <= threshold) {
         print((paste("Convergence at iteration number: ", counter)))
         break
       }
 
-      if (counter == iteration_count) {
+      # Check iterations
+      else if (counter == iteration_count) {
         print("Maximum iterations reached. Halting.")
         break
       }
@@ -128,7 +117,7 @@ dcem_cluster_uv <-
       counter = counter + 1
     }
 
-    output = list(prob = p_density, mean = mean_vector, sd = sd_vector, prior = prior_vec)
+    output = list('prob' = weights, 'meu' = meu, 'sigma' = sigma, 'prior' = prior)
     return(output)
 
   }

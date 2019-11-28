@@ -5,27 +5,20 @@
 \title{means_uv: Part of DCEM package.}
 \usage{
 # Randomly seeding the mean(s).
-means_uv(data, num_means)
+means_uv(data, num_meu)
 }
 \arguments{
-\item{data}{(matrix): The dataset provided by the user (converted to matrix format).}
+\item{data}{(matrix): The dataset provided by the user.}
 
-\item{num_means}{(number): The number of means (meu).}
+\item{num_meu}{(number): The number of meu.}
 }
 \value{
 A vector containing the selected samples from the dataset.
-The initial means will be updated during the execution.
 }
 \description{
 This function is internally called by the dcem_train to initialize the
-mean(s) for the Gaussian(s). It randomly selects the mean(s) from the
-range min(data):max(data). This is the \strong{default} method for initializing
-the means(s).
-}
-\examples{
-# Randomly selecting the samples from a normal distribution as inital mean(s).
-means_uv(rnorm(100,20,10), 2)
-
+meu(s). It randomly selects the meu(s) from the
+range min(data):max(data).
 }
 \author{
 Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic

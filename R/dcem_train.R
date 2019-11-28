@@ -1,14 +1,7 @@
-#Sourcing the required R scripts containing the dependencies.
-source("./R/sanitycheck.R")
-source("./R/dcem_init_mv.R")
-source("./R/dcem.R")
-library(Rcpp)
-sourceCpp('./R/heap.cpp')
-
 #' dcem_train: Part of DCEM package.
 #'
-#' Learn the Gaussian parameters, mean and co-variance from the dataset. It calls the relevant
-#' clustering routine internally \code{\link{dcem_cluster_uv}} (univariate data) and
+#' Implements the EM algorithm. It calls the relevant clustering routine internally
+#' \code{\link{dcem_cluster_uv}} (univariate data) and
 #' \code{\link{dcem_cluster_mv}} (multivariate data).
 #'
 #' @param data (dataframe): The dataframe containing the data. See \code{\link{trim_data}} for
@@ -32,27 +25,24 @@ sourceCpp('./R/heap.cpp')
 #'         the output:
 #'
 #'\enumerate{
-#'         \item (1) Posterior Probabilities: \strong{sample_out$prob}
-#'         A matrix of posterior-probabilities
+#'         \item (1) Posterior Probabilities: \strong{sample_out$prob}: A matrix of
+#'         posterior-probabilities
 #'
-#'         \item (2) Mean(s): \strong{sample_out$mean}
+#'         \item (2) Meu: \strong{sample_out$meu}
 #'
-#'         For multivariate data: It is a matrix of means for the Gaussian(s). Each row in
-#'         the  matrix corresponds to a mean for the Gaussian.
+#'         For multivariate data: It is a matrix of meu(s). Each row in
+#'         the  matrix corresponds to one meu.
 #'
-#'         For univariate data: It is a vector of means. Each element of the vector
-#'         corresponds to one Gaussian.
+#'         For univariate data: It is a vector of meu(s). Each element of the vector
+#'         corresponds to one meu.
 #'
-#'         \item (3) Co-variance matrices: \strong{sample_out$cov}
+#'         \item (3) Sigma: \strong{sample_out$sigma}
 #'
 #'         For multivariate data: List of co-variance matrices for the Gaussian(s).
 #'
-#'         Standard-deviation: \strong{sample_out$sd}
-#'
 #'         For univariate data: Vector of standard deviation for the Gaussian(s))
 #'
-#'         \item (4) Priors: \strong{sample_out$prior}
-#'         A vector of priors for the Gaussian(s).
+#'         \item (4) Priors: \strong{sample_out$prior}: A vector of priors.
 #'         }
 #'
 #' @usage
@@ -86,8 +76,6 @@ sourceCpp('./R/heap.cpp')
 #' sample_mv_out = dcem_train(sample_mv_data, threshold = 0.001, iteration_count = 100)
 #'
 #' sample_mv_out$mean
-#' #[1,]  2.053163  2.023351  2.017288  1.999596  1.983142
-#' #[2,] 13.948244 14.010651 13.897140 14.285898 13.752592
 #'
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
@@ -139,51 +127,51 @@ dcem_train <-
 
     # Safe copy the data for operations
     test_data <- as.matrix(data)
-    numrows <- nrow(test_data)
+    num_data <- nrow(test_data)
     valid_columns <- ncol(test_data)
 
     em_data_out <- list()
 
     if (valid_columns >= 2) {
       if (seeding == "rand"){
-      mean_mat <- means_mv(test_data, num_clusters)
+      meu <- means_mv(test_data, num_clusters)
       }
       else{
-      mean_mat <- means_mv_impr(test_data, num_clusters)
+      meu <- means_mv_impr(test_data, num_clusters)
       print("got the improved matrix")
       }
-      cov_list <- cov_mv(num_clusters, valid_columns)
-      prior_vec <- priors(num_clusters)
+      sigma <- cov_mv(num_clusters, valid_columns)
+      priors <- get_priors(num_clusters)
       em_data_out <- dcem_cluster_mv(
         test_data,
-        mean_mat,
-        cov_list,
-        prior_vec,
+        meu,
+        sigma,
+        priors,
         num_clusters,
         iteration_count,
         threshold,
-        numrows
+        num_data
       )
     }
 
     if (valid_columns < 2) {
       if(seeding=="rand"){
-      mean_vector <- means_uv(test_data, num_clusters)
+      meu <- means_uv(test_data, num_clusters)
       }
       else{
-      mean_vector <- means_uv_impr(test_data, num_clusters)
+      meu <- means_uv_impr(test_data, num_clusters)
       }
-      sd_vector <- sd_uv(test_data, num_clusters)
-      prior_vec <- priors(num_clusters)
+      sigma <- sd_uv(test_data, num_clusters)
+      priors <- get_priors(num_clusters)
       em_data_out <- dcem_cluster_uv(
         test_data,
-        mean_vector,
-        sd_vector,
-        prior_vec,
+        meu,
+        sigma,
+        priors,
         num_clusters,
         iteration_count,
         threshold,
-        numrows,
+        num_data,
         valid_columns
       )
     }

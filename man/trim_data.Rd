@@ -2,7 +2,7 @@
 % Please edit documentation in R/sanitycheck.R
 \name{trim_data}
 \alias{trim_data}
-\title{trim_data: Part of DCEM package.}
+\title{trim_data: Part of DCEM package. Used internally in the package.}
 \usage{
 trim_data(columns, data)
 }
@@ -18,19 +18,6 @@ A dataframe with the specified column(s) removed from it.
 }
 \description{
 Removes the specified column(s) from the dataset.
-}
-\examples{
-# Remove a range of columns. Generally, the columns containing the labels or
-# redundant values (such as all 0's) should be removed before training the model.
-
-trim_data("1,2", data.frame(x1=sample(1:100,10),
-x2=sample(500:1000, 10), x3=sample(-100:0,10)))
-
-# Remove a single column.
-
-trim_data("2", data.frame(x1=sample(1:100,10),
-x2=sample(500:1000, 10), x3=sample(-100:0,10)))
-
 }
 \references{
 Using data to build a better EM: EM* for big data.

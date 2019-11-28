@@ -1,7 +1,10 @@
-exportPattern("^[[:alpha:]]+")
+useDynLib(DCEM, .registration=TRUE)
+export(dcem_train)
+export(dcem_star_train)
 importFrom("stats", "cov.wt")
 importFrom("utils", "read.csv2")
 importFrom("stats", "dnorm")
 importFrom("stats", "sd")
 importFrom("mvtnorm", "dmvnorm")
+importFrom(Rcpp, evalCpp)
 
