@@ -4,7 +4,7 @@
 \alias{dcem_star_train}
 \title{dcem_star_train: Part of DCEM package.}
 \usage{
-dcem_star_train(data, iteration_count,  num_clusters, seeding)
+dcem_star_train(data, iteration_count,  num_clusters, seed_meu, seeding)
 }
 \arguments{
 \item{data}{(dataframe): The dataframe containing the data. See \code{\link{trim_data}} for
@@ -14,6 +14,8 @@ cleaning the data.}
 convergence is not achieved then the algorithm stops and exit. \strong{Default: 200}.}
 
 \item{num_clusters}{(numeric): The number of clusters. Default: \strong{2}}
+
+\item{seed_meu}{(matrix): The user specified set of meu to use as initial centroids. Default: \strong{None}}
 
 \item{seeding}{(string): The initialization scheme ('rand', 'improved'). Default: \strong{rand}}
 }
@@ -73,7 +75,11 @@ MASS::mvrnorm(n=5, rep(14,5), Sigma = diag(5))))
 # random seeding method respectively.
 sample_mv_out = dcem_star_train(sample_mv_data, iteration_count = 100, num_clusters=2)
 
+# Access the output
 sample_mv_out$meu
+sample_mv_out$sigma
+sample_mv_out$prior
+sample_mv_out$prob
 
 }
 \references{

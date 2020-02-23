@@ -31,10 +31,10 @@ The package has been tested with both real and simulated datasets. The package c
 install.packages(DCEM)
 ```
 
-**_Installing from the Binary Package_**
+**_Installing from the Source Package_**
 
 ```
-install.packages(DCEM_2.0.0.tgz, repos = NULL, type="source")
+R CMD install DCEM_2.0.1.tar.gz
 ```
 
 **How to use the package (An Example: working with the default bundled dataset)**
@@ -60,8 +60,7 @@ Paste the below code in the R session to clean the dataset.
 ionosphere_data =  trim_data("35,2", ionosphere_data)
 ```
 
-- **_Clustering the data:_** The dcem_train() learns the parameters of the Gaussian(s) from the input data. It internally calls the `dcem_cluster_mv()`or `dcem_cluster_uv()` function for multivariate and univariate data respectively. These 
-functions assign(s) the probabilistic weights to the sample(s) in the dataset. 
+- **_Clustering the data:_** The dcem_train() learns the parameters of the Gaussian(s) from the input data.
 
 Paste the below code in the R session to call the dcem_train() function.
 

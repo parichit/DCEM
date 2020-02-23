@@ -16,6 +16,8 @@
 #'
 #' @param num_clusters (numeric): The number of clusters. Default: \strong{2}
 #'
+#' @param seed_meu (matrix): The user specified set of meu to use as initial centroids. Default: \strong{None}
+#'
 #' @param seeding (string): The initialization scheme ('rand', 'improved'). Default: \strong{rand}
 #'
 #' @return
@@ -46,7 +48,7 @@
 #'         }
 #'
 #' @usage
-#' dcem_train(data, threshold, iteration_count,  num_clusters, seeding)
+#' dcem_train(data, threshold, iteration_count,  num_clusters, seed_meu, seeding)
 #'
 #' @references
 #'Using data to build a better EM: EM* for big data.
@@ -75,7 +77,11 @@
 #'# 0.00001, iteration count of 100 and random seeding method respectively.
 #' sample_mv_out = dcem_train(sample_mv_data, threshold = 0.001, iteration_count = 100)
 #'
-#' sample_mv_out$meu
+#'# Access the output
+#' print(sample_mv_out$meu)
+#' print(sample_mv_out$sigma)
+#' print(sample_mv_out$prior)
+#' print(sample_mv_out$prob)
 #'
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
@@ -86,7 +92,7 @@ dcem_train <-
   function(data,
            threshold,
            iteration_count,
-           num_clusters, seeding) {
+           num_clusters, seed_meu, seeding) {
     if (missing(threshold)) {
       threshold = 0.00001
       print("Using default value for convergence threshold = 0.00001.")
@@ -133,12 +139,19 @@ dcem_train <-
     em_data_out <- list()
 
     if (valid_columns >= 2) {
+
+      if (missing(seed_meu)){
+
       if (seeding == "rand"){
         meu <- meu_mv(test_data, num_clusters)
       }
-      else{
+      else if (seeding == "improved"){
         meu <- meu_mv_impr(test_data, num_clusters)
         print("got the improved matrix")
+      }
+      }
+      else{
+        meu <- seed_meu
       }
       sigma <- sigma_mv(num_clusters, valid_columns)
       priors <- get_priors(num_clusters)

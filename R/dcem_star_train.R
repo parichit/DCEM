@@ -13,6 +13,8 @@
 #'
 #' @param num_clusters (numeric): The number of clusters. Default: \strong{2}
 #'
+#' @param seed_meu (matrix): The user specified set of meu to use as initial centroids. Default: \strong{None}
+#'
 #' @param seeding (string): The initialization scheme ('rand', 'improved'). Default: \strong{rand}
 #'
 #' @return
@@ -46,7 +48,7 @@
 #'         }
 #'
 #' @usage
-#' dcem_star_train(data, iteration_count,  num_clusters, seeding)
+#' dcem_star_train(data, iteration_count,  num_clusters, seed_meu, seeding)
 #'
 #' @references
 #' Using data to build a better EM: EM* for big data.
@@ -74,7 +76,11 @@
 #'# random seeding method respectively.
 #' sample_mv_out = dcem_star_train(sample_mv_data, iteration_count = 100, num_clusters=2)
 #'
+#'# Access the output
 #' sample_mv_out$meu
+#' sample_mv_out$sigma
+#' sample_mv_out$prior
+#' sample_mv_out$prob
 #'
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
@@ -84,7 +90,7 @@
 dcem_star_train <-
   function(data,
            iteration_count,
-           num_clusters, seeding) {
+           num_clusters, seed_meu, seeding) {
 
     if (missing(iteration_count)) {
       iteration_count = 200
@@ -125,11 +131,17 @@ dcem_star_train <-
     em_data_out = list()
 
     if (valid_columns >= 2) {
+
+      if (missing(seed_meu)){
       if (seeding == "rand"){
         meu = meu_mv(test_data, num_clusters)
       }
       else{
         meu = meu_mv_impr(test_data, num_clusters)
+      }
+      }
+      else{
+        meu <- seed_meu
       }
       sigma = sigma_mv(num_clusters, valid_columns)
       priors = get_priors(num_clusters)

@@ -78,6 +78,35 @@ dcem_cluster_mv <-
                       byrow = TRUE)
 
     tolerance <- .Machine$double.eps
+    chk_partition = 1
+
+    # Checking for empty partitiion.
+    while(chk_partition < 5){
+      # Expectation
+      weights = expectation_mv(data,
+                               weights,
+                               meu,
+                               sigma,
+                               prior,
+                               num_clusters,
+                               tolerance)
+      part_size = apply(weights, 2, which.max)
+
+      if (length(unique(part_size)) < num_clusters) {
+        print(paste("Retrying on empty partition, attempt: ", chk_partition))
+        meu <- meu_mv(data, num_clusters)
+        chk_partition = chk_partition + 1
+      }
+      else if (length(unique(part_size)) == num_clusters){
+        break
+      }
+      else{
+        cat("The specified number of clusters:", num_clusters, "results in",
+            num_clusters - length(unique(part_size)), "empty clusters.",
+            "\nThe data may have lesser modalities. Please retry with less number of clusters.\n")
+        stop("Exiting...")
+      }
+    }
 
     # Repeat till convergence threshold or iteration which-ever is earlier.
     while (counter <= iteration_count) {
@@ -86,7 +115,6 @@ dcem_cluster_mv <-
                         nrow = num_clusters,
                         ncol = num_data,
                         byrow = TRUE)
-
       # Expectation
       weights = expectation_mv(data,
                                weights,
@@ -108,7 +136,7 @@ dcem_cluster_mv <-
       # Check convergence
       if (!is.na(meu_diff) && round(meu_diff, 4) < threshold) {
         print((paste(
-          "Convergence at iteration num_clustersber: ", counter
+          "Convergence at iteration number: ", counter
         )))
         break
       }
@@ -119,14 +147,14 @@ dcem_cluster_mv <-
         break
       }
       counter = counter + 1
-
     }
 
     output = list(
       prob = weights,
       'meu' = meu,
       'sigma' = sigma,
-      'prior' = prior
+      'prior' = prior,
+      'count' = counter
     )
     return(output)
 

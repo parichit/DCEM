@@ -15,7 +15,7 @@
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work was partially supported by NCI Grant 1R01CA213466-01.
-
+#' @export
 meu_mv <- function(data, num_meu) {
   mean_matrix = data[sample(1:nrow(data), num_meu),]
   return(mean_matrix)

@@ -76,6 +76,7 @@ dcem_star_cluster_uv <-
     heap_list <- rep(list(list()), num_clusters)
     index_list <- c()
     old_leaf_values <- c()
+    chk_count = 1
 
     # Expectation
     weights = expectation_uv(data, weights, meu, sigma, prior, num_clusters, tolerance)
@@ -88,6 +89,12 @@ dcem_star_cluster_uv <-
     mean_vec = out$meu
     sd_vec = out$sigma
     prior = out$prior
+
+    # Setup heap
+    # loop to ensure that no heap is empty
+    while (chk_count < 5){
+
+    temp_heap_size = c()
 
     # Creating heaps
     for (clus in 1:num_clusters) {
@@ -103,6 +110,29 @@ dcem_star_cluster_uv <-
       # Build the heap from data frames
       temp_out <- build_heap(heap_list[[clus]])
       heap_list[[clus]] <- split(temp_out, 1:nrow(temp_out))
+
+    }
+
+      # Continue while loop if any heap is empty
+      if(any(temp_heap_size==0)){
+        print(paste("heap was 0 so repeating: ", chk_count))
+        meu = meu_mv(data, num_clusters)
+        # Expectation
+        weights = expectation_mv(data, weights, meu, sigma, prior, num_clusters, tolerance)
+        heap_index <- apply(weights, 2, which.max)
+        data_prob <- apply(weights, 2, max)
+        cluster_map <- heap_index
+        chk_count =  chk_count + 1
+      }
+      # Break the while loop if none of the heap is empty
+      else{
+        # Maximisation
+        out = maximisation_mv(data, weights, meu, sigma, prior, num_clusters, num_data)
+        meu = out$meu
+        sigma = out$sigma
+        prior = out$prior
+        break
+      }
     }
 
     out = separate_data(heap_list, num_clusters)

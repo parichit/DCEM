@@ -191,7 +191,7 @@ maximisation_mv <- function(data, weights, meu, sigma, prior, num_clusters, num_
     temp = stats::cov.wt(
       data,
       weights[clus, ],
-      cor = TRUE
+      method = "ML"
     )$cov
 
     # Take care of the singularity condition.

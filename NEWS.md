@@ -1,3 +1,11 @@
+**DCEM 2.0.1**
+
+Bug fix release of the DCEM package.
+
+**Bug Fixes**
+
+Removed the usage of floor in integer division in CPP code. The usage lead to warnings (on Solaris OS) in the previous verison - 2.0.0.
+
 **DCEM 2.0.0**
 
 This is the fourth major release of the DCEM package.

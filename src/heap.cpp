@@ -73,11 +73,10 @@ NumericMatrix build_heap(NumericMatrix data){
     Rcout << "only 1 element in the heap" << std::endl;
     return data;
   }
-
-  int i = floor((data.nrow())/2);
-  while (i>=0){
-    data = max_heapify(data, i, data.nrow()-1);
-    i = i-1 ;
+  int num_data = data.nrow()/2;
+  while (num_data>=0){
+    data = max_heapify(data, num_data, data.nrow()-1);
+    num_data = num_data-1 ;
   }
   return data;
 }

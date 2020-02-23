@@ -1,6 +1,7 @@
 useDynLib(DCEM, .registration=TRUE)
 export(dcem_train)
 export(dcem_star_train)
+export(meu_mv)
 importFrom("stats", "cov.wt")
 importFrom("utils", "read.csv2")
 importFrom("stats", "dnorm")

@@ -4,7 +4,7 @@
 \alias{dcem_train}
 \title{dcem_train: Part of DCEM package.}
 \usage{
-dcem_train(data, threshold, iteration_count,  num_clusters, seeding)
+dcem_train(data, threshold, iteration_count,  num_clusters, seed_meu, seeding)
 }
 \arguments{
 \item{data}{(dataframe): The dataframe containing the data. See \code{\link{trim_data}} for
@@ -18,6 +18,8 @@ convergence is not achieved within the specified count then the algorithm stops 
 \strong{Default: 200}.}
 
 \item{num_clusters}{(numeric): The number of clusters. Default: \strong{2}}
+
+\item{seed_meu}{(matrix): The user specified set of meu to use as initial centroids. Default: \strong{None}}
 
 \item{seeding}{(string): The initialization scheme ('rand', 'improved'). Default: \strong{rand}}
 }
@@ -74,7 +76,11 @@ MASS::mvrnorm(n=50, rep(14,5), Sigma = diag(5))))
 # 0.00001, iteration count of 100 and random seeding method respectively.
 sample_mv_out = dcem_train(sample_mv_data, threshold = 0.001, iteration_count = 100)
 
-sample_mv_out$meu
+# Access the output
+print(sample_mv_out$meu)
+print(sample_mv_out$sigma)
+print(sample_mv_out$prior)
+print(sample_mv_out$prob)
 
 }
 \references{

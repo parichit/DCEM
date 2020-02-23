@@ -76,10 +76,39 @@ dcem_star_cluster_mv <-
 
     old_leaf_values <- c()
     tolerance <- .Machine$double.eps
+    chk_partition = 1
 
     # Expectation
     weights = expectation_mv(data, weights, meu, sigma, prior, num_clusters, tolerance)
     heap_index <- apply(weights, 2, which.max)
+    #data_prob <- apply(weights, 2, max)
+    #cluster_map <- heap_index
+
+    # Checking for empty partitiion.
+    while (chk_partition < 5){
+    if(length(unique(heap_index)) < num_clusters){
+      print(paste("Retrying on empty partition, attempt: ", chk_partition))
+      meu = meu_mv(data, num_clusters)
+      # Expectation
+      weights = expectation_mv(data, weights, meu, sigma, prior, num_clusters, tolerance)
+      heap_index <- apply(weights, 2, which.max)
+      chk_partition = chk_partition + 1
+    }
+
+    # Break the while loop if none of the heap is empty
+    else if (length(unique(heap_index)) == num_clusters){
+      #print("Empty partition fixed.")
+      break
+    }
+    else if (chk_partition==5){
+      cat("The specified number of clusters:", num_clusters, "results in",
+          num_clusters - length(unique(heap_index)), "empty clusters.",
+          "\nThe data may have lesser modalities. Please retry or specify lesser number of clusters.\n")
+      stop("Exiting...")
+    }
+
+    }
+
     data_prob <- apply(weights, 2, max)
     cluster_map <- heap_index
 
@@ -89,7 +118,6 @@ dcem_star_cluster_mv <-
     sigma = out$sigma
     prior = out$prior
 
-    # Setup heap
     for (clus in 1:num_clusters) {
 
       # Put the data in the heap (data belonging to their own clusters)
@@ -182,7 +210,8 @@ dcem_star_cluster_mv <-
       prob = weights,
       'meu' = meu,
       'sigma' = sigma,
-      'prior' = prior
+      'prior' = prior,
+      'count' = counter
     )
     return(output)
 
