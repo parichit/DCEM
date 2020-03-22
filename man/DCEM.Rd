@@ -3,7 +3,6 @@
 \docType{package}
 \name{DCEM}
 \alias{DCEM}
-\alias{DCEM-package}
 \title{DCEM: Data clustering through Expectation-Maximization algorithm.}
 \description{
 Implements the EM* (see list of references) and EM algorithm

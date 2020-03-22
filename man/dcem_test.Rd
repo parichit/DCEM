@@ -25,16 +25,16 @@ The dcem_test performs the following steps in order:
      should be removed and how. The package provides the basic interface for removing
      columns.
 
-     \item Call the \code{\link{dcem_train}} on the cleaned data.
+     \item Call the \code{\link{dcem_star_train}} on the cleaned data.
 }
 }
 
 \section{Accessing the output parameters}{
 
 
-The function dcem_test() calls dcem_train() that returns a list of objects.
-This list contains estimated parameters of the Gaussian
-(posterior probabilities, meu, sigma and prior). The
+The function dcem_test() calls the \code{\link{dcem_star_train}}.
+It returns a list of objects as output. This list contains estimated
+parameters of the Gaussian (posterior probabilities, meu, sigma and prior). The
 parameters can be accessed as follows where sample_out is the list containing
 the output:
 

@@ -1,5 +1,4 @@
 source("./R/dcem_train.R")
-
 #' dcem_test: Part of DCEM package.
 #'
 #' For demonstrating the execution on the bundled dataset.
@@ -19,14 +18,14 @@ source("./R/dcem_train.R")
 #'      should be removed and how. The package provides the basic interface for removing
 #'      columns.
 #'
-#'      \item Call the \code{\link{dcem_train}} on the cleaned data.
+#'      \item Call the \code{\link{dcem_star_train}} on the cleaned data.
 #' }
 #'
 #' @section Accessing the output parameters:
 #'
-#' The function dcem_test() calls dcem_train() that returns a list of objects.
-#' This list contains estimated parameters of the Gaussian
-#' (posterior probabilities, meu, sigma and prior). The
+#' The function dcem_test() calls the \code{\link{dcem_star_train}}.
+#' It returns a list of objects as output. This list contains estimated
+#' parameters of the Gaussian (posterior probabilities, meu, sigma and prior). The
 #' parameters can be accessed as follows where sample_out is the list containing
 #' the output:
 #'
@@ -63,12 +62,13 @@ source("./R/dcem_train.R")
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
+#' @export
 
 dcem_test <- function()
 {
 
   # Setting the filepath to read from the bundled csv file.
-  data_file =  paste(trimws(getwd()),"/data/","ionosphere_data.csv",sep = "")
+  data_file =  file.path(trimws(getwd()),"data","ionosphere_data.csv")
 
   # Reading the input file into a dataframe.
   ionosphere_data = read.csv2(
@@ -81,8 +81,8 @@ dcem_test <- function()
   # Cleaning the data by removing the 35th and 2nd column as they contain the labels and 0's respectively.
   ionosphere_data =  trim_data("2, 35", ionosphere_data)
 
-  # Calling the dcem_train() function with the cleaned dataset.
-  sample_out = dcem_train(ionosphere_data, 0.001, 200, 2)
+  # Calling the dcem_star_train() function with the cleaned dataset.
+  sample_out = dcem_star_train(ionosphere_data)
 
   # Return the list containing the output parameters.
   return(sample_out)

@@ -35,7 +35,7 @@ validate_data <- function(columns, numcols){
 
       list_of_columns =  sort(strtoi(unlist(strsplit(columns,","))))
       for (i in list_of_columns){
-        if(list_of_columns[i] < 1 || list_of_columns[i] > numcols)
+        if(i < 1 || i > numcols)
         {
           print(paste("The specified column to be removed: ", list_of_columns[i], "does not exist in the data."))
           return(FALSE)

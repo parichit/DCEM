@@ -4,7 +4,9 @@
 \name{ionosphere_data}
 \alias{ionosphere_data}
 \title{Ionosphere data: A dataset of 351 radar readings}
-\format{A file with 351 rows and 35 columns of multivariate data in a csv file. All values are numeric.}
+\format{
+A file with 351 rows and 35 columns of multivariate data in a csv file. All values are numeric.
+}
 \source{
 Space Physics Group
 Applied Physics Laboratory
