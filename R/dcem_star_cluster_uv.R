@@ -38,6 +38,8 @@ require(matrixcalc)
 #'         For univariate data: Vector of standard deviation.
 #'
 #'         \item (4) Priors: \strong{prior}: A vector of priors.
+#'
+#'         \item (5) Membership: \strong{membership}: A vector of cluster membership for data.
 #'         }
 #'
 #' @usage
@@ -51,7 +53,6 @@ require(matrixcalc)
 #' @references
 #' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
 #' (2016) <https://doi.org/10.1007/s41060-017-0062-1>.
-
 
 dcem_star_cluster_uv <-
 
@@ -93,7 +94,6 @@ dcem_star_cluster_uv <-
     # Setup heap
     # loop to ensure that no heap is empty
     while (chk_count < 5){
-
     temp_heap_size = c()
 
     # Creating heaps
@@ -116,7 +116,7 @@ dcem_star_cluster_uv <-
       # Continue while loop if any heap is empty
       if(any(temp_heap_size==0)){
         print(paste("heap was 0 so repeating: ", chk_count))
-        meu = meu_mv(data, num_clusters)
+        meu = meu_uv(data, num_clusters)
         # Expectation
         weights = expectation_mv(data, weights, meu, sigma, prior, num_clusters, tolerance)
         heap_index <- apply(weights, 2, which.max)
@@ -124,6 +124,7 @@ dcem_star_cluster_uv <-
         cluster_map <- heap_index
         chk_count =  chk_count + 1
       }
+
       # Break the while loop if none of the heap is empty
       else{
         # Maximisation
@@ -162,7 +163,6 @@ dcem_star_cluster_uv <-
 
       weights = update_weights(temp_weights, weights, index_list, num_clusters)
 
-
       sum_weights <- colSums(weights)
       weights <- sweep(weights, 2, sum_weights, '/')
       weights[is.nan(weights)] <- tolerance
@@ -186,7 +186,6 @@ dcem_star_cluster_uv <-
         new_liklihood_for_leaves <-
           unlist(apply(temp_weights, 2, max))
       }
-
 
       # Insert into new heap
       #print(paste("Inserting", length(leaves_ind)))
@@ -228,9 +227,10 @@ dcem_star_cluster_uv <-
 
     output = list(
       prob = weights,
-      'meu' = meu,
+      'meu' = as.vector(meu),
       'sigma' = sigma,
-      'prior' = prior
+      'prior' = prior,
+      'membership' = apply(weights, 2, which.max)
     )
     return(output)
 

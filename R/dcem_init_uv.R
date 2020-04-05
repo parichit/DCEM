@@ -18,8 +18,8 @@
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 
 meu_uv <- function(data, num_meu) {
-  meu_vector = c(sample(min(data):max(data), num_meu))
-  return(meu_vector)
+  #meu_vector = data[sample(1:nrow(data), num_meu), ]
+  return(data[sample(1:nrow(data), num_meu), ])
 }
 
 #'meu_uv_impr: Part of DCEM package.
@@ -44,37 +44,46 @@ meu_uv <- function(data, num_meu) {
 
 meu_uv_impr <- function(data, num_meu){
 
-  meu_vector = c()
-  counter = 0
-  total = 0
+  # Select the next set of centroids based on weighted probability
+    if (num_meu == 1){
 
+      # Select the first centroid randomly
+      meu_vector = meu_uv(data, num_meu)
 
-  #Selecting the first centroid in a uniform manner
-  set.seed(1005)
-  meu_vector = c(meu_vector, data[sample(1:length(data), 1)])
+    } else if(num_meu == 2){
 
-  #Increase the var to track the selected centroids
-  counter = counter + 1
+      # Select the first centroid randomly
+      meu_vector = meu_uv(data, 1)
+      dist = (meu_vector - data)^2
+      dist = dist/sum(dist)
 
-  while (counter < num_meu){
+      # Select the next centroid by weighted probability
+      meu_vector = c(meu_vector, data[which.max(dist), ])
 
-    dist_vector <- c()
-    counter = counter + 1
+    } else if(num_meu > 2) {
 
-    #Starting the probability calculations for selecting the next set of centroids
-    for (row in 1:length(data)){
-      for(srow in 1:counter){
-        dist = sum((data[srow] - meu_vector[counter])^2)
-        dist_vector = c(dist_vector, dist)
-        total = total + dist
+      # Select the first centroid randomly
+      meu_vector = meu_uv(data, 1)
+
+      # Select the next centroid by weighted probability
+      dist = (data - meu_vector)^2
+      dist = dist/sum(dist)
+      meu_vector = c(meu_vector, data[which.max(dist), ])
+
+      # Select the next centroids by weighted probability
+      for(k in 3:num_meu){
+        dist_matrix = matrix(ncol = k-1, nrow = nrow(data))
+
+        # Calculate the distance of all points from existing centroids
+        for(i in 1:length(meu_vector)){
+          dist_matrix[, i] = (data - meu_vector[i])^2
+        }
+        # Store the minimum distance
+        dist_matrix = apply(dist_matrix, 1, min)
+        dist_matrix = dist_matrix/sum(dist_matrix)
+        meu_vector = c(meu_vector, data[which.max(dist_matrix), ])
       }
     }
-
-    dist_vector  = dist_vector / total
-    meu_vector = c(meu_vector, data[counter])
-
-  }
-
   return(meu_vector)
 }
 

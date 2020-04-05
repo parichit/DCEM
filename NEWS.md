@@ -1,3 +1,8 @@
+**DCEM 2.0.2**
+
+Added the option to get cluster membership of data directly from the output.
+Patched the code for K-Means++ based initialization.
+
 **DCEM 2.0.1**
 
 Bug fix release of the DCEM package.

@@ -31,7 +31,7 @@
 #' The function dcem_test() returns a list of objects.
 #' This list contains the parameters associated with the Gaussian(s),
 #' posterior probabilities (prob), mean (meu), co-variance/standard-deviation(sigma)
-#' and priors (prior).
+#' ,priors (prior) and cluster membership for data (membership).
 #'
 #' \strong{Note:} The routine dcem_test() is only for demonstration purpose.
 #' The function \code{\link{dcem_test}} calls the main routine
@@ -60,7 +60,6 @@
 #'    }
 #'    }
 #'
-#'
 #' @references
 #' Using data to build a better EM: EM* for big data.
 #'
@@ -70,19 +69,27 @@
 #'
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 #'
-#' \strong{External Packages:} DCEM requires R packages 'mvtnorm'[1] and 'matrixcalc'[2]
-#' for multivariate density calculation and
-#' for checking the matrix singularity respectively.
+#' \strong{External Packages:} DCEM requires R packages 'mvtnorm'[1], 'matrixcalc'[2]
+#' 'RCPP'[3] and 'MASS'[4] for multivariate density calculation,
+#' checking matrix singularity, compiling routines written in C and
+#' simulating mixture of gaussians, respectively.
 #'
-#' For improving the initialization, ideas published in [3] is used.
+#' For improving the initialization, ideas published in [5] is used.
 #'
 #' [1] Alan Genz, Frank Bretz, Tetsuhisa Miwa, Xuefei Mi, Friedrich Leisch, Fabian Scheipl,
 #' Torsten Hothorn (2019). mvtnorm: Multivariate Normal and t Distributions.
 #' R package version 1.0-7. URL http://CRAN.R-project.org/package=mvtnorm
 #'
-#' [2] https://CRAN.R-project.org/package=matrixcalc
+#' [2] Frederick Novomestky (2012). matrixcalc: Collection of functions for matrix calculations. R
+#' package version 1.0-3. https://CRAN.R-project.org/package=matrixcalc
 #'
-#' [3] k-means++: The Advantages of Careful Seeding, David Arthur and Sergei Vassilvitskii.
+#' [3] Dirk Eddelbuettel and Romain Francois (2011). Rcpp: Seamless R and C++ Integration. Journal of
+#' Statistical Software, 40(8), 1-18. URL http://www.jstatsoft.org/v40/i08/.
+#'
+#' [4] Venables, W. N. & Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth Edition.
+#' Springer, New York. ISBN 0-387-95457-0
+#'
+#' [5] K-Means++: The Advantages of Careful Seeding, David Arthur and Sergei Vassilvitskii.
 #' URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf
 #'
 #' @docType package

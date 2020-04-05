@@ -45,6 +45,9 @@
 #'         For univariate data: Vector of standard deviation for the Gaussian(s))
 #'
 #'         \item (4) Priors: \strong{sample_out$prior}: A vector of priors.
+#'
+#'         \item (5) Membership: \strong{sample_out$membership}: A vector of
+#'         cluster membership for data.
 #'         }
 #'
 #' @usage
@@ -82,6 +85,7 @@
 #' print(sample_mv_out$sigma)
 #' print(sample_mv_out$prior)
 #' print(sample_mv_out$prob)
+#' print(sample_mv_out$membership)
 #'
 #' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
 #'
@@ -136,7 +140,7 @@ dcem_train <-
     num_data <- nrow(test_data)
     valid_columns <- ncol(test_data)
 
-    em_data_out <- list()
+    emt_out <- list()
 
     if (valid_columns >= 2) {
 
@@ -147,7 +151,6 @@ dcem_train <-
       }
       else if (seeding == "improved"){
         meu <- meu_mv_impr(test_data, num_clusters)
-        print("got the improved matrix")
       }
       }
       else{
@@ -155,7 +158,7 @@ dcem_train <-
       }
       sigma <- sigma_mv(num_clusters, valid_columns)
       priors <- get_priors(num_clusters)
-      em_data_out <- dcem_cluster_mv(
+      emt_out <- dcem_cluster_mv(
         test_data,
         meu,
         sigma,
@@ -171,12 +174,12 @@ dcem_train <-
       if(seeding=="rand"){
         meu <- meu_uv(test_data, num_clusters)
       }
-      else{
+      else if(seeding == "improved"){
         meu <- meu_uv_impr(test_data, num_clusters)
       }
       sigma <- sigma_uv(test_data, num_clusters)
       priors <- get_priors(num_clusters)
-      em_data_out <- dcem_cluster_uv(
+      emt_out <- dcem_cluster_uv(
         test_data,
         meu,
         sigma,
@@ -189,5 +192,5 @@ dcem_train <-
       )
     }
 
-    return(em_data_out)
+    return(emt_out)
   }

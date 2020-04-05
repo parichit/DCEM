@@ -48,6 +48,9 @@ A list of objects. This list contains parameters associated with the Gaussian(s)
         For univariate data: Vector of standard deviation for the Gaussian(s))
 
         \item (4) Priors: \strong{sample_out$prior}: A vector of priors.
+
+        \item (5) Membership: \strong{sample_out$membership}: A vector of
+        cluster membership for data.
         }
 }
 \description{
@@ -81,6 +84,7 @@ print(sample_mv_out$meu)
 print(sample_mv_out$sigma)
 print(sample_mv_out$prior)
 print(sample_mv_out$prob)
+print(sample_mv_out$membership)
 
 }
 \references{

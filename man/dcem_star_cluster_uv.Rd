@@ -39,6 +39,8 @@ A list of objects. This list contains parameters associated with the
         For univariate data: Vector of standard deviation.
 
         \item (4) Priors: \strong{prior}: A vector of priors.
+
+        \item (5) Membership: \strong{membership}: A vector of cluster membership for data.
         }
 }
 \description{

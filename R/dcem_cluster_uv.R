@@ -49,6 +49,9 @@ require(matrixcalc)
 #'         deviation.
 #'
 #'         \item (4) prior: \strong{prior}: A vector of prior.
+#'
+#'         \item (5) Membership: \strong{membership}: A vector of
+#'         cluster membership for data.
 #'         }
 #'
 #' @usage
@@ -100,7 +103,7 @@ dcem_cluster_uv <-
       prior = out$prior
 
       # Check convergence
-      mean_diff = sqrt(sum((meu - old_meu) ^ 2))
+      mean_diff = sum((meu - old_meu) ^ 2)
 
       if (!is.na(mean_diff) && round(mean_diff, 4) <= threshold) {
         print((paste("Convergence at iteration number: ", counter)))
@@ -116,7 +119,12 @@ dcem_cluster_uv <-
       counter = counter + 1
     }
 
-    output = list('prob' = weights, 'meu' = meu, 'sigma' = sigma, 'prior' = prior)
+    output = list('prob' = weights,
+                  'meu' = as.vector(meu),
+                  'sigma' = sigma,
+                  'prior' = prior,
+                  'membership' = apply(weights, 2, which.max)
+                  )
     return(output)
 
   }

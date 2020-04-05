@@ -32,6 +32,7 @@
 #'
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 #'
+
 expectation_uv <- function(data, weights, meu, sigma, prior, num_clusters, tolerance){
 
   for (clus in 1:num_clusters) {
@@ -81,7 +82,6 @@ expectation_uv <- function(data, weights, meu, sigma, prior, num_clusters, toler
 #'
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 #'
-
 
 maximisation_uv <- function(data, weights, meu, sigma, prior, num_clusters, num_data){
 

@@ -49,6 +49,9 @@ A list of objects. This list contains parameters associated with the
         deviation.
 
         \item (4) prior: \strong{prior}: A vector of prior.
+
+        \item (5) Membership: \strong{membership}: A vector of
+        cluster membership for data.
         }
 }
 \description{

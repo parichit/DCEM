@@ -17,8 +17,8 @@
 #' This work was partially supported by NCI Grant 1R01CA213466-01.
 #' @export
 meu_mv <- function(data, num_meu) {
-  mean_matrix = data[sample(1:nrow(data), num_meu),]
-  return(mean_matrix)
+  #mean_matrix = data[sample(1:nrow(data), num_meu),]
+  return(data[sample(1:nrow(data), num_meu),])
 }
 
 #'meu_mv_impr: Part of DCEM package.
@@ -42,35 +42,44 @@ meu_mv <- function(data, num_meu) {
 
 meu_mv_impr <- function(data, num_meu){
 
-  meu_matrix = matrix(nrow = num_meu,
-                       ncol = ncol(data),
-                       byrow = TRUE)
+  meu_matrix = matrix()
 
-  counter = 0
+  # Select the next set of centroids based on weighted probability
+    if (num_meu == 1){
 
-  #Selecting the first centroid in a uniform manner
-  meu_matrix[1,] = as.matrix(data[sample(nrow(data), 1),])
+      # Select the first centroid randomly
+      meu_matrix = meu_mv(data, num_meu)
 
-  #Increase the var to track the selected centroids
-  counter = counter + 1
+    } else if(num_meu == 2){
 
-  while (counter < num_meu){
+      meu_matrix = meu_mv(data, 1)
+      dist = rowSums((data - meu_matrix)^2)
+      meu_matrix = rbind(meu_matrix, data[which.max(dist), ])
 
-    dist_vector <- matrix(0, nrow = nrow(data), ncol=1, byrow = TRUE)
+    } else if(num_meu > 2) {
 
-    #Starting the probability calculations for selecting the next set of centroids
-    for (row in 1:nrow(data)){
-      for(srow in 1:counter){
-        dist = sum((data[row, ] - meu_matrix[counter, ])^2)
-        dist_vector = rbind(dist_vector, dist)
+      # Select the first centroid randomly
+      meu_matrix = meu_mv(data, 1)
+
+      # Select the 2nd centroid
+      dist = rowSums((data - meu_matrix)^2)
+      meu_matrix = rbind(meu_matrix, data[which.max(dist), ])
+
+      # Select the next centroids
+      for (k in 3:num_meu){
+        dist_matrix = data.frame(ncol = k-1, nrow=nrow(data))
+
+        # Calculate the distance of every point from existing centers
+        for(i in 1:nrow(meu_matrix)){
+          dist_matrix = cbind(dist_matrix, rowSums((data - meu_matrix[i, ])^2))
+        }
+        # Store the minimum distance
+        dist_matrix = apply(dist_matrix, 1, min)
+        dist_matrix = dist_matrix/sum(dist_matrix)
+        meu_matrix = rbind(meu_matrix, data[which.max(dist_matrix), ])
       }
+
     }
-
-    counter = counter + 1
-    meu_matrix[counter, ] = data[counter, ]
-
-  }
-
   return(meu_matrix)
 }
 

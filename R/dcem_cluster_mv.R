@@ -43,6 +43,9 @@ require(matrixcalc)
 #'         \item (3) Sigma: Co-variance matrices: \strong{sigma}
 #'
 #'         \item (4) prior: \strong{prior}: A vector of prior.
+#'
+#'         \item (5) Membership: \strong{membership}: A vector of
+#'         cluster membership for data.
 #'         }
 #'
 #' @usage
@@ -154,7 +157,8 @@ dcem_cluster_mv <-
       'meu' = meu,
       'sigma' = sigma,
       'prior' = prior,
-      'count' = counter
+      'count' = counter,
+      'membership' = apply(weights, 2, which.max)
     )
     return(output)
 

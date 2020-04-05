@@ -37,6 +37,8 @@ require(matrixcalc)
 #'         matrices.
 #'
 #'         \item (4) Priors: \strong{prior}: A vector of prior.
+#'
+#'         \item (5) Membership: \strong{membership}: A vector of cluster membership for data.
 #'         }
 #'
 #' @usage
@@ -211,7 +213,8 @@ dcem_star_cluster_mv <-
       'meu' = meu,
       'sigma' = sigma,
       'prior' = prior,
-      'count' = counter
+      'count' = counter,
+      'membership' = apply(weights, 2, which.max)
     )
     return(output)
 
