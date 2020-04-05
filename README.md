@@ -38,7 +38,7 @@ R CMD install DCEM_2.0.2.tar.gz
 
 **How to use the package (An Example: working with the default bundled dataset)**
 
-- For demonstration purpose, users can call the `**dcem_train()` function from the R cosole. This function invokes the dcem_star_train() on the bundeled `ionosphere_data`. Alternatively, a minimal quick start example is given below that explain how to cluster the `ionosphere_data` from scratch.
+- For demonstration purpose, users can call the `dcem_train()` function from the R cosole. This function invokes the dcem_star_train() on the bundeled `ionosphere_data`. Alternatively, a minimal quick start example is given below that explain how to cluster the `ionosphere_data` from scratch.
 
 - The DCEM package comes bundled with the ionosphere_data.csv for demonstration. Help about the dataset can be seen by typing `?ionosphere_data` in the R console. Additional details can be seen at the link [Ionosphere data](https://archive.ics.uci.edu/ml/datasets/ionosphere). 
 
@@ -72,10 +72,10 @@ dcem_out = dcem_train(data = ionosphere_data, threshold = 0.0001, iteration_coun
 - **_Accessing the output:_** The list returned by the `dcem_train()` is stored in the **_dcem_out_** object. It contains the parameters associated with the clusters (Gaussian(s)). These parameters are namely - posterior probabilities, meu, sigma and priors. Paste the following code in the R session to access any/all the output parameters. 
 
 ``` 
-          [1] Posterior Probabilities: `**dcem_out$prob**`: A matrix of posterior-probabilities for the 
+          [1] Posterior Probabilities: dcem_out$prob: A matrix of posterior-probabilities for the 
               points in the dataset.
               
-          [2] Meu(s): `**dcem_out$meu**`
+          [2] Meu(s): dcem_out$meu
               
               For multivariate data: It is a matrix of meu(s). Each row in the  
               matrix corresponds to one meu.
@@ -85,13 +85,13 @@ dcem_out = dcem_train(data = ionosphere_data, threshold = 0.0001, iteration_coun
               
           [3] Co-variance matrices 
           
-              For multivariate data: `**dcem_out$sigma**`: List of co-variance matrices.
+              For multivariate data: dcem_out$sigma: List of co-variance matrices.
           
-              For univariate data: `**dcem_out$sigma**`: Vector of standard deviation(s).
+              For univariate data: dcem_out$sigma: Vector of standard deviation(s).
                
-          [4] Priors: `**dcem_out$prior**`: A vector of prior.
+          [4] Priors: dcem_out$prior: A vector of prior.
           
-          [5] Membership: ``*dcem_out$membership*: A vector of cluster membership for data.
+          [5] Membership: dcem_out$membership: A vector of cluster membership for data.
 ```
 
 *How to access the help (after installing the package)*
