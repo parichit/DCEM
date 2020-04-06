@@ -1,7 +1,7 @@
 Package: DCEM
 Type: Package
 Title: Clustering for Multivariate and Univariate Data Using Expectation Maximization Algorithm
-Version: 2.0.1
+Version: 2.0.2
 Authors@R: c(
     person("Sharma", "Parichit", email = "parishar@iu.edu", role = c("aut","cre", "ctb")),
     person("Kurban", "Hasan", role = c("aut","ctb")),
