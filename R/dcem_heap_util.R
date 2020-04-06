@@ -32,16 +32,19 @@
 
 insert_nodes <- function(heap_list, heap_assn, data_probs, leaves_ind, num_clusters){
 
-
+  # Loop over each heap
   for (clus in 1:num_clusters){
 
     ind = which(heap_assn == clus)
 
     if (length(ind)!=0){
 
+      # Get the probability and index
+      # of the data
       prob = data_probs[ind]
       node = leaves_ind[ind]
 
+      # Perform insertion into min-heap
       for (j in 1:length(ind)){
 
         l <- length(heap_list[[clus]])
@@ -101,11 +104,17 @@ separate_data <- function(heap_list, num_clusters){
 
   leaf_list <- c()
 
+  # Loop over the heaps and
+  # seperate the leaves from the
+  # non-leaf nodes to seperate
+  # expressive and non-expressive
+  # data
   for (clus in 1:num_clusters){
 
     if(is.null(length(heap_list[[clus]])) | length(heap_list[[clus]]) == 1 | length(heap_list[[clus]]) == 0){
       heap_list[[clus]] <- heap_list[[clus]][1]
     }
+
     if (length(heap_list[[clus]]) == 2){
       vals <- heap_list[[clus]][[2]][2]
       leaf_list <- append(leaf_list, vals)

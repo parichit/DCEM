@@ -18,7 +18,7 @@
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 
 meu_uv <- function(data, num_meu) {
-  #meu_vector = data[sample(1:nrow(data), num_meu), ]
+  # Randomly sample meu from the data
   return(data[sample(1:nrow(data), num_meu), ])
 }
 
@@ -105,6 +105,8 @@ meu_uv_impr <- function(data, num_meu){
 #' This work was partially supported by NCI Grant 1R01CA213466-01.
 
 sigma_uv <- function(data, num_sigma) {
+  # Use the standard deviation of the data
+  # as the initial sigma for all the clusters.
   cov_vec = rep(sd(data), num_sigma)
   return(cov_vec)
 }

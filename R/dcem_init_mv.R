@@ -16,8 +16,9 @@
 #'
 #' This work was partially supported by NCI Grant 1R01CA213466-01.
 #' @export
+
 meu_mv <- function(data, num_meu) {
-  #mean_matrix = data[sample(1:nrow(data), num_meu),]
+  # Randomly sample meu from the data
   return(data[sample(1:nrow(data), num_meu),])
 }
 
@@ -104,6 +105,8 @@ meu_mv_impr <- function(data, num_meu){
 sigma_mv <- function(num_sigma, numcol) {
   i = 1
   sigma_vec = list()
+  # Initialze a diagonal matrix as the
+  # co-variance matrix.
   while (i <= num_sigma) {
     sigma_vec[[i]] <- diag(numcol)
     i = i + 1
@@ -132,6 +135,7 @@ sigma_mv <- function(num_sigma, numcol) {
 
 #Initialize the priors
 get_priors <- function(num_priors) {
+  # Get uniform priors
   prior_vec = rep(1/num_priors, num_priors)
   return(prior_vec)
 }

@@ -35,13 +35,16 @@
 
 expectation_uv <- function(data, weights, meu, sigma, prior, num_clusters, tolerance){
 
+  # Get the probability density for univariate data
   for (clus in 1:num_clusters) {
     weights[clus, ] <- dnorm(data, meu[clus] , sigma[clus]) * prior[clus]
   }
 
+  # Normalize the probability density matrix
   sum_weights <- colSums(weights)
   weights <- sweep(weights, 2, sum_weights, '/')
 
+  # Replace negligibly small values by machine tolerance
   weights[is.nan(weights)] <- tolerance
   weights[weights <= 0.0] <- tolerance
 
@@ -85,6 +88,7 @@ expectation_uv <- function(data, weights, meu, sigma, prior, num_clusters, toler
 
 maximisation_uv <- function(data, weights, meu, sigma, prior, num_clusters, num_data){
 
+  # Maximise the parameters (priors, meu and sigma)
   for (clus in 1:num_clusters) {
     prior[clus] = sum(weights[clus, ]) / num_data
     meu[clus] = (sum(data * weights[clus, ]) / sum(weights[clus, ]))
@@ -128,15 +132,19 @@ maximisation_uv <- function(data, weights, meu, sigma, prior, num_clusters, num_
 #'
 #' This work is partially supported by NCI Grant 1R01CA213466-01.
 #'
+
 expectation_mv <- function(data, weights, meu, sigma, prior, num_clusters, tolerance){
 
+  # Get the probability density for multivariate data
   for (clus in 1:num_clusters) {
     weights[clus, ] <- dmvnorm(data, meu[clus, ] , sigma[[clus]]) * prior[clus]
   }
 
+  # Normalize the probability density matrix
   sum_weights <- colSums(weights)
   weights <- sweep(weights, 2, sum_weights, '/')
 
+  # Replace negligibly small values by machine tolerance
   weights[is.nan(weights)] <- tolerance
   weights[weights <= 0.0] <- tolerance
 
@@ -181,10 +189,16 @@ expectation_mv <- function(data, weights, meu, sigma, prior, num_clusters, toler
 
 maximisation_mv <- function(data, weights, meu, sigma, prior, num_clusters, num_data){
 
+  # Maximising the meu and prior
   meu <- weights %*% data
   meu <- meu / rowSums(weights)
   prior <- rowSums(weights) / num_data
 
+  # If covariance matrix is singular
+  # then add small value along the diagonals
+  # to make it invertible.
+  # These situations are not discussed in the original
+  # EM article.
   for (clus in 1:num_clusters) {
 
     sigma[[clus]] = 0
@@ -203,7 +217,6 @@ maximisation_mv <- function(data, weights, meu, sigma, prior, num_clusters, num_
 
   return(list("meu"=meu, "sigma"=sigma, 'prior'=prior))
 }
-
 
 #' update_weights: Part of DCEM package.
 #'
@@ -236,6 +249,7 @@ maximisation_mv <- function(data, weights, meu, sigma, prior, num_clusters, num_
 
 update_weights <- function(temp_weights, weights, index_list, num_clusters){
 
+  # Update the probability density matrix.
   for (clus in 1:num_clusters) {
     weights[clus, index_list] = temp_weights[clus, ]
   }

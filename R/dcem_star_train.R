@@ -122,6 +122,7 @@ dcem_star_train <-
       print("Using the improved Kmeans++ initialisation scheme.")
     }
 
+    # Remove any missing data
     data <- apply(data, 2, as.numeric)
     data[is.na(data)] <- NULL
 
@@ -130,15 +131,18 @@ dcem_star_train <-
     num_data <- nrow(test_data)
     valid_columns <- ncol(test_data)
 
+    # Variable to store the output
     emstar_out = list()
 
+    # Call clustering routine for multivariate data
+    # Get the initial values for meu, sigma and priors
     if (valid_columns >= 2) {
 
       if (missing(seed_meu)){
       if (seeding == "rand"){
         meu = meu_mv(test_data, num_clusters)
       }
-      else{
+      else if(seeding == "improved"){
         meu = meu_mv_impr(test_data, num_clusters)
       }
       }
@@ -157,11 +161,13 @@ dcem_star_train <-
         num_data)
     }
 
+    # Call clustering routine for univariate data
+    # Get the initial values for meu, sigma and priors
     if (valid_columns < 2) {
       if(seeding=="rand"){
         meu = meu_uv(test_data, num_clusters)
       }
-      else{
+      else if(seeding == "improved"){
         meu = meu_uv_impr(test_data, num_clusters)
       }
       sigma = sigma_uv(test_data, num_clusters)

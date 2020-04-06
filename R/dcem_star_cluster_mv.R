@@ -72,36 +72,41 @@ dcem_star_cluster_mv <-
                       ncol = num_data,
                       byrow = TRUE)
 
-    # Create a list of heaps(one heap per cluster, heap is implemneted as a dataframes!)
+    # Create a list of heaps (one heap per cluster, heap is implemneted as a matrix)
     heap_list <- rep(list(), num_clusters)
     index_list <- c()
 
     old_leaf_values <- c()
+
+    # Get machine tolerance
     tolerance <- .Machine$double.eps
-    chk_partition = 1
+    # Intialization attempts
+    init_attempt = 1
 
     # Expectation
     weights = expectation_mv(data, weights, meu, sigma, prior, num_clusters, tolerance)
     heap_index <- apply(weights, 2, which.max)
-    #data_prob <- apply(weights, 2, max)
-    #cluster_map <- heap_index
 
     # Checking for empty partitiion.
-    while (chk_partition < 5){
+    while (init_attempt < 5){
+
     if(length(unique(heap_index)) < num_clusters){
       print(paste("Retrying on empty partition, attempt: ", chk_partition))
       meu = meu_mv(data, num_clusters)
+
       # Expectation
       weights = expectation_mv(data, weights, meu, sigma, prior, num_clusters, tolerance)
       heap_index <- apply(weights, 2, which.max)
-      chk_partition = chk_partition + 1
+      init_attempt = init_attempt + 1
     }
 
-    # Break the while loop if none of the heap is empty
+    # Break if none of the heap is empty
     else if (length(unique(heap_index)) == num_clusters){
       #print("Empty partition fixed.")
       break
     }
+    # Inform user if non-empty clusters could not be
+    # found in 5 attempts.
     else if (chk_partition==5){
       cat("The specified number of clusters:", num_clusters, "results in",
           num_clusters - length(unique(heap_index)), "empty clusters.",
@@ -111,7 +116,10 @@ dcem_star_cluster_mv <-
 
     }
 
+    # Normalize the probability weights
     data_prob <- apply(weights, 2, max)
+
+    # Store the cluster membership for data in cluster_map
     cluster_map <- heap_index
 
     # Maximisation
@@ -122,7 +130,7 @@ dcem_star_cluster_mv <-
 
     for (clus in 1:num_clusters) {
 
-      # Put the data in the heap (data belonging to their own clusters)
+      # Put the data in the matrix (data belonging to their own clusters)
       ind <- which(heap_index == clus)
       temp_matrix <- matrix(data_prob[ind])
       temp_matrix <- cbind(temp_matrix, ind)
@@ -130,16 +138,17 @@ dcem_star_cluster_mv <-
       heap_list[[clus]] <- temp_matrix
       #print(paste("heap: ", clus, "size: ", nrow(heap_list[[clus]])))
 
-      # Build the heap from data frames
+      # Build the heap from matrices
       temp_out <- build_heap(heap_list[[clus]])
       heap_list[[clus]] <- split(temp_out, 1:nrow(temp_out))
     }
 
+    # Seperate the leaf and non-leaf nodes
     out = separate_data(heap_list, num_clusters)
     heap_list <- out[[1]]
     index_list <- unlist(out[[2]])
 
-    # Get the leaf nodes
+    # Store the current leaf nodes for comparison with the new leaves
     old_leaf_values <- c(old_leaf_values, index_list)
 
     # Repeat till convergence threshold or iteration which-ever is earlier.
@@ -152,7 +161,9 @@ dcem_star_cluster_mv <-
                              ncol = length(index_list),
                              byrow = TRUE)
 
+      # Expectation only for leaf nodes (not for all data - save time and computation)
       temp_weights = expectation_mv(data[index_list, ], temp_weights, meu, sigma, prior, num_clusters, tolerance)
+      # Update the weights for leaf nodes only
       weights = update_weights(temp_weights, weights, index_list, num_clusters)
 
       # Expectation
@@ -169,6 +180,8 @@ dcem_star_cluster_mv <-
 
       leaves_ind <- index_list
 
+      # Re-assign the leaf nodes based on their estimated probabilities
+      # Only leaf nodes are moved.
       if (length(leaves_ind) == 1){
         new_heap_assign_for_leaves <-which.max(temp_weights)
         new_liklihood_for_leaves <- max(temp_weights)
@@ -179,7 +192,6 @@ dcem_star_cluster_mv <-
       }
 
       # Insert into new heap
-      #print(paste("Inserting", length(leaves_ind)))
       heap_list <- insert_nodes(heap_list, new_heap_assign_for_leaves, new_liklihood_for_leaves, leaves_ind, num_clusters)
       #print(paste("Inserting done: ", length(leaves_ind)))
 
@@ -190,7 +202,7 @@ dcem_star_cluster_mv <-
       # Putting all leaf nodes together to re-assign later
       new_leaf_values <- c(new_leaf_values, index_list)
 
-      # Check convergence
+      # Check convergence (if old and new leaves are same across heaps)
       if (round( (length(setdiff(old_leaf_values, new_leaf_values)) / length(new_leaf_values)), 4) <= 0.01) {
         print(paste("Convergence at iteration", counter))
         break
@@ -202,12 +214,14 @@ dcem_star_cluster_mv <-
         break
       }
 
+      # Put new leaves into the old leaves variable
       old_leaf_values <- new_leaf_values
       index_list <- new_leaf_values
       counter <- counter + 1
 
     }
 
+    # Prepare the output list
     output = list(
       prob = weights,
       'meu' = meu,
