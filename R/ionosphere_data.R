@@ -12,7 +12,7 @@
 #'Johns Hopkins University
 #'Johns Hopkins Road
 #'Laurel, MD 20723
-#' Web URL: \url{https://archive.ics.uci.edu/ml/datasets/ionosphere}
+#' Web URL: \url{http://archive.ics.uci.edu/ml/datasets/Ionosphere}
 #'
 #'  \strong{References:}
 #'  Sigillito, V. G., Wing, S. P., Hutton, L. V., & Baker, K. B. (1989).
