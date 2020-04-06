@@ -132,6 +132,7 @@ dcem_train <-
       print("Using the improved Kmeans++ initialization scheme.")
     }
 
+    # Remove any missing data
     data <- apply(data, 2, as.numeric)
     data[is.na(data)] <- NULL
 
@@ -140,8 +141,11 @@ dcem_train <-
     num_data <- nrow(test_data)
     valid_columns <- ncol(test_data)
 
+    # Variable to store the output
     emt_out <- list()
 
+    # Call clustering routine for multivariate data
+    # Get the initial values for meu, sigma and priors
     if (valid_columns >= 2) {
 
       if (missing(seed_meu)){
@@ -170,6 +174,8 @@ dcem_train <-
       )
     }
 
+    # Call clustering routine for univariate data
+    # Get the initial values for meu, sigma and priors
     if (valid_columns < 2) {
       if(seeding=="rand"){
         meu <- meu_uv(test_data, num_clusters)

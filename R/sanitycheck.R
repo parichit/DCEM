@@ -29,6 +29,7 @@
 
 validate_data <- function(columns, numcols){
 
+  # Check if the user specified columns exists or not
   if(columns != "")
   {
     if(grepl(",", columns, fixed = TRUE)){
@@ -86,6 +87,7 @@ validate_data <- function(columns, numcols){
 trim_data <- function(columns, data){
 
   numcols = ncol(data)
+  # Check if the user specified columns exists or not
   status = validate_data(columns, numcols)
 
   if(!status){
@@ -95,6 +97,7 @@ trim_data <- function(columns, data){
 
   if(columns != ""){
 
+    # Remove the user speciifed columns
     if(grepl(",",columns, fixed = TRUE)){
       list_of_columns =  c(strtoi(sort(unlist(strsplit(columns, ",")))))
       data = data[,-list_of_columns]
