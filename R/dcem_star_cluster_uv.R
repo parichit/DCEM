@@ -84,7 +84,38 @@ dcem_star_cluster_uv <-
     # Expectation
     weights = expectation_uv(data, weights, meu, sigma, prior, num_clusters, tolerance)
     heap_index <- apply(weights, 2, which.max)
+
+    # Loop to ensure that no heap is empty
+    while (init_attempt < 5){
+
+      if(length(unique(heap_index)) < num_clusters){
+        print(paste("Retrying on empty partition, attempt: ", init_attempt))
+        meu = meu_uv(data, num_clusters)
+
+        # Expectation
+        weights = expectation_uv(data, weights, meu, sigma, prior, num_clusters, tolerance)
+        heap_index <- apply(weights, 2, which.max)
+        init_attempt = init_attempt + 1
+      }
+
+      # Break if none of the heap is empty
+      else if (length(unique(heap_index)) == num_clusters){
+        #print("Empty partition fixed.")
+        break
+      }
+
+      else if (init_attempt==5){
+      cat("The specified number of clusters:", num_clusters, "results in",
+          num_clusters - length(unique(heap_index)), "empty clusters.",
+          "\nThe data may have lesser modalities. Please retry or specify lesser number of clusters.\n")
+      stop("Exiting...")
+    }
+    }
+
+    # Normalize the probability weights
     data_prob <- apply(weights, 2, max)
+
+    # Store the cluster membership for data in cluster_map
     cluster_map <- heap_index
 
     # Maximisation
@@ -93,11 +124,6 @@ dcem_star_cluster_uv <-
     sd_vec = out$sigma
     prior = out$prior
 
-    # Loop to ensure that no heap is empty
-    while (init_attempt < 5){
-    temp_heap_size = c()
-
-    # Creating heaps
     for (clus in 1:num_clusters) {
       # Put the data in the matrix (data belonging to their own clusters)
       ind <- which(heap_index == clus)
@@ -110,30 +136,6 @@ dcem_star_cluster_uv <-
       # Build the heap from matrices
       temp_out <- build_heap(heap_list[[clus]])
       heap_list[[clus]] <- split(temp_out, 1:nrow(temp_out))
-
-    }
-
-      # Continue while loop if any heap is empty
-      if(any(temp_heap_size==0)){
-        print(paste("heap was 0 so repeating: ", chk_count))
-        meu = meu_uv(data, num_clusters)
-        # Expectation
-        weights = expectation_mv(data, weights, meu, sigma, prior, num_clusters, tolerance)
-        heap_index <- apply(weights, 2, which.max)
-        data_prob <- apply(weights, 2, max)
-        cluster_map <- heap_index
-        init_attempt =  init_attempt + 1
-      }
-
-      # Break the while loop if none of the heap is empty
-      else{
-        # Maximisation
-        out = maximisation_mv(data, weights, meu, sigma, prior, num_clusters, num_data)
-        meu = out$meu
-        sigma = out$sigma
-        prior = out$prior
-        break
-      }
     }
 
     # Seperate the leaf and non-leaf nodes

@@ -106,7 +106,7 @@ dcem_cluster_uv <-
       part_size = apply(weights, 2, which.max)
 
       if (length(unique(part_size)) < num_clusters) {
-        print(paste("Retrying on empty partition, attempt: ", chk_partition))
+        print(paste("Retrying on empty partition, attempt: ", init_attempt))
         # Get new set of meu
         meu <- meu_uv(data, num_clusters)
         init_attempt = init_attempt + 1

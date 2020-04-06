@@ -91,7 +91,7 @@ dcem_star_cluster_mv <-
     while (init_attempt < 5){
 
     if(length(unique(heap_index)) < num_clusters){
-      print(paste("Retrying on empty partition, attempt: ", chk_partition))
+      print(paste("Retrying on empty partition, attempt: ", init_attempt))
       meu = meu_mv(data, num_clusters)
 
       # Expectation
@@ -107,7 +107,7 @@ dcem_star_cluster_mv <-
     }
     # Inform user if non-empty clusters could not be
     # found in 5 attempts.
-    else if (chk_partition==5){
+    else if (init_attempt==5){
       cat("The specified number of clusters:", num_clusters, "results in",
           num_clusters - length(unique(heap_index)), "empty clusters.",
           "\nThe data may have lesser modalities. Please retry or specify lesser number of clusters.\n")

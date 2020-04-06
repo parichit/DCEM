@@ -57,6 +57,9 @@ the output:
 
         \item (4) Priors: \strong{sample_out$prior}
         A vector of prior.
+
+        \item (5) Membership: \strong{membership}: A vector of cluster
+        membership for data.
         }
 }
 
