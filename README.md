@@ -38,9 +38,9 @@ R CMD install DCEM_2.0.2.tar.gz
 
 **How to use the package (An Example: working with the default bundled dataset)**
 
-- For demonstration purpose, users can call the `dcem_train()` function from the R cosole. This function invokes the dcem_star_train() on the bundeled `ionosphere_data`. Alternatively, a minimal quick start example is given below that explain how to cluster the `ionosphere_data` from scratch.
+- For demonstration purpose, users can call the `dcem_test()` function from the R console. This function invokes the dcem_star_train() on the bundeled `ionosphere_data`. Alternatively, a minimal quick start example is given below that explain how to cluster the `ionosphere_data` from scratch.
 
-- The DCEM package comes bundled with the ionosphere_data.csv for demonstration. Help about the dataset can be seen by typing `?ionosphere_data` in the R console. Additional details can be seen at the link [Ionosphere data](https://archive.ics.uci.edu/ml/datasets/ionosphere). 
+- The DCEM package comes bundled with the ionosphere_data.csv for demonstration. Help about the dataset can be seen by typing `?ionosphere_data` in the R console. Additional details can be seen at the link [Ionosphere data](http://archive.ics.uci.edu/ml/datasets/Ionospher). 
 
 - To use this dataset, paste the following code into the R console.
 

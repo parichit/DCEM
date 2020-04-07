@@ -11,7 +11,7 @@ source("./R/dcem_train.R")
 #'
 #'     \item Read the data from the disk (from the file data/ionosphere_data.csv). The data folder is under the
 #'     package installation folder. \item The dataset details can be see by typing \code{\link{ionosphere_data}} in
-#'     R-console or at \url{https://archive.ics.uci.edu/ml/datasets/ionosphere}.
+#'     R-console or at \url{http://archive.ics.uci.edu/ml/datasets/Ionosphere}.
 #'
 #'      \item Clean the data (by removing the columns). \strong{The data should be cleaned
 #'      before use.} Refer \strong{\code{\link{trim_data}}} to see what columns

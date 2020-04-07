@@ -31,7 +31,7 @@ A list of objects. This list contains parameters associated with the
         \item (1) Posterior Probabilities: \strong{prob}
         A matrix of posterior-probabilities
 
-        \item (2) Meu: \strong{meu}: It is a vector of meus. Each element of
+        \item (2) Meu: \strong{meu}: It is a vector of meu. Each element of
         the vector corresponds to one meu.
 
         \item (3) Sigma: Standard-deviation(s): \strong{sigma}
