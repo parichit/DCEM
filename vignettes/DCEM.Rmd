@@ -41,14 +41,13 @@ The package has been tested with both real and simulated datasets. The package c
 
 Use install.packages() in the R console as follow:
 
-
 ```
 install.packages("DCEM")
 ```
 
 **_Installing from the Source Package_**
 
-Download the source tar ball for DCEM from [Github](https://github.com/parichit/DCEM/release) and install as follows:
+Download the source tar ball for DCEM from [Github](https://github.com/parichit/DCEM/releases) and install as follows:
 
 
 ```
