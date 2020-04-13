@@ -45,12 +45,13 @@ A list of objects. This list contains parameters associated with the Gaussian(s)
 
         For multivariate data: List of co-variance matrices for the Gaussian(s).
 
-        For univariate data: Vector of standard deviation for the Gaussian(s))
+        For univariate data: Vector of standard deviation for the Gaussian(s).
 
         \item (4) Priors: \strong{sample_out$prior}: A vector of priors.
 
-        \item (5) Membership: \strong{sample_out$membership}: A vector of
-        cluster membership for data.
+        \item (5) Membership: \strong{sample_out$membership}: A dataframe of
+        cluster membership for data. Columns numbers are data indices and values
+        are the assigned clusters.
         }
 }
 \description{

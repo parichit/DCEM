@@ -85,6 +85,9 @@ dcem_cluster_mv <-
     tolerance <- .Machine$double.eps
     init_attempt = 1
 
+    # Declare a datadrame to store the data membership values.
+    membership = data.frame()
+
     # Checking for empty partitions
     # and re-attempt initialization.
     while(init_attempt < 5){
@@ -162,6 +165,10 @@ dcem_cluster_mv <-
       counter = counter + 1
     }
 
+    # Assign clusters to data
+    membership = rbind(membership, apply(weights, 2, which.max))
+    colnames(membership) <- seq(1:num_data)
+
     # Prepare output list
     output = list(
       prob = weights,
@@ -169,7 +176,7 @@ dcem_cluster_mv <-
       'sigma' = sigma,
       'prior' = prior,
       'count' = counter,
-      'membership' = apply(weights, 2, which.max)
+      'membership' = membership
     )
     return(output)
   }

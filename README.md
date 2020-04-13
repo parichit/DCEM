@@ -24,10 +24,14 @@ The package has been tested with both real and simulated datasets. The package c
   
 **Installation Instructions**
 
+__Dependencies__ First, install all the required packages as follows:
+
+install.packages(c("matrixcalc", "mvtnorm", "MASS", "Rcpp"))
+
 **_Installing from CRAN_**
 
 ```
-install.packages(DCEM)
+install.packages("DCEM"")
 ```
 
 **_Installing from the Source Package_**
@@ -36,7 +40,7 @@ install.packages(DCEM)
 R CMD install DCEM_2.0.2.tar.gz
 ```
 
-**How to use the package (An Example: working with the default bundled dataset)**
+**How to use the Package (Example: Working with the default bundled dataset)**
 
 - For demonstration purpose, users can call the `dcem_test()` function from the R console. This function invokes the dcem_star_train() on the bundeled `ionosphere_data`. Alternatively, a minimal quick start example is given below that explain how to cluster the `ionosphere_data` from scratch.
 
@@ -69,7 +73,7 @@ Paste the below code in the R session to call the dcem_train() function.
 dcem_out = dcem_train(data = ionosphere_data, threshold = 0.0001, iteration_count = 50, num_clusters = 2)
 ```
 
-- **_Accessing the output:_** The list returned by the `dcem_train()` is stored in the **_dcem_out_** object. It contains the parameters associated with the clusters (Gaussian(s)). These parameters are namely - posterior probabilities, meu, sigma and priors. Paste the following code in the R session to access any/all the output parameters. 
+- **_Displaying the output:_** The list returned by the `dcem_train()` is stored in the **_dcem_out_** object. It contains the parameters associated with the clusters (Gaussian(s)). These parameters are namely - posterior probabilities, meu, sigma and priors. Paste the following code in the R session to access any/all the output parameters. 
 
 ``` 
           [1] Posterior Probabilities: dcem_out$prob: A matrix of posterior-probabilities for the 

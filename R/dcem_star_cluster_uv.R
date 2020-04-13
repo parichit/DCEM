@@ -76,6 +76,9 @@ dcem_star_cluster_uv <-
     # Intialization attempts
     init_attempt = 1
 
+    # Declare a datadrame to store the data membership values.
+    membership = data.frame()
+
     # Create a list of heaps (one heap per cluster)
     heap_list <- rep(list(list()), num_clusters)
     index_list <- c()
@@ -232,13 +235,17 @@ dcem_star_cluster_uv <-
       counter <- counter + 1
     }
 
+    # Assign clusters to data
+    membership = rbind(membership, apply(weights, 2, which.max))
+    colnames(membership) <- seq(1:num_data)
+
     # Prepare the output list
     output = list(
       prob = weights,
       'meu' = as.vector(meu),
       'sigma' = sigma,
       'prior' = prior,
-      'membership' = apply(weights, 2, which.max)
+      'membership' = membership
     )
     return(output)
 

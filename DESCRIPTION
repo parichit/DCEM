@@ -26,8 +26,8 @@ Imports:
 LinkingTo: Rcpp
 RoxygenNote: 7.1.0
 Depends: R(>= 3.2.0)
-URL: https://github.iu.edu/parishar/DCEM
-BugReports: https://github.iu.edu/parishar/DCEM/issues
+URL: https://github.com/parichit/DCEM
+BugReports: https://github.com/parichit/DCEM/issues
 Suggests: 
     knitr,
     rmarkdown

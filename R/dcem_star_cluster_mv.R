@@ -83,6 +83,9 @@ dcem_star_cluster_mv <-
     # Intialization attempts
     init_attempt = 1
 
+    # Declare a datadrame to store the data membership values.
+    membership = data.frame()
+
     # Expectation
     weights = expectation_mv(data, weights, meu, sigma, prior, num_clusters, tolerance)
     heap_index <- apply(weights, 2, which.max)
@@ -220,6 +223,10 @@ dcem_star_cluster_mv <-
       counter <- counter + 1
 
     }
+
+    # Assign clusters to data
+    membership = rbind(membership, apply(weights, 2, which.max))
+    colnames(membership) <- seq(1:num_data)
 
     # Prepare the output list
     output = list(
