@@ -35,7 +35,11 @@ The package has been tested with both real and simulated datasets. The package c
 [Github Repository](https://github.com/parichit/DCEM)
 
 
-## Installation Instructions**
+## Installation Instructions
+
+__Dependencies__ First, install all the required packages as follows:
+
+install.packages(c("matrixcalc", "mvtnorm", "MASS", "Rcpp"))
 
 ### Installing from CRAN
 
@@ -49,9 +53,8 @@ install.packages("DCEM")
 
 Download the source tar ball for DCEM from [Github](https://github.com/parichit/DCEM/releases) and install as follows:
 
-
 ```
-R CMD install DCEM_2.0.2.tar.gz
+R CMD install DCEM_2.0.3.tar.gz
 ```
 
 ## Quick Start

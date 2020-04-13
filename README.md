@@ -37,7 +37,7 @@ install.packages("DCEM"")
 **_Installing from the Source Package_**
 
 ```
-R CMD install DCEM_2.0.2.tar.gz
+R CMD install DCEM_2.0.3.tar.gz
 ```
 
 **How to use the Package (Example: Working with the default bundled dataset)**

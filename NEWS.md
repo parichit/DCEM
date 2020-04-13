@@ -1,3 +1,7 @@
+**DCEM 2.0.3**
+
+Added quick start examples and use cases in the vignettes.
+
 **DCEM 2.0.2**
 
 Added the option to get cluster membership of data directly from the output.
