@@ -124,7 +124,7 @@ dcem_train <-
       print(paste("Specified number of  clusters = ", num_clusters))
     }
 
-    if (missing(seeding) ) {
+    if (missing(seeding) | seeding == "rand") {
       seeding = "rand"
       print("Using the random initialization scheme.")
     }
@@ -178,7 +178,7 @@ dcem_train <-
     # Call clustering routine for univariate data
     # Get the initial values for meu, sigma and priors
     if (valid_columns < 2) {
-      if(seeding=="rand"){
+      if(seeding == "rand"){
         meu <- meu_uv(test_data, num_clusters)
       }
       else if(seeding == "improved"){

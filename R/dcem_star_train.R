@@ -114,7 +114,7 @@ dcem_star_train <-
       print(paste("Specified number of  clusters = ", num_clusters))
     }
 
-    if (missing(seeding) ) {
+    if (missing(seeding) | seeding == "rand") {
       seeding = "rand"
       print("Using the random initialisation scheme.")
     }
