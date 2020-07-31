@@ -235,7 +235,7 @@ dcem_star_cluster_mv <-
       'sigma' = sigma,
       'prior' = prior,
       'count' = counter,
-      'membership' = apply(weights, 2, which.max)
+      'membership' = membership
     )
     return(output)
 

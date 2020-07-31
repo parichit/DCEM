@@ -9,5 +9,7 @@ importFrom("utils", "read.csv2")
 importFrom("stats", "dnorm")
 importFrom("stats", "sd")
 importFrom("mvtnorm", "dmvnorm")
+importFrom("stats", "na.omit")
+importFrom("utils", "write.table")
 importFrom(Rcpp, evalCpp)
 

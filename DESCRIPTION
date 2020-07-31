@@ -1,7 +1,7 @@
 Package: DCEM
 Type: Package
-Title: Clustering for Multivariate and Univariate Data Using Expectation Maximization Algorithm
-Version: 2.0.3
+Title: Clustering Big Data using Expectation Maximization Star (EM*) Algorithm
+Version: 2.0.4
 Authors@R: c(
     person("Sharma", "Parichit", email = "parishar@iu.edu", role = c("aut","cre", "ctb")),
     person("Kurban", "Hasan", role = c("aut","ctb")),
@@ -9,12 +9,11 @@ Authors@R: c(
     person("Dalkilic", "Mehmet", role = "aut")) 
 Maintainer: Sharma Parichit <parishar@iu.edu>
 Description: Implements the Improved Expectation Maximisation EM* and the traditional EM algorithm for clustering 
-    finite gaussian mixture models for both multivariate and univariate datasets. The initialization is done by randomly 
-    selecting the samples from the dataset as the mean (meu) of the Gaussian(s). This version implements the faster alternative 
-    EM* that avoids revisiting data by leveraging the heap structure. The algorithm returns a set of Gaussian 
-    parameters-posterior probabilities, mean (meu), co-variance matrices (multivariate)/standard-deviation
-    (univariate) and priors. Reference: Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic (2016) <doi:10.1007/s41060-017-0062-1>.
-    This work is partially supported by NCI Grant 1R01CA213466-01.
+    big data (gaussian mixture models for both multivariate and univariate datasets). This version 
+    implements the faster alternative EM* that avoids revisiting data by leveraging the heap structure. 
+    Supporst both random and K-means++ based initialization. Reference: Hasan Kurban, Mark Jenne, 
+    Mehmet M. Dalkilic (2016) <doi:10.1007/s41060-017-0062-1>. This work is partially supported by 
+    NCI Grant 1R01CA213466-01.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

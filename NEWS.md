@@ -1,3 +1,7 @@
+**DCEM 2.0.4**
+
+Added the option to get data membership (maximum posterior probability) from the output.
+
 **DCEM 2.0.3**
 
 Added quick start examples and use cases in the vignettes.
