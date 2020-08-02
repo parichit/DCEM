@@ -11,7 +11,7 @@ Maintainer: Sharma Parichit <parishar@iu.edu>
 Description: Implements the Improved Expectation Maximisation EM* and the traditional EM algorithm for clustering 
     big data (gaussian mixture models for both multivariate and univariate datasets). This version 
     implements the faster alternative EM* that avoids revisiting data by leveraging the heap structure. 
-    Supporst both random and K-means++ based initialization. Reference: Hasan Kurban, Mark Jenne, 
+    The implementation supports both random and K-means++ based initialization. Reference: Hasan Kurban, Mark Jenne, 
     Mehmet M. Dalkilic (2016) <doi:10.1007/s41060-017-0062-1>. This work is partially supported by 
     NCI Grant 1R01CA213466-01.
 License: GPL-3
