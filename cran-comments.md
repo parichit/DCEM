@@ -1,8 +1,8 @@
 ## Test environments
-* local OS X install, R 3.6.3
-* platform: x86_64-apple-darwin15.6.0 
+* local OS X install, R 4.0.5
+* platform: x86_64-apple-darwin17.0 
 * arch: x86_64                      
-* os: darwin15.6.0
+* os: darwin17.0
 * win-builder (devel and release)
 
 ## R CMD check results

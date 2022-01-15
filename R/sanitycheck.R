@@ -15,17 +15,8 @@
 #' @usage
 #' validate_data(columns, numcols)
 #'
-#' @references
-#' Using data to build a better EM: EM* for big data.
-#'
-#' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#'(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
-#'
 #' @return
 #' boolean: TRUE if the columns exists otherwise FALSE.
-#'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
 
 validate_data <- function(columns, numcols){
 
@@ -72,17 +63,9 @@ validate_data <- function(columns, numcols){
 #' @usage
 #' trim_data(columns, data)
 #'
-#' @references
-#' Using data to build a better EM: EM* for big data.
-#'
-#' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#' (2016) <https://doi.org/10.1007/s41060-017-0062-1>.
-#'
 #' @return
 #' A dataframe with the specified column(s) removed from it.
-#'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
+
 
 trim_data <- function(columns, data){
 

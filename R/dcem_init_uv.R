@@ -12,10 +12,7 @@
 #' @usage
 #' # Randomly seeding the meu.
 #' meu_uv(data, num_meu)
-#'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
+
 
 meu_uv <- function(data, num_meu) {
   # Randomly sample meu from the data
@@ -38,9 +35,6 @@ meu_uv <- function(data, num_meu) {
 #' # Seeding the meu using the K-means++ implementation.
 #' meu_uv_impr(data, num_meu)
 #'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
 
 meu_uv_impr <- function(data, num_meu){
 
@@ -100,9 +94,7 @@ meu_uv_impr <- function(data, num_meu){
 #' @usage
 #' sigma_uv(data, num_sigma)
 #'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work was partially supported by NCI Grant 1R01CA213466-01.
+
 
 sigma_uv <- function(data, num_sigma) {
   # Use the standard deviation of the data

@@ -15,9 +15,8 @@ using namespace Rcpp;
 //' @usage
 //' max_heapify(data, index, num_data)
 //'
-//' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
+//' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mehmet Dalkilic
 //'
-//' This work is partially supported by NCI Grant 1R01CA213466-01.
 // [[Rcpp::export]]
 NumericMatrix max_heapify(NumericMatrix data, int index, int num_data){
 
@@ -63,9 +62,8 @@ NumericMatrix max_heapify(NumericMatrix data, int index, int num_data){
 //' @usage
 //' build_heap(data)
 //'
-//' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
+//' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mehmet Dalkilic
 //'
-//' This work is partially supported by NCI Grant 1R01CA213466-01.
 // [[Rcpp::export]]
 NumericMatrix build_heap(NumericMatrix data){
 

@@ -20,8 +20,3 @@ This function is internally called by the dcem_train to initialize the
 meu(s). It randomly selects the meu(s) from the
 range min(data):max(data).
 }
-\author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-
-This work is partially supported by NCI Grant 1R01CA213466-01.
-}

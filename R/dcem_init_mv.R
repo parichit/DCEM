@@ -12,9 +12,6 @@
 #' # Randomly seeding the mean(s).
 #' meu_mv(data, num_meu)
 #'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work was partially supported by NCI Grant 1R01CA213466-01.
 #' @export
 
 meu_mv <- function(data, num_meu) {
@@ -37,9 +34,6 @@ meu_mv <- function(data, num_meu) {
 #' # Randomly seeding the meu.
 #' meu_mv_impr(data, num_meu)
 #'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work was partially supported by NCI Grant 1R01CA213466-01.
 
 meu_mv_impr <- function(data, num_meu){
 
@@ -98,9 +92,7 @@ meu_mv_impr <- function(data, num_meu){
 #' @usage
 #' sigma_mv(num_sigma, numcol)
 #'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
+
 
 sigma_mv <- function(num_sigma, numcol) {
   i = 1
@@ -128,10 +120,7 @@ sigma_mv <- function(num_sigma, numcol) {
 #'
 #' @usage
 #' get_priors(num_priors)
-#'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work was partially supported by NCI Grant 1R01CA213466-01.
+
 
 #Initialize the priors
 get_priors <- function(num_priors) {

@@ -58,13 +58,10 @@ require(matrixcalc)
 #' dcem_cluster_uv(data, meu, sigma, prior, num_clusters, iteration_count,
 #' threshold, num_data, numcols)
 #'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
-#'
 #' @references
-#' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#' (2016) <https://doi.org/10.1007/s41060-017-0062-1>.
+#' Parichit Sharma, Hasan Kurban, Mehmet Dalkilic DCEM: An R package for clustering big data via
+#' data-centric modification of Expectation Maximization, SoftwareX, 17, 100944 URL
+#' https://doi.org/10.1016/j.softx.2021.100944
 
 dcem_cluster_uv <-
 
@@ -91,7 +88,7 @@ dcem_cluster_uv <-
     tolerance <- .Machine$double.eps
     init_attempt = 1
 
-    # Declare a datadrame to store the data membership values.
+    # Declare a dataframe to store the data membership values.
     membership = data.frame()
 
     # Checking for empty partitions
@@ -160,7 +157,7 @@ dcem_cluster_uv <-
       counter = counter + 1
     }
 
-    # Assign clusters to data
+    # Assign data to clusters
     membership = rbind(membership, apply(weights, 2, which.max))
     colnames(membership) <- seq(1:num_data)
 

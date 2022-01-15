@@ -45,15 +45,10 @@ require(matrixcalc)
 #' dcem_star_cluster_mv(data, meu, sigma, prior, num_clusters, iteration_count, num_data)
 #'
 #' @references
-#' Using data to build a better EM: EM* for big data.
+#' Parichit Sharma, Hasan Kurban, Mehmet Dalkilic DCEM: An R package for clustering big data via
+#' data-centric modification of Expectation Maximization, SoftwareX, 17, 100944 URL
+#' https://doi.org/10.1016/j.softx.2021.100944
 #'
-#' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#' (2016) <https://doi.org/10.1007/s41060-017-0062-1>.
-#'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work is supported by NCI Grant 1R01CA213466-01.
-
 
 dcem_star_cluster_mv <-
   function(data,
@@ -83,14 +78,14 @@ dcem_star_cluster_mv <-
     # Intialization attempts
     init_attempt = 1
 
-    # Declare a datadrame to store the data membership values.
+    # Declare a dataframe to store the data membership values.
     membership = data.frame()
 
     # Expectation
     weights = expectation_mv(data, weights, meu, sigma, prior, num_clusters, tolerance)
     heap_index <- apply(weights, 2, which.max)
 
-    # Checking for empty partitiion.
+    # Checking for empty partition.
     while (init_attempt < 5){
 
     if(length(unique(heap_index)) < num_clusters){
@@ -119,7 +114,7 @@ dcem_star_cluster_mv <-
 
     }
 
-    # Normalize the probability weights
+    # Get the max probability for each data point
     data_prob <- apply(weights, 2, max)
 
     # Store the cluster membership for data in cluster_map

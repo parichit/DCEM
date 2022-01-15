@@ -14,9 +14,8 @@
 #' @usage
 #' max_heapify(data, index, num_data)
 #'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
+#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mehmet Dalkilic
 #'
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
 max_heapify <- function(data, index, num_data) {
     .Call(`_DCEM_max_heapify`, data, index, num_data)
 }
@@ -32,9 +31,8 @@ max_heapify <- function(data, index, num_data) {
 #' @usage
 #' build_heap(data)
 #'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
+#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mehmet Dalkilic
 #'
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
 build_heap <- function(data) {
     .Call(`_DCEM_build_heap`, data)
 }

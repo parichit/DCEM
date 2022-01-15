@@ -19,8 +19,3 @@ Initialize the priors.
 For example, if the user specify 2 priors then the vector will have 2
 entries (one for each cluster) where each will be 1/2 or 0.5.
 }
-\author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-
-This work was partially supported by NCI Grant 1R01CA213466-01.
-}

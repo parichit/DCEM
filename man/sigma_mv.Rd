@@ -18,8 +18,3 @@ A list of identity matrices. The number of entries in the list
 \description{
 Initializes the co-variance matrices as the identity matrices.
 }
-\author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-
-This work is partially supported by NCI Grant 1R01CA213466-01.
-}

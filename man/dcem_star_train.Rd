@@ -54,15 +54,15 @@ A list of objects. This list contains parameters associated with the Gaussian(s)
         }
 }
 \description{
-Implements the improved EM* algorithm. EM* achieves faster convergence by avoiding
-revisiting the data during the iterations. For details on EM* see the 'References' section
-below. It calls the \code{\link{dcem_star_cluster_uv}} routine internally
-(univariate data) and \code{\link{dcem_star_cluster_mv}} for (multivariate data).
+Implements the improved EM* ([1], [2]) algorithm. EM* avoids revisiting all but high
+expressive data via structure based data segregation thus resulting in significant speed gain.
+It calls the \code{\link{dcem_star_cluster_uv}} routine internally (univariate data) and
+\code{\link{dcem_star_cluster_mv}} for (multivariate data).
 }
 \examples{
 # Simulating a mixture of univariate samples from three distributions
 # with mean as 20, 70 and 100 and standard deviation as 10, 100 and 40 respectively.
-sample_uv_data = as.data.frame(c(rnorm(100, 20, 10), rnorm(70, 70, 100), rnorm(50, 100, 40)))
+sample_uv_data = as.data.frame(c(rnorm(100, 20, 5), rnorm(70, 70, 1), rnorm(50, 100, 2)))
 
 # Randomly shuffle the samples.
 sample_uv_data = as.data.frame(sample_uv_data[sample(nrow(sample_uv_data)),])
@@ -88,13 +88,7 @@ print(sample_mv_out$membership)
 
 }
 \references{
-Using data to build a better EM: EM* for big data.
-
-Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
-}
-\author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-
-This work is partially supported by NCI Grant 1R01CA213466-01.
+Parichit Sharma, Hasan Kurban, Mehmet Dalkilic DCEM: An R package for clustering big data via
+data-centric modification of Expectation Maximization, SoftwareX, 17, 100944 URL
+https://doi.org/10.1016/j.softx.2021.100944
 }

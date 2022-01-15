@@ -22,22 +22,13 @@
 #' @usage
 #' expectation_uv(data, weights, meu, sigma, prior, num_clusters, tolerance)
 #'
-#' @references
-#' Using data to build a better EM: EM* for big data.
-#'
-#' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#'(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
-#'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
-#'
+#' @export
 
 expectation_uv <- function(data, weights, meu, sigma, prior, num_clusters, tolerance){
 
   # Get the probability density for univariate data
   for (clus in 1:num_clusters) {
-    weights[clus, ] <- dnorm(data, meu[clus] , sigma[clus]) * prior[clus]
+    weights[clus, ] <- dnorm(data, mean=meu[clus] , sd=sigma[clus]) * prior[clus]
   }
 
   # Normalize the probability density matrix
@@ -75,16 +66,7 @@ expectation_uv <- function(data, weights, meu, sigma, prior, num_clusters, toler
 #' @usage
 #' maximisation_uv(data, weights, meu, sigma, prior, num_clusters, num_data)
 #'
-#' @references
-#' Using data to build a better EM: EM* for big data.
-#'
-#' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#'(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
-#'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
-#'
+#' @export
 
 maximisation_uv <- function(data, weights, meu, sigma, prior, num_clusters, num_data){
 
@@ -122,16 +104,7 @@ maximisation_uv <- function(data, weights, meu, sigma, prior, num_clusters, num_
 #' @usage
 #' expectation_mv(data, weights, meu, sigma, prior, num_clusters, tolerance)
 #'
-#' @references
-#' Using data to build a better EM: EM* for big data.
-#'
-#' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#'(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
-#'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
-#'
+#' @export
 
 expectation_mv <- function(data, weights, meu, sigma, prior, num_clusters, tolerance){
 
@@ -150,7 +123,6 @@ expectation_mv <- function(data, weights, meu, sigma, prior, num_clusters, toler
 
   return(weights)
 }
-
 
 #' maximisation_mv: Part of DCEM package.
 #'
@@ -176,16 +148,7 @@ expectation_mv <- function(data, weights, meu, sigma, prior, num_clusters, toler
 #' @usage
 #' maximisation_mv(data, weights, meu, sigma, prior, num_clusters, num_data)
 #'
-#' @references
-#' Using data to build a better EM: EM* for big data.
-#'
-#' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#'(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
-#'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
-#'
+#' @export
 
 maximisation_mv <- function(data, weights, meu, sigma, prior, num_clusters, num_data){
 
@@ -202,8 +165,9 @@ maximisation_mv <- function(data, weights, meu, sigma, prior, num_clusters, num_
   for (clus in 1:num_clusters) {
 
     sigma[[clus]] = 0
+    temp =  data - meu[clus]
     temp = stats::cov.wt(
-      data,
+      temp,
       weights[clus, ],
       method = "ML"
     )$cov
@@ -236,16 +200,8 @@ maximisation_mv <- function(data, weights, meu, sigma, prior, num_clusters, num_
 #' @usage
 #' update_weights(temp_weights, weights, index_list, num_clusters)
 #'
-#' @references
-#' Using data to build a better EM: EM* for big data.
-#'
-#' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#'(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
-#'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
-#'
+#' @export
+
 
 update_weights <- function(temp_weights, weights, index_list, num_clusters){
 

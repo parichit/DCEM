@@ -19,8 +19,3 @@ A matrix containing the selected samples from the dataset.
 Initialize the meus(s) by randomly selecting the samples from the dataset. This is the
 \strong{default} method for initializing the meu(s).
 }
-\author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-
-This work was partially supported by NCI Grant 1R01CA213466-01.
-}

@@ -21,8 +21,3 @@ meu(s). It uses the proposed implementation from
 K-means++: The Advantages of Careful Seeding, David Arthur and Sergei Vassilvitskii.
 URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf.
 }
-\author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-
-This work is partially supported by NCI Grant 1R01CA213466-01.
-}

@@ -27,14 +27,3 @@ Updated values for meu, sigma and prior.
 \description{
 Calculates meu, sigma and prior based on the updated probability weight matrix.
 }
-\references{
-Using data to build a better EM: EM* for big data.
-
-Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
-}
-\author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-
-This work is partially supported by NCI Grant 1R01CA213466-01.
-}

@@ -59,7 +59,7 @@ R CMD install DCEM_2.0.3.tar.gz
 
 ## Quick Start
 
-- For demonstration purpose, use the `dcem_test()` function from the R console. This function invokes the dcem_star_train() on the bundeled `ionosphere_data`.
+- For demonstration purpose, use the `dcem_test()` function from the R console. This function invokes the dcem_star_train() on the bundled `ionosphere_data`.
 
 - The function ```dcem_test()``` returns a list containing the output i.e., posterior probabilities, meu, sigma, prior and cluster membership for data. The parameters can be accessed as follows where ```sample_out``` is the list containing the output:
 

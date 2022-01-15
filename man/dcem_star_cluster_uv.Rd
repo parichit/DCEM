@@ -48,11 +48,7 @@ Implements the EM* algorithm for the univariate data. This function is called by
 dcem_star_train routine.
 }
 \references{
-Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
-}
-\author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-
-This work is partially supported by NCI Grant 1R01CA213466-01.
+Parichit Sharma, Hasan Kurban, Mehmet Dalkilic DCEM: An R package for clustering big data via
+data-centric modification of Expectation Maximization, SoftwareX, 17, 100944 URL
+https://doi.org/10.1016/j.softx.2021.100944
 }

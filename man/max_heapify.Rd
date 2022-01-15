@@ -20,7 +20,5 @@ A NumericMatrix with the max heap property.
 Implements the creation of max heap. Internally called by the \code{dcem_star_train}.
 }
 \author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-
-This work is partially supported by NCI Grant 1R01CA213466-01.
+Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mehmet Dalkilic
 }

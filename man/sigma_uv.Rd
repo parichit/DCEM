@@ -17,8 +17,3 @@ A vector of standard deviation value(s).
 \description{
 Initializes the standard deviation for the Gaussian(s).
 }
-\author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-
-This work was partially supported by NCI Grant 1R01CA213466-01.
-}

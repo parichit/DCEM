@@ -1,3 +1,9 @@
+**DCEM 2.0.5**
+
+DCEM is published in SoftwareX, https://doi.org/10.1016/j.softx.2021.100944. Use citation("DCEM"") to cite the package.
+
+Added the functionality to predict the cluster membership for test data.
+
 **DCEM 2.0.4**
 
 Added the option to get data membership (maximum posterior probability) from the output.

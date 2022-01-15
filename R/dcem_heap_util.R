@@ -21,14 +21,11 @@
 #' insert_nodes(heap_list, heap_assn, data_probs, leaves_ind, num_clusters)
 #'
 #' @references
-#' Using data to build a better EM: EM* for big data.
+#' Parichit Sharma, Hasan Kurban, Mehmet Dalkilic DCEM: An R package for clustering big data via
+#' data-centric modification of Expectation Maximization, SoftwareX, 17, 100944 URL
+#' https://doi.org/10.1016/j.softx.2021.100944
 #'
-#' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#'(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
-#'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
+#' @export
 
 insert_nodes <- function(heap_list, heap_assn, data_probs, leaves_ind, num_clusters){
 
@@ -44,7 +41,7 @@ insert_nodes <- function(heap_list, heap_assn, data_probs, leaves_ind, num_clust
       prob = data_probs[ind]
       node = leaves_ind[ind]
 
-      # Perform insertion into min-heap
+      # Perform insertion into max-heap
       for (j in 1:length(ind)){
 
         l <- length(heap_list[[clus]])
@@ -91,14 +88,11 @@ insert_nodes <- function(heap_list, heap_assn, data_probs, leaves_ind, num_clust
 #' separate_data(heap_list, num_clusters)
 #'
 #' @references
-#' Using data to build a better EM: EM* for big data.
+#' Parichit Sharma, Hasan Kurban, Mehmet Dalkilic DCEM: An R package for clustering big data via
+#' data-centric modification of Expectation Maximization, SoftwareX, 17, 100944 URL
+#' https://doi.org/10.1016/j.softx.2021.100944
 #'
-#' Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-#'(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
-#'
-#' @author Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
-#'
-#' This work is partially supported by NCI Grant 1R01CA213466-01.
+#' @export
 
 separate_data <- function(heap_list, num_clusters){
 

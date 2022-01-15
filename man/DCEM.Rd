@@ -3,29 +3,11 @@
 \docType{package}
 \name{DCEM}
 \alias{DCEM}
-\title{DCEM: Data clustering through Expectation-Maximization algorithm.}
+\title{DCEM: Clustering Big Data using Expectation Maximization Star (EM*) Algorithm.}
 \description{
-Implements the EM* (see list of references) and EM algorithm
-for clustering the univariate and multivariate Gaussian mixture data.
+Implements the EM* and EM algorithm
+for clustering the (univariate and multivariate) Gaussian mixture data.
 }
-\section{DCEM supports following initialization schemes}{
-
-
-\enumerate{
-\item \strong{Random Initialization:} Initializes the mean randomly.
-Refer \code{\link{meu_uv}} and \code{\link{meu_mv}} for initialization
-on univariate and multivariate data respectively.
-
-\item \strong{Improved Initialization:} Based on the Kmeans++ idea published in,
-K-means++: The Advantages of Careful Seeding, David Arthur and Sergei Vassilvitskii.
-URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf. See \code{\link{meu_uv_impr}} and
-\code{\link{meu_mv_impr}} for details.
-
-\item Choice of initialization scheme can be specified as the \strong{seeding}
-parameter during the training. See \code{\link{dcem_train}} for further details.
-}
-}
-
 \section{Demonstration and Testing}{
 
 \strong{Cleaning the data:}
@@ -65,7 +47,7 @@ calling the dcem_train routine. \strong{User can also clean the dataset themselv
 (without using trim_data) and then pass it to the dcem_train function}
 
 \item \code{\link{dcem_star_train}} and \code{\link{dcem_train}}: These are the primary
-interface to the EM and EM* algorithms respectively. These function accept the cleaned dataset and other
+interface to the EM* and EM algorithms respectively. These function accept the cleaned dataset and other
 parameters (number of iterations, convergence threshold etc.) and run the algorithm until:
 
 \enumerate{
@@ -75,23 +57,33 @@ parameters (number of iterations, convergence threshold etc.) and run the algori
    }
 }
 
-\references{
-Using data to build a better EM: EM* for big data.
+\section{DCEM supports following initialization schemes}{
 
-Hasan Kurban, Mark Jenne, Mehmet M. Dalkilic
-(2016) <https://doi.org/10.1007/s41060-017-0062-1>.
+
+\enumerate{
+\item \strong{Random Initialization:} Initializes the mean randomly.
+Refer \code{\link{meu_uv}} and \code{\link{meu_mv}} for initialization
+on univariate and multivariate data respectively.
+
+\item \strong{Improved Initialization:} Based on the Kmeans++ idea published in,
+K-means++: The Advantages of Careful Seeding, David Arthur and Sergei Vassilvitskii.
+URL http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf. See \code{\link{meu_uv_impr}} and
+\code{\link{meu_mv_impr}} for details.
+
+\item Choice of initialization scheme can be specified as the \strong{seeding}
+parameter during the training. See \code{\link{dcem_train}} for further details.
 }
-\author{
-Parichit Sharma \email{parishar@iu.edu}, Hasan Kurban, Mark Jenne, Mehmet Dalkilic
+}
 
-This work is partially supported by NCI Grant 1R01CA213466-01.
+\references{
+Parichit Sharma, Hasan Kurban, Mehmet Dalkilic DCEM: An R package for clustering big data via
+data-centric modification of Expectation Maximization, SoftwareX, 17, 100944 URL
+https://doi.org/10.1016/j.softx.2021.100944
 
 \strong{External Packages:} DCEM requires R packages 'mvtnorm'[1], 'matrixcalc'[2]
 'RCPP'[3] and 'MASS'[4] for multivariate density calculation,
 checking matrix singularity, compiling routines written in C and
 simulating mixture of gaussians, respectively.
-
-For improving the initialization, ideas published in [5] is used.
 
 [1] Alan Genz, Frank Bretz, Tetsuhisa Miwa, Xuefei Mi, Friedrich Leisch, Fabian Scheipl,
 Torsten Hothorn (2019). mvtnorm: Multivariate Normal and t Distributions.
