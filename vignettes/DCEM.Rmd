@@ -54,7 +54,7 @@ install.packages("DCEM")
 Download the source tar ball for DCEM from [Github](https://github.com/parichit/DCEM/releases) and install as follows:
 
 ```
-R CMD install DCEM_2.0.3.tar.gz
+R CMD install DCEM_2.0.5.tar.gz
 ```
 
 ## Quick Start

@@ -37,7 +37,7 @@ install.packages("DCEM"")
 **_Installing from the Source Package_**
 
 ```
-R CMD install DCEM_2.0.3.tar.gz
+R CMD install DCEM_2.0.5.tar.gz
 ```
 
 **How to use the Package (Example: Working with the default bundled dataset)**
@@ -84,7 +84,7 @@ ionosphere_data = read.csv2(
 Paste the below code in the R session to clean the dataset.
 
 ```
-ionosphere_data =  trim_data("35,2", ionosphere_data)
+ionosphere_data =  trim_data("35, 2", ionosphere_data)
 ```
 
 - **_Clustering the data:_** The dcem_train() learns the parameters of the Gaussian(s) from the input data.
