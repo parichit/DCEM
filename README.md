@@ -19,7 +19,7 @@ The package has been tested with both real and simulated datasets. The package c
 
 *Package Link on CRAN*
 
-[DCEM on CRAN](https://cran.r-project.org/web/packages/DCEM/)
+[DCEM on CRAN](https://CRAN.R-project.org/package=DCEM)
   
   
 **Installation Instructions**

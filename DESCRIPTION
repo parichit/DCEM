@@ -11,7 +11,7 @@ Description: Implements the Improved Expectation Maximisation EM* and the tradit
     big data (gaussian mixture models for both multivariate and univariate datasets). This version 
     implements the faster alternative-EM* that expedites convergence via structure based data segregation. 
     The implementation supports both random and K-means++ based initialization. Reference: Parichit Sharma, 
-    Hasan Kurban, Mehmet Dalkilic (2022) <https://doi.org/10.1016/j.softx.2021.100944>. Hasan Kurban, 
+    Hasan Kurban, Mehmet Dalkilic (2022) <doi:10.1016/j.softx.2021.100944>. Hasan Kurban, 
     Mark Jenne, Mehmet Dalkilic (2016) <doi:10.1007/s41060-017-0062-1>.
 License: GPL-3
 Encoding: UTF-8
