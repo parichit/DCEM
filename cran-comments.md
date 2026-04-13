@@ -10,6 +10,14 @@ There were no ERRORs or WARNINGs.
 
 There were 3 note(s) during the devtools::check(args = c('--as-cran')) process.
 
+* checking for hidden files and directories ... NOTE
+  Found the following hidden files and directories:
+    .travis.yml
+    .github
+  These were most likely included in error. See section ‘Package
+  structure’ in the ‘Writing R Extensions’ manual.
+
+
 * checking for future file timestamps ... NOTE
   unable to verify current time
 
@@ -17,5 +25,6 @@ There were 3 note(s) during the devtools::check(args = c('--as-cran')) process.
   Non-standard files/directories found at top level:
     ‘CRAN-RELEASE’ ‘cran-comments.md’
     
+
 ## Downstream dependencies
 I have also run R CMD check on downstream dependencies and all packages passed the test.
