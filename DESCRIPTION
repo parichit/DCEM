@@ -1,7 +1,7 @@
 Package: DCEM
 Type: Package
 Title: Clustering Big Data using Expectation Maximization Star (EM*) Algorithm
-Version: 2.0.5
+Version: 2.0.6
 Authors@R: c(
     person("Sharma", "Parichit", email = "parishar@iu.edu", role = c("aut","cre", "ctb")),
     person("Kurban", "Hasan", role = c("aut","ctb")),
