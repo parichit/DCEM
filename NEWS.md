@@ -1,8 +1,11 @@
 # DCEM 2.0.6 (2026-02-15)
 
 ## Bug Fixes
+
 * Reformatted NEWS.md to comply with CommonMark and CRAN requirements.
 * Incremented version to resolve archival status.
+* Fixed CITATION file entries to use modern bibentry() syntax.
+* Removed non-standard files from package build (.github, CRAN-RELEASE, cran-comments.md).
 
 # DCEM 2.0.5
 
@@ -26,6 +29,7 @@
 # DCEM 2.0.1
 
 ## Bug Fixes
+
 * Removed the usage of floor in integer division in CPP code to resolve Solaris OS warnings.
 
 # DCEM 2.0.0
@@ -44,5 +48,5 @@
 
 # DCEM 0.0.1
 
-* Initial stable release. 
+* Initial stable release.
 * Support for clustering multivariate and univariate data for finite Gaussian mixture models.
