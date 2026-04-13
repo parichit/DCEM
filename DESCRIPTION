@@ -28,5 +28,7 @@ URL: https://github.com/parichit/DCEM
 BugReports: https://github.com/parichit/DCEM/issues
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    spelling
 VignetteBuilder: knitr
+Language: en-US
